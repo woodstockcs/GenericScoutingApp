@@ -1,6 +1,6 @@
 {
     "name": "Archytas Scouting",
-    "short_name": "Who Are We",
+    "short_name": "Scout",
     "start_url": "index.html",
     "display": "standalone",
     "background_color": "#fdfdfd",
