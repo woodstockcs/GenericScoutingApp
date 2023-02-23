@@ -2,8 +2,8 @@ const staticScouting = "archytas-scouting-app-v1"
 const assets = [
   "/",
   "p5.min.js",
-  "/p5testing.html",
-  "/p5testing.js",
+  "/index.html",
+  "/app.js",
   "/512.png",
   "/192.png"
 ]
