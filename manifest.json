@@ -1,7 +1,7 @@
 {
     "name": "Archytas Scouting",
-    "short_name": "ArchytasScouting",
-    "start_url": "p5testing.html",
+    "short_name": "Who Are We",
+    "start_url": "index.html",
     "display": "standalone",
     "background_color": "#fdfdfd",
     "theme_color": "#db4938",
