@@ -1,5 +1,5 @@
-let b_charge = 0
-let r_charge = 0
+
+let chargeVal = 0
 let Alliance = {
   BLUE : true,
   RED : false
@@ -7,56 +7,89 @@ let Alliance = {
 t = Alliance.RED
 
 let mode = true
+let erase = false
 
 let pomegranite
 
 let r
-let lst = []
+// let lst = []
 
+let col = 3;
+let row = 9;
+let lst = new Array(col);
+for (let i = 0; i < col; i++) {
+  lst[i] = new Array(row); 
+}
+
+let tempCharge
 // important data points
 
+// string of 27 numbers(see key)
+// 0 == empty, 1 == cone, 2 === cube
 let autoGrid = ""
-
 let grid = ""
 
+// 0 == no charge, 1 == on unbalanced, 2 == on balanced
+let autoCharge
+let charge
+
 function setup() {
-  createCanvas(800, 700);
+
+  cnv = createCanvas(800, 700);
+  // cnv.touchEnded(handleFieldTouch);
   background(255);
   textAlign(CENTER);
   rectMode(CENTER);
   strokeCap(SQUARE)
   r = new Robot(t)
   // TODO:
-  // put grid into string for tele
-  // gridify auto
-  // erase mode
-  // balancing thing
   // encoder/qr code
+  //    when that is pressed, call saveGrid on the current grid
 
-  // 2,3,5,6,8,10,11,13,14,16
-  for (let i = 1; i <= 27; i++) {
-    let type
-    if (i > 18) {
-        type = 0
-    } else if (i == 2 || i == 3 || i == 5 || i == 6 || i == 8 || i == 9 || i == 11 || i == 12 || i == 14 || i == 15 || i == 17 || i == 18){
-        type = 1
-    } else {
-        type = 2
-    }  
-    let g
-    if (t) {    
-        g = i > 18 ? 90 : i > 9 ? 50 : 70
-    } else {
-        g = i > 18 ? 640 : i > 9 ? 680 : 660
-        g += 2
-    }
+  let val1
+  let val2
+  let tempKind
+    if (t) {
+        val1 = 50
+        for (let i = 0; i < 3; i ++) {
+        val2 = 150
+        for (let k = 0; k < 9; k ++) {
+
+            if (i == 2) {
+                tempKind = 0
+            } else if (k == 0 || k == 2 || k == 3 || k == 5 || k == 6 || k == 8) {
+                tempKind = 1
+            } else {
+                tempKind = 2
+            }
+
+            lst[i][k] = new Receptacle(val1, val2, tempKind)
+            val2 += 24
+        }
+        val1 += 20
+    } } else {
+        val1 = 682
+        for (let i = 2; i >= 0; i --) {
+            val2 = 150
+            for (let k = 0; k < 9; k ++) {
+                if (i == 0) {
+                    tempKind = 0
+                } else if (k == 0 || k == 2 || k == 3 || k == 5 || k == 6 || k == 8) {
+                    tempKind = 1
+                } else {
+                    tempKind = 2
+                }
+                lst[i][k] = new Receptacle(val1, val2, tempKind)
+                val2 += 24
+            }
+            val1 -= 20
+        }
+    } 
     
-    
-    lst[i] = new Receptacle(g, 150+24*(i%9),type)
-  }
-  
-  // var div = document.getElementById("drawing");
-  // div.appendChild(canvas);
+    var div = document.getElementById("drawing");
+    div.appendChild(canvas);
+    console.log("ran")
+
 }
 
 function draw() {
@@ -79,9 +112,13 @@ function draw() {
   pop()
   
   r.draw_robot()
-  for (let i = 1; i <= 27; i++) {
-    lst[i].draw_holder(mouseX,mouseY, 0)
-    lst[i].can_click()
+
+
+  for (let i = 0; i < 3; i ++) {
+      for (let k = 0; k < 9; k ++) {
+        lst[i][k].draw_holder(mouseX,mouseY, 0)
+        lst[i][k].can_click()
+      }
   }
 }
 
@@ -89,29 +126,41 @@ function touchEnded(){
   // charging stations
   if (mouseY > 205 && mouseY < 310) {
     if (mouseX > 180 && mouseX < 260){
-      if (mouseX >220) {
-         b_charge == 1 ? b_charge = 0 : b_charge = 2
+      if (mouseX < 205) {
+         chargeVal == -1 ? chargeVal = 0 : chargeVal = 1
+      } else if (mouseX > 235){
+        chargeVal == 1 ? chargeVal = 0 : chargeVal = -1
       } else {
-        b_charge == 2 ? b_charge = 0 : b_charge = 1
+        chargeVal == 2 ? chargeVal = 0 : chargeVal = 2
       }
     } if (mouseX > 482 && mouseX < 562) {
-      if (mouseX < 522){
-        r_charge == 1 ? r_charge = 0 : r_charge = 2
+      if (mouseX < 507){
+        chargeVal == 1 ? chargeVal = 0 : chargeVal = -1
+      } else if (mouseX > 537){
+        chargeVal == -1 ? chargeVal = 0 : chargeVal = 1
       } else {
-        r_charge == 2 ? r_charge = 0 : r_charge = 1
+        chargeVal == 2 ? chargeVal = 0 : chargeVal = 2
       }
     }
   }
+  // change modes
   if (mouseX > 308 && mouseX < 442 && mouseY > 372 && mouseY < 427) {
     rectMode(CENTER)
     if (mouseX > 375) {
       mode = false;
       switchMode(mode);
+      autoGrid = saveGrid()
+      autoCharge = tempCharge
+      chargeVal = 0
     } else {
       mode = true;
       switchMode(mode);
     } rectMode(CORNER)
 }
+    // erase mode
+    if (mouseX > 342 && mouseX < 408 && mouseY > 11 && mouseY < 40) {
+        erase = true
+    }
   
   // picking up from human player
   if (mouseY > 50 && mouseY < 142) {
@@ -165,14 +214,9 @@ function field() {
   line(196,150,196,209)
   line(196,209,256,209)
   line(256,209,256,366)
-  b_charging_cell(b_charge)
   
-  // scoring zones
-  // blue
-  // scoring_zone(52)
-  //red
-  // scoring_zone(660)
-  
+  t ? b_charging_cell(chargeVal) : r_charging_cell(chargeVal)
+
   // red community
   strokeWeight(2)
   stroke(200,0,0)
@@ -181,7 +225,6 @@ function field() {
   line(553,150,553,209)
   line(553,209,493,209)
   line(493,209,493,366)
-  r_charging_cell(r_charge)
   
   //red loading zones
   strokeWeight(2)
@@ -204,96 +247,75 @@ function field() {
   line(51,150,195,150)
   line(554,150,700,150)
 
+  // erase button options
+  noStroke()
+  fill(255)
+  rect(340,10,75,35)
+
+  if (!erase) {
+      noStroke()
+      fill(150)
+      rect(345,12,60,31,5)
+      fill(250)
+      textSize(15)
+      text("Erase", 375,32)
+  } else {
+      strokeWeight(2)
+      stroke(151,0,0)
+      fill(50)
+      rect(343,11,64,33,5)
+      textSize(18)
+      fill(250)
+      noStroke()
+      text("Erase", 375,33)
+  }
+
 }
 
 function b_charging_cell(a){
+  tempCharge = 0
   noStroke()
-  // a == 0 for balanced
+  // a == -1 for tilted away from station
+  // a == 0 for untouched
   // a == 1 for tilted toward driver station
-  // a == 2 for tilted away from station
+  // a == 2 balanced
   
   fill(120)
   rect(184,209,72,96)
   fill(180)
   rect(196,209,48,96)
-  if (a > 0){
+  if (a != 0 && a != 2){
     a == 1 ? rect(184,209,12,96) : rect(244,209,12,96)
+    tempCharge = 1
+  } if (a == 2) {
+    tempCharge = 2
+    stroke(0,0,151)
+    strokeWeight(5)
+    rect(206,219,28,76)
   }
 }
 
 function r_charging_cell(a){
+  tempCharge = 0
   noStroke()
-  // a == 0 for balanced
+  // a == -1 for tilted away from station
+  // a == 0 for untouched
   // a == 1 for tilted toward driver station
-  // a == 2 for tilted away from station
+  // a == 2 balanced
   
   fill(120)
   rect(493,209,72,96)
   fill(180)
   rect(505,209,48,96)
-  if (a > 0){
+  if (a != 0 && a != 2){
     a == 1 ? rect(553,209,12,96) : rect(493,209,12,96)
+    tempCharge = 1
+  } if (a == 2) {
+    tempCharge = 2
+    stroke(151,0,0)
+    strokeWeight(5)
+    rect(515,219,28,76)
   }
-}
-
-function scoring_zone(x) {
-  let color = true
-  x < 60 ? color = true : color = false
-  
-  // color cells
-  let w = 40
-  noStroke()
-  color? fill(0,0,151) : fill(151,0,0)
-  rect(x,150,w,33)
-  rect(x,201,w,24)
-  rect(x,289,w,24)
-  rect(x,331,w,33)
-  
-  // cooperatition cell
-  fill(40)
-  noStroke()
-  rect(x,225,w,23)
-  rect(x,266,w,23)
-  
-  // box scoring zones
-//   fill(130)
-//   strokeWeight(2)
-//   stroke(167)
-//   rect(x,183,20,18)
-//   rect(x+20,183,20,18)
-//   rect(x,248,20,18)
-//   rect(x+20,248,20,18)
-//   rect(x,313,20,18)
-//   rect(x+20,313,20,18)
-  
-  // little wall line things
-  strokeWeight(3.6)
-  stroke(0)
-  let p
-  color ? p = x + 28 : p = x - 15
-  let a = p + 25
-  line(p,155,a,155)
-  line(p,183,a,183)
-  line(p,202,a,202)
-  line(p,225,a,225)
-  line(p,248,a,248)
-  line(p,267,a,267)
-  line(p,290,a,290)
-  line(p,313,a,313)
-  line(p,332,a,332)
-  line(p,362,a,362)
-
-  
-  // cone pegs
-  noStroke()
-  let s
-  color ? s = x + 8 : s = x + 13
-  for(let i = 170; i < 360; i += 22) {
-    ellipse(s,i,6,6)
-    ellipse(s + 18,i,6,6)
-    
-  }
-  
 }
 
 function draw_cube(x,y) {
@@ -363,9 +385,16 @@ function switchMode(x) {
     return false;
 }
 
-function saveGrid(auton) {
-
-
+function saveGrid() {
+    let str = ""
+    let littleVal
+    for (let i = 0; i < 3; i ++) {
+        for (let k = 0; k < 9; k ++) {
+            littleVal = lst[i][k].state
+            str += littleVal
+        }
+    }
+    return str
 }
 
 class Robot {
@@ -419,21 +448,25 @@ class Receptacle{
     if (t) {
         this.real_draw(2)
     }  else {
-        // push()
-        // scale(-1)
+
         this.real_draw(-2)
-        // pop()
     }
 
 
-    if (this.clickable) {
+    if (this.clickable || erase) {
         
         if (x > this.x && x < this.x+20 && y > this.y && y < this.y+24) {
 
             if (mouseIsPressed == true) {
+                if (erase) {
+                    this.state = 0
+                    erase = false
+                } else {
                 this.kind != 0 ? this.state = this.kind : r.cone ? this.state = 1 : this.state = 2 
-            }
+                r.cone = false
+                r.cube = false
         }
+        } }
         } if (this.state == 1) {
                 fill(255,189,35)
                 noStroke()
@@ -448,7 +481,6 @@ class Receptacle{
      
 }
 can_click() {
-    console.log(r.cone)
     if(r.cone) {
         if(this.kind == 0 || this.kind == 1) {
             this.clickable = true
@@ -489,4 +521,157 @@ real_draw(p) {
 
     
 }
+}
+let assignment
+let missedMatches
+let assignIndex
+
+console.log("hi")
+
+$(document).ready(() =>{
+  console.log("smth wokred")
+
+  $("#homePageLink").click((e) => {
+    $("#assignPage").addClass("d-none").removeClass("d-block");
+    $("#homePage").addClass("d-block").removeClass("d-none");
+    // return false;
+  });
+
+  $("#matchLink").click((e) => {
+    $("#matchReportPage").addClass("d-block").removeClass("d-none");
+    $("#homePage").addClass("d-none").removeClass("d-block");
+    // $("#matchBox").val(matchNum);
+    // let current = schedule[matchNum - 1];
+    // // console.log(current.teams[assignIndex]);
+    // $('#teamBox option[value="0"]').prop("selected", false);
+    // $('#teamBox option[value="' + current.teams[assignIndex] + '"]').prop(
+    //   "selected",
+    //   true
+    // );
+    return false;
+  });
+
+  $("#pitLink").click((e) => {
+    $("#pitReportPage").addClass("d-block").removeClass("d-none");
+    $("#homePage").addClass("d-none").removeClass("d-block");
+    return false;
+  });
+
+  $(".homeClick").click((e) => {
+    // window.scroll(500,500)
+    // $("#metaPage").addClass("d-none").removeClass("d-block");
+    $("#matchReportPage").addClass("d-none").removeClass("d-block");
+    $("#pitReportPage").addClass("d-none").removeClass("d-block");
+    $("#homePage").addClass("d-block").removeClass("d-none");
+    // console.log(missedMatches);
+    // clearForm();
+    clearPitForm();
+    return false;
+  });
+
+  $("#createQr").click((e) => {
+    $("#pitModalLabel").html("QR pit data for team " + $("#numBox").val());
+    $("#qrcode").html("");
+    e.preventDefault();
+    let pieceAbilityValue = 0;
+    $('input[name="piece_ability_checkbox"]:checked').each(function () {
+      pieceAbilityValue += parseInt(this.value);
+    });
+    let gridHeightValue = 0;
+    $('input[name="grid_height_checkbox"]:checked').each(function () {
+      gridHeightValue += parseInt(this.value);
+    });
+    let chargeValue = 0;
+    $('input[name="charge_radio"]:checked').each(function () {
+      chargeValue += parseInt(this.value);
+    });
+
+    // console.log(shooterDistanceValue);
+    // console.log($("#notesBox").val());
+
+    let qrtext =
+      "pit," + //0
+      $("#numBox").val() + //1
+      "," +
+      $("#weightBox").val() + //2
+      "," +
+      pieceAbilityValue + //3
+      "," +
+      gridHeightValue + //4
+      "," +
+      chargeValue + //5
+      "," +
+      $('input[name="drive_train_radio"]:checked').val() + //6
+      "," +
+      decodeNote($("#autoPathBox").val()) +  //7
+      "," +
+      decodeNote($("#driveHoursBox").val()) +  //8
+      "," +
+      Date.now() + //9
+      "," +
+      $("#pit-scoutBox").val() + //10
+      "," +
+      decodeNote($("#notesBox").val()); //11
+
+    // generate qr code - new library
+    QrCreator.render(
+      {
+        text: qrtext,
+        radius: 0, // 0.0 to 0.5
+        ecLevel: "H", // L, M, Q, H
+        fill: "#000000", // foreground color
+        background: "#ffffff", // color or null for transparent
+        size: 256, // in pixels
+      },
+      document.querySelector("#qrcode")
+    );
+
+    $("#endStuff").addClass("d-block").removeClass("d-none");
+  });
+
+  $(".closePitModal").click((e) => {
+    $("#pitModal").modal("hide");
+    return false;
+  });
+
+  $("#clearFormButton").click((e) => {
+    // e.preventDefault();
+    clearPitForm();
+    $("#endStuff").addClass("d-none").removeClass("d-block");
+    return false;
+  });
+
+
+
+  // define a generic Ajax error handler:
+  // http://api.jquery.com/ajaxerror/
+  $(document).ajaxError(() => {
+    $("#status").html("Error: unknown ajaxError!");
+  });
+});
+
+function decodeNote(n) {
+  for (let i = 0; i < n.length - 1; i++) {
+    if (n.substring(i, i + 1) == "," || n.substring(i, i + 1) == '"') {
+      n = n.substring(0, i) + " -" + n.substring(i + 1, n.length);
+    }
+  }
+  return n;
+}
+
+function clearPitForm() {
+  $("#qrcode").html("");
+  // $("#endStuff").addClass("d-none").removeClass("d-block");
+  $('#numBox option[value="0"]').prop("selected", true);
+  $("#weightBox").val("");
+  $(".charge").removeClass("active");
+  $(".pieces").removeClass("active");
+  $(".gridHeight").removeClass("active");
+  $(".driveTrain").removeClass("active");
+  $("#autoPathBox").val("");
+  $("#driveHoursBox").val("");
+  $("#notesBox").val("");
+  $("#pit-the-section-with-questions")
+    .addClass("d-block")
+    .removeClass("d-none");
 }
