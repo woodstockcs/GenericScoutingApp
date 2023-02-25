@@ -19,9 +19,388 @@
         })
       }
     </script>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
   </head>
+
   <body>
-    <script src="p5.min.js"></script>
+
+    <div class="container">
+      
+      <div id="assignPage" class="d-block">
+        <br />
+        <br />
+        <br />
+        <div class="form-group">
+          <label for="assignK" class="form-label" style="font-size: 30px"
+            >Assign Scout:</label
+          >
+          <textarea
+            name="assignK"
+            class="form-control"
+            id="assignBox"
+            rows="2"
+            placeholder="Enter alliance/driver station"
+          ></textarea>
+        </div>
+
+        <a
+          id="homePageLink"
+          style="font-size: 25px"
+          class="btn btn-success btn-block p-3 text-white"
+        >
+          Confirm
+        </a>
+      </div>
+          
+          <div id="homePage" class="d-none">
+            <h1 class="display-4 mt-5 mb-5">Welcome Scout</h1>
+            <h3 id="titleAssign" class="display-6 mt-5 mb-5"></h3>
+            <a
+              id="matchLink"
+              style="font-size: 30px"
+              class="btn btn-success btn-block p-4 text-white"
+            >
+              Scout a Match
+            </a>
+            <br />
+            <a
+              id="pitLink"
+              style="font-size: 30px"
+              class="btn btn-success btn-block p-4 text-white"
+            >
+              Create Pit Report
+            </a>
+            <br />
+            <hr />
+            <p>
+              <a
+                class="btn btn-success btn-block p-3 text-white"
+                style="font-size: 25px"
+                data-toggle="collapse"
+                href="#collapseExample"
+                role="button"
+                aria-expanded="false"
+                aria-controls="collapseExample"
+              >
+                How to Scout
+              </a>
+            </p>
+            <div class="collapse" id="collapseExample">
+              <div class="card card-body">
+                <p>
+                  Check that the match number and team are correct (can be changed
+                  if an error is found) <br />
+      
+                  Hit Continue<br /><br />
+      
+                  Once match begins, whenever a shot is taken:<br />
+                  Tap location on field to indicate where a shot was taken <br />
+                  Use either the Low or High buttons to indicate height of shot<br />
+                  Mark Green (made it) or Red (missed it) for each shot<br />
+                  <br />
+      
+                  If you tap a field location by accident, hit Ignore Click <br />
+      
+                  After the Auto period, you will need to hit the Teleop button
+                  located between the Low and High shot trackers<br />
+      
+                  If your robot climbs, tap the appropriate bar on the field diagram
+                  to indicate its ending height. <br />
+      
+                  If your robot plays defense, mark how they did at the end of the
+                  match. <br />
+      
+                  Filling in the Extra Notes section is optional, but helpful
+                </p>
+              </div>
+            </div>
+            <hr />
+            <br />
+            <br />
+            <a
+              id="metaLink"
+              style="font-size: 25px"
+              class="btn btn-success btn-block p-3 text-white"
+            >
+              View MetaData
+            </a>
+            <br />
+            <a
+              id="reassignLink"
+              style="font-size: 25px"
+              class="btn btn-success btn-block p-3 text-white"
+            >
+              Reassign Alliance
+            </a>
+            <br />
+          </div>
+
+          <div id="matchReportPage" class="d-none">
+            <div id="drawing"></div>
+          </div>
+
+          <div id="pitReportPage" class="d-none">
+            <!--       <div class="d-flex flex-row-reverse">
+            <div class="p-2 font-weight-light font-italic">not logged in</div>
+          </div> -->
+            <!--       <div id="home-div">
+            <a href="/" class="btn btn-outline-danger btn-block mt-3 mb-3">
+              Go Home
+            </a>
+          </div> -->
+            <div id="pit-the-section-with-questions">
+              <div id="home-div">
+                <button
+                  id="homeButton1"
+                  type="submit"
+                  class="btn btn-outline-success btn-block mt-3 mb-3 homeClick p-3"
+                >
+                  Go Home
+                </button>
+              </div>
+              <h1 class="display-4">Pit Scouting Form</h1>
+              <form>
+                <div class="form-group">
+                  <label for="numBox" class="form-label">Team</label>
+                  <select id="numBox" class="form-control">
+                    <option value="0" selected disabled hidden>
+                      Choose one ...
+                    </option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="pit-scoutBox" class="col-form-label">Scout:</label>
+                  <input
+                    class="form-control"
+                    id="pit-scoutBox"
+                    type="text"
+                    placeholder="Enter scout name"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="weight" class="col-form-label">Robot Weight</label>
+                  <input
+                    class="form-control"
+                    id="weightBox"
+                    type="text"
+                    placeholder="Please enter ONLY an integer"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Piece Handling</label><br />
+                  <div class="btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-outline-primary pieces">
+                      <input
+                        type="checkbox"
+                        name="piece_ability_checkbox"
+                        value="1"
+                      />
+                      Cube
+                    </label>
+                    <label class="btn btn-outline-primary pieces">
+                      <input
+                        type="checkbox"
+                        name="piece_ability_checkbox"
+                        value="2"
+                      />
+                      Cone
+                    </label>
+                  </div>
+                </div>
+
+
+                <div class="form-group">
+                  <label class="form-label">Grid Height</label><br />
+                  <div class="btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-outline-primary gridHeight">
+                      <input
+                        type="checkbox"
+                        name="grid_height_checkbox"
+                        id="grid1"
+                        value="1"
+                      />
+                      Floor
+                    </label>
+                    <label class="btn btn-outline-primary gridHeight">
+                      <input
+                        type="checkbox"
+                        name="grid_height__checkbox"
+                        id="grid2"
+                        value="2"
+                      />
+                      Middle
+                    </label>
+                    <label class="btn btn-outline-primary gridHeight">
+                      <input
+                        type="checkbox"
+                        name="grid_height__checkbox"
+                        id="grid3"
+                        value="4"
+                      />
+                      Top
+                    </label>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Charging Station</label><br />
+                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-outline-primary charge">
+                      <input type="radio" name="charge_radio" value="0" />
+                      No Balance
+                    </label>
+                    <label class="btn btn-outline-primary charge">
+                      <input type="radio" name="charge_radio" value="4" />
+                      Manual Balance
+                    </label>
+                    <label class="btn btn-outline-primary charge">
+                      <input type="radio" name="charge_radio" value="6" />
+                      Automatic Balance
+                    </label>
+                  </div>
+                </div>
+    
+                <div class="form-group">
+                  <label class="form-label">Drive Train</label><br />
+                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-outline-primary driveTrain">
+                      <input
+                        type="radio"
+                        name="drive_train_radio"
+                        id="drive1"
+                        value="1"
+                      />
+                      West Coast(regular)
+                    </label>
+                    <label class="btn btn-outline-primary driveTrain">
+                      <input
+                        type="radio"
+                        name="drive_train_radio"
+                        id="drive2"
+                        value="2"
+                      />
+                      Mecanum
+                    </label>
+                    <label class="btn btn-outline-primary driveTrain">
+                      <input
+                        type="radio"
+                        name="drive_train_radio"
+                        id="drive3"
+                        value="4"
+                      />
+                      H Drive(omni)
+                    </label>
+                    <label class="btn btn-outline-primary driveTrain">
+                      <input
+                        type="radio"
+                        name="drive_train_radio"
+                        id="drive4"
+                        value="8"
+                      />
+                      Swerve
+                    </label>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="autoPath" class="col-form-label">Auto Paths:</label>
+                  <input
+                    class="form-control"
+                    id="autoPathBox"
+                    type="text"
+                    placeholder="Please roughly describe auto paths if applicable"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="driveHours" class="col-form-label">Drive Hours:</label>
+                  <input
+                    class="form-control"
+                    id="driveHoursBox"
+                    type="text"
+                    placeholder="If any, please enter the INTEGER number of hours of drive practice - other comps DO count"
+                  />
+                </div>
+    
+                <div class="form-group">
+                  <label for="exampleFormControlTextarea1" class="form-label"
+                    >Extra Notes:</label
+                  >
+                  <textarea class="form-control" id="notesBox" rows="2"></textarea>
+                </div>
+    
+                <button
+                  id="createQr"
+                  type="submit"
+                  class="btn btn-outline-success btn-block p-3"
+                  data-toggle="modal"
+                  data-target="#pitModal"
+                >
+                  Create QR Code
+                </button>
+    
+                <br />
+              </form>
+            </div>
+          </div>
+
+          <div
+          class="modal fade"
+          id="pitModal"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="pitModalLabel"
+          aria-hidden="true"
+          data-backdrop="static"
+        >
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="pitModalLabel"></h5>
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div id="qrcode" class="mx-auto"></div>
+                <br />
+              </div>
+              <div class="modal-footer">
+                <div id="endStuff" class="d-none">
+                  <button
+                    type="button"
+                    class="btn btn-outline-success closePitModal p-3"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    id="clearFormButton"
+                    type="button"
+                    class="btn btn-outline-success p-3 closePitModal"
+                  >
+                    Create Another Pit Report
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    </div>
+
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/qrcode.min.js"></script>
+    <script src="js/qr-creator.js"></script>
+    <script src="js/p5.min.js"></script>
     <script src="app.js"></script>
   </body>
 </html>
