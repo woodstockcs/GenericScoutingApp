@@ -94,10 +94,10 @@
       
                   Hit Continue<br /><br />
       
-                  Once match begins, whenever a shot is taken:<br />
-                  Tap location on field to indicate where a shot was taken <br />
-                  Use either the Low or High buttons to indicate height of shot<br />
-                  Mark Green (made it) or Red (missed it) for each shot<br />
+                  Once match begins, record when your robot picks up and places a game piece<br />
+                  When your robot picks something up, press the correct button in their loading zone <br />
+                  The robot on the center of your field should show said item<br />
+                  press the location on the grid that corresponds with where your robot placed<br />
                   <br />
       
                   If you tap a field location by accident, hit Ignore Click <br />
@@ -142,8 +142,8 @@
             <br />
             <h3>Matches Scouted:</h3>
             <p id="matchesScoutedDiv"></p>
-            <h3>High Score:</h3>
-            <p id="highScoreDiv"></p>
+            <!-- <h3>High Score:</h3>
+            <p id="highScoreDiv"></p> -->
             <br />
             <h3>Matches Missed:</h3>
             <p id="matchesMissedDiv"></p>
@@ -158,7 +158,143 @@
           </div>
 
           <div id="matchReportPage" class="d-none">
-            <div id="drawing"></div>
+            <div id="match-the-section-with-questions">
+              <button
+                id="homeButton3"
+                type="submit"
+                class="btn btn-outline-success btn-block mt-3 mb-3 homeClick p-3"
+              >
+                Go Home
+              </button>
+              <a id="top"></a>
+              <h1 class="display-4">District Competition<br />Salem MA</h1>
+              <h1 class="display-5">Match Scouting</h1>
+              <form>
+                <div class="form-group">
+                  <label for="match-scoutBox" class="col-form-label">Scout:</label>
+                  <input
+                    class="form-control"
+                    id="match-scoutBox"
+                    type="text"
+                    placeholder="Enter scout name"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="matchBox" class="col-form-label">Match Number:</label>
+                  <input
+                    class="form-control"
+                    id="matchBox"
+                    type="text"
+                    placeholder="Please enter ONLY an integer"
+                  />
+                </div>
+                <div id="teamBoxDiv" class="form-group">
+                  <label for="teamBox" class="form-label">Team</label>
+                  <span id="teamsWarningSpan" class="invisible text-danger"></span>
+                  <select id="teamBox" class="form-control">
+                    <option value="0" hidden disabled selected>
+                      Choose one ...
+                    </option>
+                  </select>
+                </div>
+                <div id="verifyStuff" class="d-block">
+                  <br />
+                  <h4>Please verify the above data before moving on :)</h4>
+                  <br />
+                  <button
+                    id="verifyDataButton"
+                    type="submit"
+                    class="btn btn-outline-success btn-block p-3"
+                  >
+                    Continue
+                  </button>
+                </div>
+    
+                <div id="actualReport" class="d-none">
+                  <div class="tab-content pt-2 pl-1" id="pills-tabContent">
+                    <div id="score">
+                      <h1 class="display-5">Scoring Table</h1>
+                      <div id="drawing"></div>
+                    </div>
+                  </div>
+    
+                  <div class="form-group">
+                    <label class="form-label">Defense(if played):</label><br />
+                    <div class="btn-group-toggle" data-toggle="buttons">
+                      <label class="btn btn-outline-primary aggression">
+                        <input
+                          type="checkbox"
+                          name="aggression_checkbox"
+                          value="1"
+                        />
+                        Unsuccessful
+                      </label>
+                      <label class="btn btn-outline-primary aggression">
+                        <input
+                          type="checkbox"
+                          name="aggression_checkbox"
+                          value="2"
+                        />
+                        Average
+                      </label>
+                      <label class="btn btn-outline-primary aggression">
+                        <input
+                          type="checkbox"
+                          name="aggression_checkbox"
+                          value="4"
+                        />
+                        Successful
+                      </label>
+                      <label class="btn btn-outline-primary aggression">
+                        <input
+                          type="checkbox"
+                          name="aggression_checkbox"
+                          value="8"
+                        />
+                        Very Successful
+                      </label>
+                      <label class="btn btn-outline-primary aggression">
+                        <input
+                          type="checkbox"
+                          name="aggression_checkbox"
+                          value="16"
+                        />
+                        Extreme(flag)
+                      </label>
+                    </div>
+                  </div>
+    
+                  <div class="form-group">
+                    <label for="exampleFormControlTextarea1" class="form-label"
+                      >Extra Notes:</label
+                    >
+                    <textarea
+                      class="form-control"
+                      id="match-notesBox"
+                      rows="2"
+                    ></textarea>
+                  </div>
+    
+                  <button
+                    id="match-createQr"
+                    type="submit"
+                    class="btn btn-outline-success btn-block p-3"
+                    href="#top"
+                  >
+                    Create QR Code
+                  </button>
+                  <br/>
+                   <button
+                    id="match-resetFormButton"
+                    type="button"
+                    class="btn btn-outline-success btn-block p-3"
+                  >
+                    Reset Report(will not increment match num)
+                  </button>
+                  <br />
+                </div>
+              </form>
+            </div>
           </div>
 
           <div id="pitReportPage" class="d-none">
@@ -366,6 +502,55 @@
               </form>
             </div>
           </div>
+
+          <div
+          class="modal fade"
+          id="matchModal"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="matchModalLabel"
+          aria-hidden="true"
+          data-backdrop="static"
+        >
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="matchModalLabel">QR data for</h5>
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div id="match-qrcode" class="mx-auto"></div>
+                <br />
+              </div>
+              <div class="modal-footer">
+                <div id="endButtons" class="invisible">
+                  <button
+                    type="button"
+                    class="btn btn-outline-success p-3"
+                    data-dismiss="modal"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    id="match-clearFormButton"
+                    type="button"
+                    class="btn btn-outline-success p-3 upMatch"
+                    data-dismiss="modal"
+                  >
+                    Create Another Match Report
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
           <div
           class="modal fade"
