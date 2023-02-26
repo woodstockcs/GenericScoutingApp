@@ -622,6 +622,7 @@ $(document).ready(() =>{
   $("#match-clearFormButton").click((e) => {
     e.preventDefault();
     clearForm();
+    $("#matchModal").modal("hide");
     console.log(matchNum);
     return false;
   });
