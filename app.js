@@ -1,4 +1,14 @@
 
+let numOfMatches = 0;
+let highScore = 0;
+let hsTeam = "";
+
+var matchNum = 1;
+var matchCatch = 1;
+var missedMatches = "";
+var assignment = "";
+let assignIndex = 0;
+
 let chargeVal = 0
 let Alliance = {
   BLUE : true,
@@ -522,25 +532,26 @@ real_draw(p) {
     
 }
 }
-let assignment
-let missedMatches
-let assignIndex
 
 console.log("hi")
 
 $(document).ready(() =>{
-  console.log("smth wokred")
+  // console.log("smth wokred")
 
-  $("#homePageLink").click((e) => {
-    $("#assignPage").addClass("d-none").removeClass("d-block");
-    $("#homePage").addClass("d-block").removeClass("d-none");
-    // return false;
+  $("#metaLink").click((e) => {
+    $("#metaPage").addClass("d-block").removeClass("d-none");
+    $("#homePage").addClass("d-none").removeClass("d-block");
+    $("#metaTitle").html("Recap data for " + assignment + ":");
+    $("#matchesScoutedDiv").html(numOfMatches);
+    $("#highScoreDiv").html("Team: " + hsTeam + " - Score: " + highScore);
+    $("#matchesMissedDiv").html(missedMatches);
+    return false;
   });
 
   $("#matchLink").click((e) => {
     $("#matchReportPage").addClass("d-block").removeClass("d-none");
     $("#homePage").addClass("d-none").removeClass("d-block");
-    // $("#matchBox").val(matchNum);
+    $("#matchBox").val(matchNum);
     // let current = schedule[matchNum - 1];
     // // console.log(current.teams[assignIndex]);
     // $('#teamBox option[value="0"]').prop("selected", false);
@@ -551,6 +562,16 @@ $(document).ready(() =>{
     return false;
   });
 
+  $("#homePageLink").click((e) => {
+    $("#assignPage").addClass("d-none").removeClass("d-block");
+    $("#homePage").addClass("d-block").removeClass("d-none");
+    assignment = $("#assignBox").val();
+    missedMatches = assignment + ": ";
+    assignIndex = defineAssignment(assignment);
+    $("#titleAssign").html("You're assigned " + assignment);
+    return false;
+  });
+
   $("#pitLink").click((e) => {
     $("#pitReportPage").addClass("d-block").removeClass("d-none");
     $("#homePage").addClass("d-none").removeClass("d-block");
@@ -558,14 +579,22 @@ $(document).ready(() =>{
   });
 
   $(".homeClick").click((e) => {
-    // window.scroll(500,500)
-    // $("#metaPage").addClass("d-none").removeClass("d-block");
+    window.scroll(500,500)
+    $("#metaPage").addClass("d-none").removeClass("d-block");
     $("#matchReportPage").addClass("d-none").removeClass("d-block");
     $("#pitReportPage").addClass("d-none").removeClass("d-block");
     $("#homePage").addClass("d-block").removeClass("d-none");
     // console.log(missedMatches);
     // clearForm();
     clearPitForm();
+    return false;
+  });
+
+  $("#reassignLink").click((e) => {
+    $("#assignPage").addClass("d-block").removeClass("d-none");
+    $("#homePage").addClass("d-none").removeClass("d-block");
+    assignment = "";
+    $("#assignBox").val("");
     return false;
   });
 
@@ -614,6 +643,8 @@ $(document).ready(() =>{
       decodeNote($("#notesBox").val()); //11
 
     // generate qr code - new library
+  
+
     QrCreator.render(
       {
         text: qrtext,
@@ -625,6 +656,7 @@ $(document).ready(() =>{
       },
       document.querySelector("#qrcode")
     );
+
 
     $("#endStuff").addClass("d-block").removeClass("d-none");
   });
@@ -674,4 +706,39 @@ function clearPitForm() {
   $("#pit-the-section-with-questions")
     .addClass("d-block")
     .removeClass("d-none");
+}
+
+function checkHS() {
+  let tempHS = HHA * 4 + LHA * 2 + HHT * 2 + LHT + climb + 2;
+  if (tempHS > highScore) {
+    highScore = tempHS;
+    hsTeam = $("#teamBox").val();
+  }
+}
+
+function defineAssignment(x) {
+  let t = x.toUpperCase();
+  switch (t) {
+    case "RED 1":
+      return 0;
+      break;
+    case "RED 2":
+      return 1;
+      break;
+    case "RED 3":
+      return 2;
+      break;
+    case "BLUE 1":
+      return 3;
+      break;
+    case "BLUE 2":
+      return 4;
+      break;
+    case "BLUE 3":
+      return 5;
+      break;
+    default:
+      return 0;
+      break;
+  }
 }
