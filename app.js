@@ -1,3 +1,11 @@
+  // TODO:
+  // make match scout page
+  // make decoder
+  // make/fix high score counter(turn off for now)
+  // add teams and schedule functionality
+  // encoder/qr code for matches
+
+
 
 let numOfMatches = 0;
 let highScore = 0;
@@ -40,21 +48,19 @@ let autoGrid = ""
 let grid = ""
 
 // 0 == no charge, 1 == on unbalanced, 2 == on balanced
-let autoCharge
-let charge
+let autoCharge = 0
+let charge = 0
 
 function setup() {
 
-  cnv = createCanvas(800, 700);
+  cnv = createCanvas(800, 500);
   // cnv.touchEnded(handleFieldTouch);
   background(255);
   textAlign(CENTER);
   rectMode(CENTER);
   strokeCap(SQUARE)
   r = new Robot(t)
-  // TODO:
-  // encoder/qr code
-  //    when that is pressed, call saveGrid on the current grid
+
 
   let val1
   let val2
@@ -598,6 +604,90 @@ $(document).ready(() =>{
     return false;
   });
 
+  $("#verifyDataButton").click((e) => {
+
+    $("#verifyStuff").addClass("d-none").removeClass("d-block");
+    $("#actualReport").addClass("d-block").removeClass("d-none");
+    // field();
+    return false;
+  });
+
+  $("#match-resetFormButton").click((e) => {
+    e.preventDefault();
+    clearForm();
+    console.log(matchNum);
+    return false;
+  });
+
+  $("#match-clearFormButton").click((e) => {
+    e.preventDefault();
+    clearForm();
+    console.log(matchNum);
+    return false;
+  });
+
+  $("#match-createQr").click((e) => {
+    // matchReported = true;
+    // numOfMatches++;
+    // checkHS();
+    console.log("just happened");
+    $("#matchModal").modal("show");
+    $("#matchModalLabel").html(
+      "QR data for match " +
+        $("#matchBox").val() +
+        ", team " +
+        $("#teamBox").val()
+    );
+
+    // console.log(Date.now());
+    // console.log(typeof(Date.now()));
+    e.preventDefault();
+    let aggressionValue = 0;
+    $('input[name="aggression_checkbox"]:checked').each(function () {
+      aggressionValue += parseInt(this.value);
+    });
+    $("#match-qrcode").html("");
+
+    let qrtext =
+      "match," +
+      $("#matchBox").val() + //1
+      "," +
+      $("#teamBox").val() + //2
+      "," +
+      autoGrid + //3
+      "," +
+      autoCharge + //4
+      "," +
+      grid + //5
+      "," +
+      charge + //6
+      "," +
+      aggressionValue + //7
+      "," +
+      Date.now() + //8
+      "," +
+      decodeNote($("#match-notesBox").val()) + //9
+      "," +
+      $("#match-scoutBox").val(); //10
+
+    // generate qr code - new library
+    QrCreator.render(
+      {
+        text: qrtext,
+        radius: 0, // 0.0 to 0.5
+        ecLevel: "H", // L, M, Q, H
+        fill: "#000000", // foreground color
+        background: "#ffffff", // color or null for transparent
+        size: 256, // in pixels
+      },
+      document.querySelector("#match-qrcode")
+    );
+
+    $("#endButtons").removeClass("invisible");
+
+    // window.scrollTo({ top: 1000, behavior: "smooth" });
+  });
+
   $("#createQr").click((e) => {
     $("#pitModalLabel").html("QR pit data for team " + $("#numBox").val());
     $("#qrcode").html("");
@@ -691,6 +781,25 @@ function decodeNote(n) {
   return n;
 }
 
+function increaseMatchNum() {
+  matchNum = $("#matchBox").val();
+  matchNum++;
+  matchCatch++;
+  while (matchCatch < matchNum) {
+    missedMatches += (matchCatch - 1).toString() + ", ";
+    matchCatch++;
+  }
+  $("#matchBox").val(matchNum);
+  console.log(missedMatches);
+  let current = schedule[matchNum - 1];
+  $('#teamBox option[value="0"]').prop("selected", false);
+  $('#teamBox option[value="' + current.teams[assignIndex] + '"]').prop(
+    "selected",
+    true
+  );
+  console.log(current.teams[assignIndex]);
+}
+
 function clearPitForm() {
   $("#qrcode").html("");
   // $("#endStuff").addClass("d-none").removeClass("d-block");
@@ -742,3 +851,37 @@ function defineAssignment(x) {
       break;
   }
 }
+
+function clearForm() {
+  // field variables
+  mode = true;
+  autoGrid = ""
+  grid = ""
+  charge = 0
+  autoCharge = 0;
+  chargeVal = 0
+  tempCharge = 0
+  for (let i = 0; i < 3; i ++) {
+    for (let k = 0; k < 9; k ++) {
+      lst[i][k].state = 0
+      lst[i][k].can_click()
+    }
+}
+
+  console.log("it worked!");
+  // draw();
+
+  // html variables
+  $("#match-notesBox").val("");
+  $("#match-qrcode").html("");
+
+
+  $(".aggression").removeClass("active");
+  // $('#teamBox option[value="0"]').prop("selected", true);
+
+  $("#verifyStuff").addClass("d-block").removeClass("d-none");
+  $("#actualReport").addClass("d-none").removeClass("d-block");
+
+  $("#endButtons").addClass("invisible");
+}
+
