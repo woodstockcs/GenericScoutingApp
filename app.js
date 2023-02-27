@@ -1,9 +1,281 @@
   // TODO:
-  // make match scout page
   // make decoder
   // make/fix high score counter(turn off for now)
   // add teams and schedule functionality
   // encoder/qr code for matches
+
+  var teamNames = [
+    // { num: 58, name: "The Riot Crew" },
+    { num: 61, name: "The Intimidators" },
+    // { num: 69, name: "HYPER" },
+    // { num: 78, name: "AIR STRIKE" },
+    // { num: 88, name: "TJ2" },
+    { num: 95, name: "Grasshoppers" },
+    // { num: 97, name: "Bionic Beef" },
+    // { num: 125, name: "NUTRONs" },
+    { num: 126, name: "Gael Force" },
+    // { num: 131, name: "Chaos" },
+    // { num: 133, name: "B.E.R.T." },
+    // { num: 138, name: "Entropy" },
+    // { num: 151, name: "Tough Techs" },
+    // { num: 155, name: "The TechnoNuts" },
+    // { num: 157, name: "AZTECHS" },
+    { num: 166, name: "Chop Shop" },
+    { num: 172, name: "Northern Force" },
+    // { num: 175, name: "Buzz Robotics "},
+    { num: 176, name: "Aces High" },
+    // { num: 177, name: "Bobcat Robotics" },
+    //  { num: 178, name: "The 2nd Law Enforcers" },
+    //  { num: 181, name: "Birds of Prey" },
+    //  { num: 190, name: "Gompei and the H.E.R.D." },
+    { num: 195, name: "CyberKnights" },
+    { num: 228, name: "GUS Robotics" },
+    // { num: 230, name: "Gaelhawks" },
+    // { num: 236, name: "Techno-Ticks" },
+    { num: 237, name: "Black Magic Robotics" },
+    { num: 238, name: "Crusaders" },
+    // { num: 319, name: "Big Bad Bob" },
+    { num: 467, name: "The Colonials" },
+    //  { num: 501, name: "Power Knights" },
+    { num: 509, name: "Red Storm" },
+    { num: 558, name: "Elm City Robo Squad" },
+    // { num: 571, name: "Team Paragon" },
+    { num: 663, name: "Robonauts" },
+    // { num: 716, name: "Who’sCTEKS" },
+    //  { num: 811, name: "Cardinals" },
+    //  { num: 839, name: "Rosie Robotics" },
+    //  { num: 971, name: "Spartan Robotics" },
+    { num: 1027, name: "Mechatronic Maniacs" },
+    //  { num: 1058, name: "PVC Pirates" },
+    // { num: 1071, name: "Team MAX" },
+    { num: 1073, name: "The Force Team" },
+    { num: 1099, name: "DiscoTechs" },
+    // { num: 1153, name: "Timberwolves" },
+    //  { num: 1307, name: "Robosaints" },
+    // { num: 1474, name: "Titans" },
+    //  { num: 1512, name: "Big Red" },
+    // { num: 1517, name: "AMP'D UP" },
+    //  { num: 1519, name: "Mechanical Mayhem" },
+    //  { num: 1699, name: "Robocats" },
+    // { num: 1729, name: "Inconceivable" },
+    // { num: 1740, name: "Cyber Colonels" },
+    // { num: 1757, name: "Wolverines" },
+    // { num: 1761, name: "STEAMpunk Tigers" },
+    { num: 1768, name: "Nashoba Robotics" },
+    // { num: 1831, name: "Screaming Eagles" },
+    // { num: 1922, name: "Oz-Ram" },
+    // { num: 1965, name: "Firebirds" },
+    { num: 1991, name: "Dragons" },
+    { num: 2067, name: "Apple Pi" },
+    // { num: 2084, name: "Robots by the C" },
+    // { num: 2168, name: "Aluminum Falcons" },
+    // { num: 2262, name: "Robo-Panthers" },
+    // { num: 2342, name: "Team Phoenix" },
+    // { num: 2370, name: "IBOTS" },
+    // { num: 2423, name: "The KwarQs" },
+    // { num: 2523, name: "Tech Storm" },
+    { num: 2648, name: "Infinite Loop" },
+    // { num: 2712, name: "Power Surge 4-H Robotics" },
+    { num: 2713, name: "iRaiders" },
+    { num: 2877, name: "LigerBots" },
+    { num: 3146, name: "GRANBY GRUNTS" },
+    { num: 3182, name: "Athena’s Warriors" },
+    // { num: 3205, name: "Patriots" },
+    // { num: 3323, name: "Potential Energy" },
+    { num: 3461, name: "Operating PEACCE Robotics" },
+    // { num: 3464, name: "Sim-City" },
+    // { num: 3467, name: "Windham Windup" },
+    // { num: 3566, name: "Gone Fishing" },
+    // { num: 3609, name: "Duct Tape Dragons" },
+    // { num: 3623, name: "TerrorBots" },
+    // { num: 3654, name: "TechTiger" },
+    // { num: 4041, name: "Iron Tigers" },
+    // { num: 4048, name: "Redshift" },
+    // { num: 4097, name: "Devilbots" },
+    // { num: 4176, name: "Iron Tigers" },
+    // { num: 4311, name: "Swampscott Currents" },
+    // { num: 4564, name: "Orange Chaos" },
+    // { num: 4761, name: "Roborockets" },
+    // { num: 4905, name: "Andromeda One" },
+    // { num: 4909, name: "Bionics" },
+    // { num: 4929, name: "Maroon Monsoon" },
+    // { num: 5000, name: "Hammerheads" },
+    { num: 5112, name: "The Gongoliers" },
+    // { num: 5347, name: "Gryphons" },
+    // { num: 5422, name: "Stormgears FRC" },
+    // { num: 5491, name: "Hard Reset" },
+    { num: 5494, name: "BizarBots Robotics" },
+    // { num: 5563, name: "Phalanx" },
+    // { num: 5633, name: "Hyde Mecha Wolves" },
+    { num: 5687, name: "Outliers" },
+    // { num: 5735, name: "Control Freaks" },
+    // { num: 5752, name: "Bevbotics" },
+    // { num: 5813, name: "Morpheus" },
+    { num: 5846, name: "SouthCoast Corsairs" },
+    // { num: 5902, name: "The Wire Clippers" },
+    { num: 6153, name: "The Blue Crew" },
+    // { num: 6161, name: "Equilibrium" },
+    { num: 6201, name: "The Highlanders" },
+    // { num: 6328, name: "Mechanical Advantage" },
+    { num: 6329, name: "The Bucks’ Wrath" },
+    // { num: 6367, name: "The ElectroLights" },
+    // { num: 6529, name: "Beantown Blitz" },
+    // { num: 6620, name: "The Northmengineers" },
+    { num: 6690, name: "MV Robo-Pride" },
+    // { num: 6691, name: "Torque" },
+    // { num: 6723, name: "Mechanical Mounties" },
+    // { num: 6763, name: "FUSION" },
+    { num: 6933, name: "Archytas" },
+    // { num: 7127, name: "LongMetal" },
+    // { num: 7133, name: "Steam Makers" },
+    { num: 7153, name: "Aetos Dios (Eagles of Zeus)" },
+    // { num: 7407, name: "Wired Boars" },
+    // { num: 7416, name: "Northern Horizons" },
+    // { num: 7674, name: "RaiderBots" },
+    // { num: 7822, name: "General Robotics" },
+    // { num: 7907, name: "Spartan Robotics" },
+    // { num: 7913, name: “Bear'ly Functioning" },
+    // { num: 8013, name: "Boston Lions" },
+    { num: 8023, name: "LRTC 8023" },
+    { num: 8046, name: "Laker Bots" },
+    // { num: 8085, name: "MOJO" },
+    // { num: 8544, name: "Reinforcement" },
+    // { num: 8604, name: "Alpha Centauri" },
+    // { num: 8626, name: "Cyber Sailors of Scituate MA" },
+    // { num: 8709, name: "Pathfinder Techs" },
+    // { num: 8724, name: "Mayhem" },
+    // { num: 8883, name: "Green Mountain Gears" },
+    { num: 8889, name: "Project W" },
+    { num: 99999, name: "... OTHER ..." },
+  ]
+
+  let schedule = [
+    {"matchNum":1,"teams":[6135,1099,5006,6036,2252,5505]},
+  {"matchNum":2,"teams":[7153,8023,4421,2992,4926,3512]},
+  {"matchNum":3,"teams":[3538,177,8037,2202,494,2771]},
+  {"matchNum":4,"teams":[3322,8825,8575,2839,1111,8701]},
+  {"matchNum":5,"teams":[201,8739,8822,2832,1574,4499]},
+  {"matchNum":6,"teams":[2883,1339,4063,4201,5806,597]},
+  {"matchNum":7,"teams":[1625,3794,7617,4522,4911,2614]},
+  {"matchNum":8,"teams":[2443,2502,5817,7021,1678,2976]},
+  {"matchNum":9,"teams":[829,1538,7848,302,525,3128]},
+  {"matchNum":10,"teams":[2052,8745,6998,2767,8159,6420]},
+  {"matchNum":11,"teams":[5216,1706,2135,1807,4592,6424]},
+  {"matchNum":12,"teams":[3478,148,11,7315,5454,624]},
+  {"matchNum":13,"teams":[6135,488,2905,1574,2839,180]},
+  {"matchNum":14,"teams":[597,201,1156,177,2202,2992]},
+  {"matchNum":15,"teams":[4522,8825,4499,2771,7153,5505]},
+  {"matchNum":16,"teams":[5806,2614,7617,8822,4926,2443]},
+  {"matchNum":17,"teams":[8037,4421,7021,525,1339,2832]},
+  {"matchNum":18,"teams":[2767,8575,2252,8159,7848,5817]},
+  {"matchNum":19,"teams":[2976,2052,8701,5006,4063,302]},
+  {"matchNum":20,"teams":[3794,1706,3322,4213,8745,7315]},
+  {"matchNum":21,"teams":[4911,494,1538,5454,2502,6424]},
+  {"matchNum":22,"teams":[4201,1625,6036,8739,488,2135]},
+  {"matchNum":23,"teams":[624,3538,180,3512,6998,5216]},
+  {"matchNum":24,"teams":[1807,2883,148,829,1111,6420]},
+  {"matchNum":25,"teams":[11,3128,4592,1678,2905,3478]},
+  {"matchNum":26,"teams":[2614,5505,4499,4421,2767,597]},
+  {"matchNum":27,"teams":[8575,177,525,2976,7617,4522]},
+  {"matchNum":28,"teams":[8159,4063,3322,2992,6135,7021]},
+  {"matchNum":29,"teams":[7848,8701,2832,2202,7315,5806]},
+  {"matchNum":30,"teams":[5454,1339,2052,2135,5817,1574]},
+  {"matchNum":31,"teams":[1625,302,4926,8745,3512,180]},
+  {"matchNum":32,"teams":[2443,4911,201,148,2252,2771]},
+  {"matchNum":33,"teams":[1807,4201,494,1678,8822,3128]},
+  {"matchNum":34,"teams":[3478,6424,1706,6036,6998,829]},
+  {"matchNum":35,"teams":[624,4213,1538,7153,2905,1156]},
+  {"matchNum":36,"teams":[2502,8739,2839,3538,11,2883]},
+  {"matchNum":37,"teams":[3794,5216,8825,488,6420,8037]},
+  {"matchNum":38,"teams":[1574,1111,4592,5806,5006,177]},
+  {"matchNum":39,"teams":[2614,7315,8575,2202,2052,6135]},
+  {"matchNum":40,"teams":[2767,1625,525,2443,5454,8701]},
+  {"matchNum":41,"teams":[2135,2771,302,8159,8822,4421]},
+  {"matchNum":42,"teams":[2832,148,2992,4201,6424,180]},
+  {"matchNum":43,"teams":[624,6036,494,597,1807,3322]},
+  {"matchNum":44,"teams":[6998,2883,3128,1156,4522,4926]},
+  {"matchNum":45,"teams":[2839,5216,2976,4911,829,7153]},
+  {"matchNum":46,"teams":[1538,1678,3794,8825,7848,3538]},
+  {"matchNum":47,"teams":[3478,488,1111,4063,8037,201]},
+  {"matchNum":48,"teams":[5505,4592,4213,5817,8739,8745]},
+  {"matchNum":49,"teams":[5006,2502,4499,1706,2905,1339]},
+  {"matchNum":50,"teams":[7021,2252,6420,3512,7617,11]},
+  {"matchNum":51,"teams":[2771,1574,1807,525,2992,2614]},
+  {"matchNum":52,"teams":[180,8701,2202,6036,2443,8159]},
+  {"matchNum":53,"teams":[3128,2135,6135,148,2767,7153]},
+  {"matchNum":54,"teams":[3322,177,2883,2052,5216,4421]},
+  {"matchNum":55,"teams":[302,1678,7315,1156,8575,488]},
+  {"matchNum":56,"teams":[6998,2839,1538,597,8037,4592]},
+  {"matchNum":57,"teams":[8822,624,8745,1339,1111,4911]},
+  {"matchNum":58,"teams":[5505,829,2502,3794,2832,3512]},
+  {"matchNum":59,"teams":[4926,2905,8825,8739,5454,7021]},
+  {"matchNum":60,"teams":[5006,4522,6420,5817,4201,3538]},
+  {"matchNum":61,"teams":[201,1625,5806,1706,2976,11]},
+  {"matchNum":62,"teams":[4213,4499,4063,7617,6424,7848]},
+  {"matchNum":63,"teams":[494,8701,1574,2252,3478,2883]},
+  {"matchNum":64,"teams":[7153,597,1678,2052,148,525]},
+  {"matchNum":65,"teams":[8575,3128,4911,8037,180,2135]},
+  {"matchNum":66,"teams":[829,4592,488,1339,624,2771]},
+  {"matchNum":67,"teams":[7315,4926,1807,2502,8159,177]},
+  {"matchNum":68,"teams":[1156,2443,8739,4522,3512,1111]},
+  {"matchNum":69,"teams":[302,2992,5817,2905,3794,6036]},
+  {"matchNum":70,"teams":[4063,2832,3538,8745,2614,1706]},
+  {"matchNum":71,"teams":[6135,6420,7848,2976,4421,3478]},
+  {"matchNum":72,"teams":[7617,5505,4201,3322,2202,1538]},
+  {"matchNum":73,"teams":[11,4213,2767,5006,494,5216]},
+  {"matchNum":74,"teams":[8822,4499,2252,6998,8825,1625]},
+  {"matchNum":75,"teams":[6424,7021,201,2839,5806,5454]},
+  {"matchNum":76,"teams":[4522,8159,8575,2502,1574,624]},
+  {"matchNum":77,"teams":[8701,4926,525,4911,4592,3794]},
+  {"matchNum":78,"teams":[2443,3538,2905,7315,2883,8037]},
+  {"matchNum":79,"teams":[1111,5817,1706,2771,6135,597]},
+  {"matchNum":80,"teams":[1339,4421,7617,180,1156,1807]},
+  {"matchNum":81,"teams":[148,2202,8739,5216,3478,302]},
+  {"matchNum":82,"teams":[8745,11,4063,1538,6036,177]},
+  {"matchNum":83,"teams":[6424,3512,2767,4201,8822,488]},
+  {"matchNum":84,"teams":[5454,8825,4213,3128,2976,2614]},
+  {"matchNum":85,"teams":[6998,7153,7848,201,3322,5006]},
+  {"matchNum":86,"teams":[2839,2135,1625,2832,6420,494]},
+  {"matchNum":87,"teams":[1678,4499,5806,2992,829,2252]},
+  {"matchNum":88,"teams":[2052,180,7315,5505,7021,1111]},
+  {"matchNum":89,"teams":[3538,597,1339,4926,3478,8575]},
+  {"matchNum":90,"teams":[11,1807,4522,8037,302,6135]},
+  {"matchNum":91,"teams":[4592,525,5216,4063,1156,2502]},
+  {"matchNum":92,"teams":[8159,2976,3512,2614,1538,148]},
+  {"matchNum":93,"teams":[8701,8745,2771,2905,7617,6998]},
+  {"matchNum":94,"teams":[2883,6036,2767,624,2832,8825]},
+  {"matchNum":95,"teams":[2252,7153,177,3794,4201,5454]},
+  {"matchNum":96,"teams":[1678,5006,2839,1625,4421,2202]},
+  {"matchNum":97,"teams":[488,5806,5817,4499,3322,4911]},
+  {"matchNum":98,"teams":[2992,1706,494,7848,2052,8739]},
+  {"matchNum":99,"teams":[3128,6424,1574,6420,2443,5505]},
+  {"matchNum":100,"teams":[8822,2135,7021,4213,201,829]},
+  {"matchNum":101,"teams":[3512,6135,2614,8701,5216,1339]},
+  {"matchNum":102,"teams":[1111,3538,2976,4592,2767,7617]},
+  {"matchNum":103,"teams":[2832,180,3478,7153,1538,1807]},
+  {"matchNum":104,"teams":[4421,3794,6998,8575,4063,148]},
+  {"matchNum":105,"teams":[4911,1156,4201,8825,11,8159]},
+  {"matchNum":106,"teams":[2202,525,2839,4499,5817,624]},
+  {"matchNum":107,"teams":[2252,3322,6424,177,3128,8739]},
+  {"matchNum":108,"teams":[4926,8037,6036,7848,1574,201]},
+  {"matchNum":109,"teams":[5806,2771,2052,2502,4213,1625]},
+  {"matchNum":110,"teams":[2135,2992,5006,488,8745,2443]},
+  {"matchNum":111,"teams":[5505,302,5454,2883,1706,1678]},
+  {"matchNum":112,"teams":[2905,7315,4522,6420,597,8822]},
+  {"matchNum":113,"teams":[829,7021,1156,494,2614,7153]},
+  {"matchNum":114,"teams":[7617,4911,2832,4592,6998,6135]},
+  {"matchNum":115,"teams":[6424,2976,2202,11,1339,3794]},
+  {"matchNum":116,"teams":[8739,8037,4201,4421,624,8701]},
+  {"matchNum":117,"teams":[3128,6036,2052,4499,2839,3538]},
+  {"matchNum":118,"teams":[177,3512,3478,8825,2135,5806]},
+  {"matchNum":119,"teams":[5454,7848,8745,5216,1807,2443]},
+  {"matchNum":120,"teams":[6420,3322,1678,180,2771,4926]},
+  {"matchNum":121,"teams":[5817,4063,829,1574,1625,7315]},
+  {"matchNum":122,"teams":[1706,488,2767,7021,4522,148]},
+  {"matchNum":123,"teams":[1111,597,2502,2252,302,4213]},
+  {"matchNum":124,"teams":[494,5505,8159,525,201,2905]},
+  {"matchNum":125,"teams":[2883,5006,8822,1538,8575,2992]}
+  ];
 
 
 
@@ -16,6 +288,7 @@ var matchCatch = 1;
 var missedMatches = "";
 var assignment = "";
 let assignIndex = 0;
+let matchReported = false
 
 let chargeVal = 0
 let Alliance = {
@@ -535,32 +808,34 @@ real_draw(p) {
 }
 }
 
-console.log("hi")
+console.log("sneaky easter egg:)")
 
 $(document).ready(() =>{
   // console.log("smth wokred")
 
-  $("#metaLink").click((e) => {
-    $("#metaPage").addClass("d-block").removeClass("d-none");
-    $("#homePage").addClass("d-none").removeClass("d-block");
-    $("#metaTitle").html("Recap data for " + assignment + ":");
-    $("#matchesScoutedDiv").html(numOfMatches);
-    $("#highScoreDiv").html("Team: " + hsTeam + " - Score: " + highScore);
-    $("#matchesMissedDiv").html(missedMatches);
-    return false;
-  });
+  loadLocalTeams();
+
+  // $("#metaLink").click((e) => {
+  //   $("#metaPage").addClass("d-block").removeClass("d-none");
+  //   $("#homePage").addClass("d-none").removeClass("d-block");
+  //   $("#metaTitle").html("Recap data for " + assignment + ":");
+  //   $("#matchesScoutedDiv").html(numOfMatches);
+  //   $("#highScoreDiv").html("Team: " + hsTeam + " - Score: " + highScore);
+  //   $("#matchesMissedDiv").html(missedMatches);
+  //   return false;
+  // });
 
   $("#matchLink").click((e) => {
     $("#matchReportPage").addClass("d-block").removeClass("d-none");
     $("#homePage").addClass("d-none").removeClass("d-block");
     $("#matchBox").val(matchNum);
-    // let current = schedule[matchNum - 1];
-    // // console.log(current.teams[assignIndex]);
-    // $('#teamBox option[value="0"]').prop("selected", false);
-    // $('#teamBox option[value="' + current.teams[assignIndex] + '"]').prop(
-    //   "selected",
-    //   true
-    // );
+    let current = schedule[matchNum - 1];
+    console.log(current.teams[assignIndex]);
+    $('#teamBox option[value="0"]').prop("selected", false);
+    $('#teamBox option[value="' + current.teams[assignIndex] + '"]').prop(
+      "selected",
+      true
+    );
     return false;
   });
 
@@ -624,8 +899,8 @@ $(document).ready(() =>{
   });
 
   $("#match-createQr").click((e) => {
-    // matchReported = true;
-    // numOfMatches++;
+    matchReported = true;
+    numOfMatches++;
     // checkHS();
     console.log("just happened");
     $("#matchModal").modal("show");
@@ -760,6 +1035,14 @@ $(document).ready(() =>{
     return false;
   });
 
+  $(".upMatch").click((e) => {
+    // window.scroll(500,500)
+    $("#matchModal").modal("hide");
+    // increaseMatchNum()
+    matchReported ? increaseMatchNum() : false;
+    return false;
+  });
+
 
 
   // define a generic Ajax error handler:
@@ -882,3 +1165,19 @@ function clearForm() {
   $("#endButtons").addClass("invisible");
 }
 
+function loadLocalTeams() {
+  $.each(teamNames, function (i, item) {
+    $("#teamBox").append(
+      $("<option>", {
+        value: item.num,
+        text: item.num + ": " + item.name,
+      })
+    );
+    $("#numBox").append(
+      $("<option>", {
+        value: item.num,
+        text: item.num + ": " + item.name,
+      })
+    );
+  });
+}
