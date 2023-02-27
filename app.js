@@ -183,21 +183,17 @@ function touchEnded(){
     if (t) {
       if (mouseX > 650 && mouseX < 700) {
         if (mouseY > 99) {
-          let temp = r.cone
-          !r.cube ? r.cone = !temp : pomegranite = 0
+          !r.cube ? r.cone = true : pomegranite = 0
         } else {
-          let temp = r.cube
-          !r.cone ? r.cube = !temp : pomegranite = 0
+          !r.cone ? r.cube = true : pomegranite = 0
         }
       }
     } else {
       if (mouseX > 50 && mouseX < 100) {
         if (mouseY > 99) {
-            let temp = r.cone
-            !r.cube ? r.cone = !temp : pomegranite = 0
+            !r.cube ? r.cone = true : pomegranite = 0
         } else {
-            let temp = r.cube
-            !r.cone ? r.cube = !temp : pomegranite = 0
+            !r.cone ? r.cube = true : pomegranite = 0
         }
       }
     }
