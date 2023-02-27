@@ -1,5 +1,6 @@
   // TODO:
-  // make decoder
+  // make decoders
+  // fix wierd line glitch
   // make/fix high score counter(turn off for now)
   // add teams and schedule functionality
   // encoder/qr code for matches
@@ -491,16 +492,18 @@ function field() {
 
   strokeWeight(2);
   line(376, 50, 376, 366);
+
+  t ? b_charging_cell(chargeVal) : r_charging_cell(chargeVal)
   
   // blue community
   stroke(0,0,200)
+  strokeWeight(2)
   // line(104,150,104,366)
   
   line(196,150,196,209)
   line(196,209,256,209)
   line(256,209,256,366)
   
-  t ? b_charging_cell(chargeVal) : r_charging_cell(chargeVal)
 
   // red community
   strokeWeight(2)
