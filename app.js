@@ -423,6 +423,11 @@ function draw() {
   }
 }
 
+function eraseStuff() {
+  erase = false
+  chargeVal = 0
+}
+
 function touchEnded(){
   // charging stations
   if (mouseY > 205 && mouseY < 310) {
@@ -432,7 +437,7 @@ function touchEnded(){
       } else if (mouseX > 235){
         chargeVal == 1 ? chargeVal = 0 : chargeVal = -1
       } else {
-        erase ? chargeVal = 0 : chargeVal = 2
+        erase ? eraseStuff() : chargeVal = 2
       }
     } if (mouseX > 482 && mouseX < 562) {
       if (mouseX < 507){
@@ -440,7 +445,7 @@ function touchEnded(){
       } else if (mouseX > 537){
         chargeVal == -1 ? chargeVal = 0 : chargeVal = 1
       } else {
-        erase ? chargeVal = 0 : chargeVal = 2
+        erase ? eraseStuff() : chargeVal = 2
       }
     }
   }
