@@ -1,9 +1,7 @@
   // TODO:
   // make decoders
-  // fix wierd line glitch
   // make/fix high score counter(turn off for now)
-  // add teams and schedule functionality
-  // encoder/qr code for matches
+  // red v blue alliance 
 
   var teamNames = [
     // { num: 58, name: "The Riot Crew" },
@@ -162,7 +160,7 @@
   ]
 
   let schedule = [
-    {"matchNum":1,"teams":[6135,1099,5006,6036,2252,5505]},
+    {"matchNum":1,"teams":[6933,95,238,501,2252,5505]},
   {"matchNum":2,"teams":[7153,8023,4421,2992,4926,3512]},
   {"matchNum":3,"teams":[3538,177,8037,2202,494,2771]},
   {"matchNum":4,"teams":[3322,8825,8575,2839,1111,8701]},
@@ -289,8 +287,6 @@
   {"matchNum":125,"teams":[2883,5006,8822,1538,8575,2992]}
   ];
 
-
-
 let numOfMatches = 0;
 let highScore = 0;
 let hsTeam = "";
@@ -307,7 +303,10 @@ let Alliance = {
   BLUE : true,
   RED : false
 }
-t = Alliance.RED
+t = Alliance.BLUE
+
+// let teamColor
+// assignment.substring(0, assignment.indexOf(" ") + 1)
 
 let mode = true
 let erase = false
@@ -394,7 +393,7 @@ function setup() {
 }
 
 function draw() {
-  // noLoop();
+  console.log("please do smth")
   noStroke()
   fill(255);
   rect(0,0,50,50)
@@ -411,10 +410,35 @@ function draw() {
     draw_cube(x_piece,70)
     draw_cone(x_piece,125)
   pop()
-  
+  r.alliance = t
   r.draw_robot()
 
+  let val1
+  let val2
+    if (t) {
+        val1 = 50
+        for (let i = 0; i < 3; i ++) {
+        val2 = 150
+        for (let k = 0; k < 9; k ++) {
+            lst[i][k].x = val1
+            lst[i][k].y = val2
+            val2 += 24
+        }
+        val1 += 20
+    } 
+  } else {
+        val1 = 642
+        for (let i = 2; i >= 0; i --) {
+            val2 = 150
+            for (let k = 0; k < 9; k ++) {
+                lst[i][k].x = val1
+                lst[i][k].y = val2
+                val2 += 24
+            }
+            val1 += 20
+        }
 
+      }
   for (let i = 0; i < 3; i ++) {
       for (let k = 0; k < 9; k ++) {
         lst[i][k].draw_holder(mouseX,mouseY, 0)
@@ -424,10 +448,10 @@ function draw() {
 }
 
 function eraseStuff() {
+  chargeVal = 0;
+  // wait(100)
   erase = false
-  chargeVal = 0
 }
-
 function touchEnded(){
   // charging stations
   if (mouseY > 205 && mouseY < 310) {
@@ -748,7 +772,7 @@ class Receptacle{
   }
   
  draw_holder(x,y,p) {
-
+  // console.log("console works!")
     if (t) {
         this.real_draw(2)
     }  else {
@@ -827,6 +851,10 @@ real_draw(p) {
 }
 }
 
+function chooseColor(a) {
+  console.log(a)
+}
+
 console.log("sneaky easter egg:)")
 
 $(document).ready(() =>{
@@ -864,6 +892,8 @@ $(document).ready(() =>{
     assignment = $("#assignBox").val();
     missedMatches = assignment + ": ";
     assignIndex = defineAssignment(assignment);
+    assignIndex > 2 ? t = true : t = false
+    // console.log(assignment)
     $("#titleAssign").html("You're assigned " + assignment);
     return false;
   });
