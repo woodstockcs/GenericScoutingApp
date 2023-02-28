@@ -455,7 +455,7 @@ function eraseStuff() {
   erase = false
 }
 function touchEnded(){
-  if (mouseX > 0 && mouseX < 800 && mouseY > 0 && mouseY < 500) {
+  //if (mouseX > 0 && mouseX < 800 && mouseY > 0 && mouseY < 500) {
   // drop button
   if (mouseX > 645 && mouseX < 710 && mouseY > 2 && mouseY < 40) {
     if (r.cone || r.cube) {
@@ -524,7 +524,7 @@ function touchEnded(){
     }
   }
   return true
-  } return false
+ // } return false
 }
 
 function field() {
