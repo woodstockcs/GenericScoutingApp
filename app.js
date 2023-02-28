@@ -950,6 +950,8 @@ $(document).ready(() =>{
   $("#match-createQr").click((e) => {
     matchReported = true;
     numOfMatches++;
+    grid = saveGrid()
+    charge = math.ABS(chargeVal)
     // checkHS();
     console.log("just happened");
     $("#matchModal").modal("show");
