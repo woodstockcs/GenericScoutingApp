@@ -331,6 +331,8 @@ let tempCharge
 let autoGrid = ""
 let grid = ""
 
+let drop = 0
+
 // 0 == no charge, 1 == on unbalanced, 2 == on balanced
 let autoCharge = 0
 let charge = 0
@@ -453,7 +455,16 @@ function eraseStuff() {
   erase = false
 }
 function touchEnded(){
-  // charging stations
+  if (mouseX > 0 && mouseX < 800 && mouseY > 0 && mouseY < 500) {
+  // drop button
+  if (mouseX > 645 && mouseX < 710 && mouseY > 2 && mouseY < 40) {
+    if (r.cone || r.cube) {
+      r.cube = false
+      r.cone = false
+      drop ++
+    }
+  }
+    // charging stations
   if (mouseY > 205 && mouseY < 310) {
     if (mouseX > 180 && mouseX < 260){
       if (mouseX < 205) {
@@ -513,7 +524,7 @@ function touchEnded(){
     }
   }
   return true
-  
+  } return false
 }
 
 function field() {
@@ -579,6 +590,29 @@ function field() {
   noStroke()
   fill(255)
   rect(340,10,75,35)
+
+  // drop
+  if (r.cone || r.cube) {
+    strokeWeight(2)
+    stroke(151)
+    fill(50)
+    rect(647,2,56,46,5)
+    fill(250)
+    noStroke()
+    textSize(18)
+    text("Drop", 675,30)
+  } else {
+
+    noStroke()
+    fill(255)
+    rect(645,1,59,47)
+    fill(150)
+    rect(650,5,50,40,5)
+    fill(250)
+    noStroke()
+    textSize(15)
+    text("Drop", 675,30)
+  }
 
   if (!erase) {
       noStroke()
@@ -985,13 +1019,15 @@ $(document).ready(() =>{
       "," +
       charge + //6
       "," +
-      aggressionValue + //7
+      drop + //7
       "," +
-      Date.now() + //8
+      aggressionValue + //8
       "," +
-      decodeNote($("#match-notesBox").val()) + //9
+      Date.now() + //9
       "," +
-      $("#match-scoutBox").val(); //10
+      decodeNote($("#match-notesBox").val()) + //10
+      "," +
+      $("#match-scoutBox").val(); //11
 
     // generate qr code - new library
     QrCreator.render(
@@ -1188,6 +1224,7 @@ function clearForm() {
   mode = true;
   autoGrid = ""
   grid = ""
+  drop = 0
   charge = 0
   autoCharge = 0;
   chargeVal = 0
