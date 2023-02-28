@@ -951,7 +951,7 @@ $(document).ready(() =>{
     matchReported = true;
     numOfMatches++;
     grid = saveGrid()
-    charge = math.ABS(chargeVal)
+    charge = chargeVal
     // checkHS();
     console.log("just happened");
     $("#matchModal").modal("show");
