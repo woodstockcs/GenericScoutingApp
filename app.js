@@ -455,10 +455,10 @@ function eraseStuff() {
   erase = false
 }
 function touchEnded(){
-  //if (mouseX > 0 && mouseX < 800 && mouseY > 0 && mouseY < 500) {
+  if (mouseX > 0 && mouseX < 800 && mouseY > 0 && mouseY < 500) {
   // drop button
-  if (mouseX > 645 && mouseX < 710 && mouseY > 2 && mouseY < 40) {
-    if (r.cone || r.cube) {
+  if (r.cone || r.cube) {
+    if (mouseX > 645 && mouseX < 710 && mouseY > 2 && mouseY < 40) {
       r.cube = false
       r.cone = false
       drop ++
@@ -524,7 +524,7 @@ function touchEnded(){
     }
   }
   return true
- // } return false
+  } return false
 }
 
 function field() {
@@ -865,7 +865,7 @@ real_draw(p) {
        strokeWeight(2)
        line(tempX + 5*p, this.y,tempX + 5*p,this.y+24)
        strokeWeight(3)
-       stroke(0)
+       stroke(0,0,0)
        line(tempX + 5*p, this.y, tempX - 5*p, this.y)
    } if (this.kind == 1) {
         t ? fill(0,0,151) : fill(151,0,0)
