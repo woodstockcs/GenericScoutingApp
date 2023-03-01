@@ -340,7 +340,7 @@ let charge = 0
 function setup() {
 
   cnv = createCanvas(800, 500);
-  // cnv.touchEnded(handleFieldTouch);
+  cnv.touchEnded(handleFieldTouch);
   background(255);
   textAlign(CENTER);
   rectMode(CENTER);
@@ -454,11 +454,11 @@ function eraseStuff() {
   // wait(100)
   erase = false
 }
-function touchEnded(){
+function handleFieldTouch(){
   if (mouseX > 0 && mouseX < 800 && mouseY > 0 && mouseY < 500) {
   // drop button
+  if (r.cone || r.cube) {
     if (mouseX > 645 && mouseX < 710 && mouseY > 2 && mouseY < 40) {
-      if (r.cone || r.cube) {
       r.cube = false
       r.cone = false
       drop ++
