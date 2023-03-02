@@ -501,7 +501,7 @@ function handleFieldTouch(){
     // erase mode
     if (mouseX > 342 && mouseX < 408 && mouseY > 11 && mouseY < 50 && !r.cone && !r.cube) {
         erase = true
-    } else if (erase && mouseX > 50 && mouseX < 645 && mouseY > 2 && mouseY < 45) {
+    } else if (erase && (mouseX > 50 && mouseX < 342) || (mouseX > 409 && mouseX < 645) && (mouseY > 2 && mouseY < 45)) {
       erase = false
     }
   
