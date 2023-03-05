@@ -1,7 +1,8 @@
   // TODO:
-  // make decoders
   // make/fix high score counter(turn off for now)
-  // red v blue alliance 
+  // framecount
+  //  global var for current framecount of button press
+  // delay variable, on button press wait delay variable frame counts
 
   var teamNames = [
     // { num: 58, name: "The Riot Crew" },
@@ -277,6 +278,9 @@ for (let i = 0; i < col; i++) {
 }
 
 let tempCharge
+let lastFrame
+let frameAllow = 10
+
 // important data points
 
 // string of 27 numbers(see key)
@@ -298,6 +302,7 @@ function setup() {
   textAlign(CENTER);
   rectMode(CENTER);
   strokeCap(SQUARE)
+  lastFrame = millis()
   r = new Robot(t)
 
 
@@ -407,9 +412,11 @@ function eraseStuff() {
   // wait(100)
   erase = false
 }
+
 function handleFieldTouch(){
-  if (mouseX > 0 && mouseX < 800 && mouseY > 0 && mouseY < 500) {
-  // drop button
+  if ((mouseX > 0 && mouseX < 800 && mouseY > 0 && mouseY < 500) && lastFrame > lastFrame + frameAllow) {
+    lastFrame = millis()
+    // drop button
   if (r.cone || r.cube) {
     if (mouseX > 645 && mouseX < 710 && mouseY > 2 && mouseY < 40) {
       r.cube = false
@@ -457,23 +464,27 @@ function handleFieldTouch(){
     } else if (erase && (mouseX > 50 && mouseX < 342) || (mouseX > 409 && mouseX < 645) && (mouseY > 2 && mouseY < 45)) {
       erase = false
     }
-  
+  let tempThing
   // picking up from human player
   if (mouseY > 50 && mouseY < 142) {
     if (t) {
       if (mouseX > 650 && mouseX < 700) {
         if (mouseY > 99) {
-          !r.cube ? r.cone = true : pomegranite = 0
+          tempThing = r.cone
+          !r.cube ? r.cone = !tempThing : pomegranite = 0
         } else {
-          !r.cone ? r.cube = true : pomegranite = 0
+          tempThing = r.cube
+          !r.cone ? r.cube = !tempThing : pomegranite = 0
         }
       }
     } else {
       if (mouseX > 50 && mouseX < 100) {
         if (mouseY > 99) {
-            !r.cube ? r.cone = true : pomegranite = 0
+          tempThing = r.cone
+          !r.cube ? r.cone = !tempThing : pomegranite = 0
         } else {
-            !r.cone ? r.cube = true : pomegranite = 0
+          tempThing = r.cube
+          !r.cone ? r.cube = !tempThing : pomegranite = 0
         }
       }
     }
@@ -586,6 +597,9 @@ function field() {
       noStroke()
       text("Erase", 375,33)
   }
+
+  // change color
+
 
 }
 
@@ -771,7 +785,6 @@ class Receptacle{
 
 
     if (this.clickable || erase) {
-        
         if (x > this.x && x < this.x+20 && y > this.y && y < this.y+24) {
 
             if (mouseIsPressed == true) {
