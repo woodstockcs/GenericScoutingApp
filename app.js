@@ -1008,7 +1008,7 @@ $(document).ready(() =>{
       "," +
       $("#match-scoutBox").val() + //11
       "," +
-      t ? "Blue" : "Red"; //12
+      t; //12
 
     // generate qr code - new library
     QrCreator.render(
