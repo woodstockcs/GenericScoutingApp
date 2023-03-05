@@ -962,8 +962,9 @@ $(document).ready(() =>{
 
   $("#match-createQr").click((e) => {
     if (autoGrid == "") {autoGrid = "000000000000000000000000000"}
-    t ? teamColor = 1 : teamColor = 0
+    t ? teamColor = "Blue" : teamColor = "Red"
     matchReported = true;
+    console.log(teamColor)
     numOfMatches++;
     grid = saveGrid()
     charge = chargeVal
