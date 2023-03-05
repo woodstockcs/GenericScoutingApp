@@ -414,7 +414,7 @@ function eraseStuff() {
 }
 
 function handleFieldTouch(){
-  if ((mouseX > 0 && mouseX < 800 && mouseY > 0 && mouseY < 500) && lastFrame > lastFrame + frameAllow) {
+  if ((mouseX > 0 && mouseX < 800 && mouseY > 0 && mouseY < 500) && (millis() - lastFrame) > frameAllow) {
     lastFrame = millis()
     // drop button
   if (r.cone || r.cube) {
