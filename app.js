@@ -961,6 +961,7 @@ $(document).ready(() =>{
   });
 
   $("#match-createQr").click((e) => {
+    if (autoGrid == "") {autoGrid = "000000000000000000000000000"}
     matchReported = true;
     numOfMatches++;
     grid = saveGrid()
@@ -1008,7 +1009,7 @@ $(document).ready(() =>{
       "," +
       $("#match-scoutBox").val() + //11
       "," +
-      t; //12
+      t ? "Blue" : "Red"; //12
 
     // generate qr code - new library
     QrCreator.render(
