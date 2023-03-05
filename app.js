@@ -1007,9 +1007,7 @@ $(document).ready(() =>{
       "," +
       decodeNote($("#match-notesBox").val()) + //10
       "," +
-      $("#match-scoutBox").val() + //11
-      "," +
-      t ? "Blue" : "Red"; //12
+      $("#match-scoutBox").val(); //11
 
     // generate qr code - new library
     QrCreator.render(
