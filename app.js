@@ -1,8 +1,6 @@
   // TODO:
   // make/fix high score counter(turn off for now)
-  // framecount
-  //  global var for current framecount of button press
-  // delay variable, on button press wait delay variable frame counts
+  // put color in database
 
   var teamNames = [
     // { num: 58, name: "The Riot Crew" },
@@ -261,6 +259,8 @@ t = Alliance.BLUE
 
 // let teamColor
 // assignment.substring(0, assignment.indexOf(" ") + 1)
+// TRUE is BLUE alliance
+// FALSE is RED alliance
 
 let mode = true
 let erase = false
@@ -279,7 +279,7 @@ for (let i = 0; i < col; i++) {
 
 let tempCharge
 let lastFrame
-let frameAllow = 10
+let frameAllow = 100
 
 // important data points
 
@@ -489,6 +489,11 @@ function handleFieldTouch(){
       }
     }
   }
+  // change color
+  if (mouseX > 49 && mouseX < 142 && mouseY > 9 && mouseY < 35) {
+    let ex = t
+    t = !ex
+  }
   return true
   } return false
 }
@@ -599,8 +604,14 @@ function field() {
   }
 
   // change color
-
-
+    fill (150)
+    strokeWeight(2)
+    t ? stroke(151,0,0) : stroke(0,0,151)
+    rect(50,5,90,25,5)
+    textSize(15)
+    noStroke()
+    fill(250)
+    text("Switch Color", 95,23)
 }
 
 function b_charging_cell(a){
@@ -995,7 +1006,9 @@ $(document).ready(() =>{
       "," +
       decodeNote($("#match-notesBox").val()) + //10
       "," +
-      $("#match-scoutBox").val(); //11
+      $("#match-scoutBox").val() + //11
+      "," +
+      t; //12
 
     // generate qr code - new library
     QrCreator.render(
@@ -1203,6 +1216,7 @@ function clearForm() {
       lst[i][k].can_click()
     }
 }
+assignIndex > 2 ? t = true : t = false
 
   console.log("it worked!");
   // draw();
