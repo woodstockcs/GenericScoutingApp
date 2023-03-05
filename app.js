@@ -257,7 +257,7 @@ let Alliance = {
 }
 t = Alliance.BLUE
 
-// let teamColor
+let teamColor
 // assignment.substring(0, assignment.indexOf(" ") + 1)
 // TRUE is BLUE alliance
 // FALSE is RED alliance
@@ -962,6 +962,7 @@ $(document).ready(() =>{
 
   $("#match-createQr").click((e) => {
     if (autoGrid == "") {autoGrid = "000000000000000000000000000"}
+    t ? teamColor = 1 : teamColor = 0
     matchReported = true;
     numOfMatches++;
     grid = saveGrid()
@@ -1007,7 +1008,9 @@ $(document).ready(() =>{
       "," +
       decodeNote($("#match-notesBox").val()) + //10
       "," +
-      $("#match-scoutBox").val(); //11
+      $("#match-scoutBox").val() + //11
+      "," + 
+      teamColor; //12
 
     // generate qr code - new library
     QrCreator.render(
