@@ -264,6 +264,8 @@ let teamColor
 
 let mode = true
 let erase = false
+let parked = false
+let taxied = false
 
 let pomegranite
 
@@ -452,6 +454,7 @@ function handleFieldTouch(){
       switchMode(mode);
       autoGrid = saveGrid()
       autoCharge = tempCharge
+      if (autoCharge == 0) {autoCharge = 3}
       chargeVal = 0
     } else {
       mode = true;
@@ -493,6 +496,17 @@ function handleFieldTouch(){
   if (mouseX > 49 && mouseX < 142 && mouseY > 9 && mouseY < 35) {
     let ex = t
     t = !ex
+  }
+  // parking
+  if (!mode && ((mouseX > 110 && mouseX < 180 && mouseY > 155 && mouseY < 360)||(mouseX > 565 && mouseX < 635 && mouseY > 155 && mouseY < 360))) {
+    parked = !parked
+  }
+
+  // taxi
+  if (mode) {
+    if (mouseX > 258 && mouseX < 490 && mouseY > 55 && mouseY < 360) {
+      taxied = !taxied
+    }
   }
   return true
   } return false
@@ -585,6 +599,7 @@ function field() {
     text("Drop", 675,30)
   }
 
+  // erase
   if (!erase) {
       noStroke()
       fill(150)
@@ -612,6 +627,34 @@ function field() {
     noStroke()
     fill(250)
     text("Switch Color", 95,23)
+
+    // park
+    if (!mode && parked) {
+      fill(255,255,0,100)
+      if (t) {
+        rect(110,153,85,56)
+        rect(110,209,74,96)
+        rect(110,305,145,60)
+      } else {
+        rect(554,153,87,56)
+        rect(565,209,75,96)
+        rect(494,305,146,60)
+      }
+    }
+
+    // taxi
+    if (mode && taxied) {
+      fill(255,255,0,100)
+      if (t) {
+        rect(258,101,117,263)
+        rect(198,101,60,107)
+        rect(316,52,59,49)
+      } else {
+        rect(377,101,115,263)
+        rect(492,101,60,107)
+        rect(377,52,58,49)
+      }
+    }
 }
 
 function b_charging_cell(a){
@@ -942,6 +985,7 @@ $(document).ready(() =>{
     $("#verifyStuff").addClass("d-none").removeClass("d-block");
     $("#actualReport").addClass("d-block").removeClass("d-none");
     // field();
+    chargeVal = 0
     return false;
   });
 
@@ -968,6 +1012,7 @@ $(document).ready(() =>{
     numOfMatches++;
     grid = saveGrid()
     charge = chargeVal
+    if (charge == 0) {charge = 3}
     // checkHS();
     console.log("just happened");
     $("#matchModal").modal("show");
