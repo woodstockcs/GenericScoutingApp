@@ -983,7 +983,7 @@ $(document).ready(() =>{
     $("#pitReportPage").addClass("d-none").removeClass("d-block");
     $("#captureQrDataPage").addClass("d-none").removeClass("d-block");
     $("#homePage").addClass("d-block").removeClass("d-none");
-    
+    closeQRCamera();
     // console.log(missedMatches);
     // clearForm();
     clearPitForm();
@@ -1332,6 +1332,13 @@ var video = document.querySelector('#captureVideo');
 var videoSelect = document.querySelector('select#captureVideoSource');
 videoSelect.onchange = getStream;
 
+function closeQRCamera() {
+  if (mediaStream) {
+    mediaStream.getTracks().forEach(track => {
+      track.stop();
+    });
+  }
+}
 
 // From the list of media devices available, set up the camera source <select>,
 // then get a video stream from the default camera source.
@@ -1350,11 +1357,7 @@ function gotDevices(deviceInfos) {
 
 // Get a video stream from the currently selected camera source.
 function getStream() {
-  if (mediaStream) {
-    mediaStream.getTracks().forEach(track => {
-      track.stop();
-    });
-  }
+  closeQRCamera();
   var videoSource = videoSelect.value;
   constraints = {
     video: {deviceId: videoSource ? {exact: videoSource} : undefined}
