@@ -143,6 +143,14 @@
               Reassign Alliance
             </a>
             <br />
+            <a
+            id="captureLink"
+            style="font-size: 25px"
+            class="btn btn-success btn-block p-3 text-white"
+          >
+            Capture Data from QR
+          </a>
+          <br />
           </div>
 
           <div id="metaPage" class="d-none">
@@ -512,6 +520,26 @@
               </form>
             </div>
           </div>
+
+          <div id="captureQrDataPage" class="d-none">
+            <br />
+            <h2 id="captureTitle"></h2>
+            <div class="select d-none">
+              <label for="captureVideoSource">Video source: </label><select id="captureVideoSource"></select>
+            </div>
+      
+          <video autoplay playsinline class="hidden" id="captureVideo"></video>
+          <img id="captureImg">
+          <canvas class="hidden" id="captureCanvas"></canvas>
+            <button
+              id="homeButton5"
+              type="submit"
+              class="btn btn-outline-success btn-block mt-3 mb-3 homeClick p-3"
+            >
+              Go Home
+            </button>
+          </div>
+
 
           <div
           class="modal fade"

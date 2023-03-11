@@ -928,6 +928,22 @@ $(document).ready(() =>{
   //   return false;
   // });
 
+  $("#captureLink").click((e) => {
+    $("#captureQrDataPage").addClass("d-block").removeClass("d-none");
+    $("#homePage").addClass("d-none").removeClass("d-block");
+    $("#captureTitle").html("Capture data from QR:");
+        // Get a list of available media input (and output) devices
+    // then get a MediaStream for the currently selected input device
+    navigator.mediaDevices.enumerateDevices()
+    .then(gotDevices)
+    .catch(error => {
+      console.log('enumerateDevices() error: ', error);
+    })
+    .then(getStream);
+    return false;
+  });
+
+  
   $("#matchLink").click((e) => {
     $("#matchReportPage").addClass("d-block").removeClass("d-none");
     $("#homePage").addClass("d-none").removeClass("d-block");
@@ -965,7 +981,9 @@ $(document).ready(() =>{
     $("#metaPage").addClass("d-none").removeClass("d-block");
     $("#matchReportPage").addClass("d-none").removeClass("d-block");
     $("#pitReportPage").addClass("d-none").removeClass("d-block");
+    $("#captureQrDataPage").addClass("d-none").removeClass("d-block");
     $("#homePage").addClass("d-block").removeClass("d-none");
+    closeQRCamera();
     // console.log(missedMatches);
     // clearForm();
     clearPitForm();
@@ -1297,5 +1315,82 @@ function loadLocalTeams() {
         text: item.num + ": " + item.name,
       })
     );
+  });
+}
+
+////////////
+// QR functionality
+////////////
+
+var constraints;
+var imageCapture;
+var mediaStream;
+
+var canvas = document.querySelector('#captureCanvas');
+var img = document.querySelector('#captureImg');
+var video = document.querySelector('#captureVideo');
+var videoSelect = document.querySelector('select#captureVideoSource');
+videoSelect.onchange = getStream;
+
+function closeQRCamera() {
+  if (mediaStream) {
+    mediaStream.getTracks().forEach(track => {
+      track.stop();
+    });
+  }
+}
+
+// From the list of media devices available, set up the camera source <select>,
+// then get a video stream from the default camera source.
+function gotDevices(deviceInfos) {
+  for (var i = 0; i !== deviceInfos.length; ++i) {
+    var deviceInfo = deviceInfos[i];
+    console.log('Found media input or output device: ', deviceInfo);
+    var option = document.createElement('option');
+    option.value = deviceInfo.deviceId;
+    if (deviceInfo.kind === 'videoinput') {
+      option.text = deviceInfo.label || 'Camera ' + (videoSelect.length + 1);
+      videoSelect.appendChild(option);
+    }
+  }
+}
+
+// Get a video stream from the currently selected camera source.
+function getStream() {
+  closeQRCamera();
+  var videoSource = videoSelect.value;
+  constraints = {
+    video: {deviceId: videoSource ? {exact: videoSource} : undefined}
+  };
+  navigator.mediaDevices.getUserMedia(constraints)
+    .then(gotStream)
+    .catch(error => {
+      console.log('getUserMedia error: ', error);
+    });
+}
+
+// Display the stream from the currently selected camera source, and then
+// create an ImageCapture object, using the video from the stream.
+function gotStream(stream) {
+  console.log('getUserMedia() got stream: ', stream);
+  mediaStream = stream;
+  video.srcObject = stream;
+  video.classList.remove('hidden');
+  imageCapture = new ImageCapture(stream.getVideoTracks()[0]);
+  getCapabilities();
+}
+
+// Get the PhotoCapabilities for the currently selected camera source.
+function getCapabilities() {
+  imageCapture.getPhotoCapabilities().then(function(capabilities) {
+    console.log('Camera capabilities:', capabilities);
+    if (capabilities.zoom.max > 0) {
+      zoomInput.min = capabilities.zoom.min;
+      zoomInput.max = capabilities.zoom.max;
+      zoomInput.value = capabilities.zoom.current;
+      zoomInput.classList.remove('hidden');
+    }
+  }).catch(function(error) {
+    console.log('getCapabilities() error: ', error);
   });
 }
