@@ -928,6 +928,25 @@ $(document).ready(() =>{
   //   return false;
   // });
 
+  $("#captureLink").click((e) => {
+    $("#captureQrDataPage").addClass("d-block").removeClass("d-none");
+    $("#homePage").addClass("d-none").removeClass("d-block");
+    $("#captureTitle").html("Capture data from QR:");
+        // Get a list of available media input (and output) devices
+    // then get a MediaStream for the currently selected input device
+    // Use facingMode: environment to attemt to get the front camera on phones
+navigator.mediaDevices
+.getUserMedia({ video: { facingMode: "environment" } })
+.then(function(stream) {
+  video.srcObject = stream;
+  video.setAttribute("playsinline", true); // required to tell iOS safari we don't want fullscreen
+  video.play();
+  requestAnimationFrame(tick);
+});
+return false;
+  });
+
+  
   $("#matchLink").click((e) => {
     $("#matchReportPage").addClass("d-block").removeClass("d-none");
     $("#homePage").addClass("d-none").removeClass("d-block");
@@ -965,7 +984,9 @@ $(document).ready(() =>{
     $("#metaPage").addClass("d-none").removeClass("d-block");
     $("#matchReportPage").addClass("d-none").removeClass("d-block");
     $("#pitReportPage").addClass("d-none").removeClass("d-block");
+    $("#captureQrDataPage").addClass("d-none").removeClass("d-block");
     $("#homePage").addClass("d-block").removeClass("d-none");
+    closeQRCamera();
     // console.log(missedMatches);
     // clearForm();
     clearPitForm();
@@ -1299,3 +1320,312 @@ function loadLocalTeams() {
     );
   });
 }
+
+////////////
+// QR functionality v1
+////////////
+
+// var constraints;
+// var imageCapture;
+// var mediaStream;
+
+// var canvas = document.querySelector('#captureCanvas');
+// var img = document.querySelector('#captureImg');
+// var video = document.querySelector('#captureVideo');
+// var videoSelect = document.querySelector('select#captureVideoSource');
+// videoSelect.onchange = getStream;
+
+// function closeQRCamera() {
+//   if (mediaStream) {
+//     mediaStream.getTracks().forEach(track => {
+//       track.stop();
+//     });
+//   }
+// }
+
+// // From the list of media devices available, set up the camera source <select>,
+// // then get a video stream from the default camera source.
+// function gotDevices(deviceInfos) {
+//   for (var i = 0; i !== deviceInfos.length; ++i) {
+//     var deviceInfo = deviceInfos[i];
+//     console.log('Found media input or output device: ', deviceInfo);
+//     var option = document.createElement('option');
+//     option.value = deviceInfo.deviceId;
+//     if (deviceInfo.kind === 'videoinput') {
+//       option.text = deviceInfo.label || 'Camera ' + (videoSelect.length + 1);
+//       videoSelect.appendChild(option);
+//     }
+//   }
+// }
+
+// // Get a video stream from the currently selected camera source.
+// function getStream() {
+//   closeQRCamera();
+//   var videoSource = videoSelect.value;
+//   constraints = {
+//     video: {deviceId: videoSource ? {exact: videoSource} : undefined}
+//   };
+//   navigator.mediaDevices.getUserMedia(constraints)
+//     .then(gotStream)
+//     .catch(error => {
+//       console.log('getUserMedia error: ', error);
+//     });
+// }
+
+// // Display the stream from the currently selected camera source, and then
+// // create an ImageCapture object, using the video from the stream.
+// function gotStream(stream) {
+//   console.log('getUserMedia() got stream: ', stream);
+//   mediaStream = stream;
+//   video.srcObject = stream;
+//   video.classList.remove('hidden');
+//   imageCapture = new ImageCapture(stream.getVideoTracks()[0]);
+//   getCapabilities();
+// }
+
+// // Get the PhotoCapabilities for the currently selected camera source.
+// function getCapabilities() {
+//   imageCapture.getPhotoCapabilities().then(function(capabilities) {
+//     console.log('Camera capabilities:', capabilities);
+//     if (capabilities.zoom.max > 0) {
+//       zoomInput.min = capabilities.zoom.min;
+//       zoomInput.max = capabilities.zoom.max;
+//       zoomInput.value = capabilities.zoom.current;
+//       zoomInput.classList.remove('hidden');
+//     }
+//   }).catch(function(error) {
+//     console.log('getCapabilities() error: ', error);
+//   });
+// }
+
+////////////
+// QR functionality v2
+////////////
+
+var video = document.createElement("video");
+var canvasElement = document.getElementById("QRcanvas");
+var QRcanvas = canvasElement.getContext("2d");
+var loadingMessage = document.getElementById("loadingMessage");
+var outputContainer = document.getElementById("QRoutput");
+var outputMessage = document.getElementById("outputMessage");
+var outputData = document.getElementById("outputData");
+var foundCode = false;
+var data = [];
+
+function drawLine(begin, end, color) {
+  QRcanvas.beginPath();
+  QRcanvas.moveTo(begin.x, begin.y);
+  QRcanvas.lineTo(end.x, end.y);
+  QRcanvas.lineWidth = 4;
+  QRcanvas.strokeStyle = color;
+  QRcanvas.stroke();
+}
+
+// function launchQRVideo() {
+// // Use facingMode: environment to attemt to get the front camera on phones
+// navigator.mediaDevices
+//   .getUserMedia({ video: { facingMode: "environment" } })
+//   .then(function(stream) {
+//     video.srcObject = stream;
+//     video.setAttribute("playsinline", true); // required to tell iOS safari we don't want fullscreen
+//     video.play();
+//     requestAnimationFrame(tick);
+//   });
+// }
+
+function tick() {
+  loadingMessage.innerText = "⌛ Loading video...";
+  if (video.readyState === video.HAVE_ENOUGH_DATA) {
+    loadingMessage.hidden = true;
+    canvasElement.hidden = false;
+    outputContainer.hidden = false;
+
+    canvasElement.height = video.videoHeight;
+    canvasElement.width = video.videoWidth;
+    QRcanvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
+    var imageData = QRcanvas.getImageData(
+      0,
+      0,
+      canvasElement.width,
+      canvasElement.height
+    );
+    var code = jsQR(imageData.data, imageData.width, imageData.height, {
+      inversionAttempts: "dontInvert"
+    });
+    if (code) {
+      drawLine(
+        code.location.topLeftCorner,
+        code.location.topRightCorner,
+        "#FF3B58"
+      );
+      drawLine(
+        code.location.topRightCorner,
+        code.location.bottomRightCorner,
+        "#FF3B58"
+      );
+      drawLine(
+        code.location.bottomRightCorner,
+        code.location.bottomLeftCorner,
+        "#FF3B58"
+      );
+      drawLine(
+        code.location.bottomLeftCorner,
+        code.location.topLeftCorner,
+        "#FF3B58"
+      );
+      if (code.data.length > 0) {
+        data = code.data.split(",");
+        foundCode = true;
+        // $("#actionButtons").removeClass("invisible");
+        var parsed = "";
+        console.log(data[3]);
+        $("#outputMessage").html(data[3]);
+        $('#exampleModal').modal('show');
+        // outputMessage.hidden = false;
+        // outputData.parentElement.hidden = true;
+        // if (data[0] === "pit") {
+        //   // scouting_type, teamNum, weight, trench, ball, shooter,
+        //   // notes, created_time, created_by, drive_train, color_wheel, climb, switch
+        //   parsed += "<b><u>Pit Report</u></b> = ";
+        //   parsed += "<b>Collected:</b> " + decodeUnixTimestamp(data[7]) + " ";
+        //   parsed += "<b>Scout:</b> " + data[8] + " ";
+        //   parsed += "<b>Team:</b> " + data[1] + " ";
+        //   parsed += "<b>Weight:</b> " + data[2] + " ";
+        //   parsed += "<b>Climb:</b> " + decodeEndPosition(data[5]) + " ";
+        //   parsed += "<b>Ball Ability:</b> " + decodeBallAbility(data[3]) + " ";
+        //   parsed += "<b>Shooter Distance:</b> " + decodeShooterDistance(data[4]) + " ";
+        //   parsed += "<b>Drive Train:</b> " + decodeDriveTrain(data[6]) + " ";
+        //   parsed += "<b>Note:</b> " + data[9];
+        //   $("#outputMessage").html(parsed);
+        // } else if (data[0] === "match") {
+        //   parsed += "<b><u>Match Report</u></b> = ";
+        //   parsed += "<b>Collected:</b> " + decodeUnixTimestamp(data[14]) + " ";
+        //   parsed += "<b>Scout:</b> " + data[16] + " ";
+        //   parsed += "<b>Match:</b> " + data[1] + " ";
+        //   parsed += "<b>Team:</b> " + data[2] + " ";
+        //   parsed += "<b>High Auto:</b>" + data[3] + " ";
+        //   parsed += "<b>Low Auto:</b>" + data[5] + " ";
+        //   parsed += "<b>Missed(Auto):</b>" + (parseInt(data[4]) + parseInt(data[6])) + " ";
+        //   parsed += "<b>High Hub:</b>" + data[7] + " ";
+        //   parsed += "<b>Low Hub:</b>" + data[9] + " ";
+        //   parsed += "<b>Shots Missed:</b>" + (parseInt(data[8]) + parseInt(data[10])) + " ";
+        //   parsed += "<b>End Position:</b> " + decodeEndPosition(data[12]) + " ";
+        //   parsed += "<b>Aggression:</b> " + decodeAggression(data[13]) + " ";
+        //   parsed += "<b>Note:</b> " + data[15];
+        //   $("#outputMessage").html(parsed);
+        // } else {
+        //   $("#outputMessage").html(code.data);
+        // }
+      }
+    } else {
+      // outputMessage.hidden = false;
+      // outputData.parentElement.hidden = true;
+    }
+  }
+  if (!foundCode) requestAnimationFrame(tick);
+}
+
+
+function resetQR() {
+  foundCode = false;
+  $("#outputMessage").html("<i>Looking for a QR Code...</i>");
+  $("#actionButtons").addClass("invisible");
+  requestAnimationFrame(tick);
+}
+
+function closeQRCamera() {
+  if (video.srcObject) {
+    // video.srcObject.stop();
+    video.srcObject.getTracks().forEach(track => {
+      track.stop();
+    });
+  }
+}
+
+
+$("#ignoreButton").click(e => {
+  console.log("ignoring");
+  e.preventDefault();
+  resetQR();
+});
+
+$("#insertButton").click(e => {
+  console.log("WE WANT TO KEEP THIS.");
+  e.preventDefault();
+  outputContainer.innerHTML += "<br>" + data[3];
+  resetQR();
+});
+  // if (data[0] === "pit") {
+  //   $.ajax({
+  //     // all URLs are relative to http://localhost:3000/
+  //     url: "/pit-report/",
+  //     type: "POST", // <-- this is POST, not GET
+  //     data: {
+  //       num: data[1],
+  //       weight: data[2],
+  //       climb: data[5],
+  //       ball_ability: data[3],
+  //       shooter_distance: data[4],
+  //       drive_train: data[6],
+  //       notes: decodeNote(data[9]),
+  //       created_time: data[7],
+  //       scout: data[8]
+  //     },
+  //     success: data => {
+  //       console.log("data added!");
+  //       $("#outputMessage").html(
+  //         "<b>Success!</b> <i>Looking for another QR Code ...</i>"
+  //       );
+  //     }
+  //   });
+
+  //   $.ajax({
+  //     // all URLs are relative to http://localhost:3000/
+  //     url: "/ranks/",
+  //     type: "POST", // <-- this is POST, not GET
+  //     data: {
+  //       event: "2022necmp1",
+  //       teamNum: data[1],
+  //       rank: 99
+  //     },
+  //     success: data => {
+  //       console.log("team added to event db");
+  //       resetScreen();
+  //     }
+  //   });
+    
+  // } else if (data[0] === "match") {
+  //   console.log(data[11])
+  //   $.ajax({
+  //     // all URLs are relative to http://localhost:3000/
+  //     url: "/match-report/",
+  //     type: "POST", // <-- this is POST, not GET
+  //     data: {
+  //       created_time: data[14],
+  //       scout: data[16],
+  //       match_num: data[1],
+  //       team_num: data[2],
+  //       HHA: data[3],
+  //       HMA: data[4],
+  //       LHA: data[5],
+  //       LMA: data[6],
+  //       HHT: data[7],
+  //       HMT: data[8],
+  //       LHT: data[9],
+  //       LMT: data[10],
+  //       coords: data[11],
+  //       end_position: data[12],
+  //       aggression: data[13],
+  //       notes: data[15]
+  //     },
+  //     success: data => {
+  //       resetScreen();
+  //       $("#outputMessage").html(
+  //         "<b>Success!</b> <i>Looking for another QR Code ...</i>"
+  //       );
+  //     }
+  //   });
+  // } else {
+  //   resetScreen();
+  // }
+// });
