@@ -244,6 +244,7 @@
   ];
 
 let camera = true
+let teamsInfo = "<tr style='border-top: 2px solid black'><td>"
 
 let numOfMatches = 0;
 let highScore = 0;
@@ -361,7 +362,7 @@ function setup() {
 }
 
 function draw() {
-  console.log("please do smth")
+  // console.log("please do smth")
   noStroke()
   fill(255);
   rect(0,0,50,50)
@@ -938,17 +939,7 @@ $(document).ready(() =>{
     $("#captureQrDataPage").addClass("d-block").removeClass("d-none");
     $("#homePage").addClass("d-none").removeClass("d-block");
     $("#captureTitle").html("Capture data from QR:");
-        // Get a list of available media input (and output) devices
-    // then get a MediaStream for the currently selected input device
-    // Use facingMode: environment to attemt to get the front camera on phones
-navigator.mediaDevices
-.getUserMedia({ video: { facingMode: "environment" } })
-.then(function(stream) {
-  video.srcObject = stream;
-  video.setAttribute("playsinline", true); // required to tell iOS safari we don't want fullscreen
-  video.play();
-  requestAnimationFrame(tick);
-});
+    startCamera()
 return false;
   });
 
@@ -993,9 +984,11 @@ return false;
   $("#toggleCamera").click((e) => {
     if (camera) {
       $("#QRcanvas").addClass("d-none").removeClass("d-block");
+      closeQRCamera()
       $("#cameraMessage").html("Open Camera")
     } else {
       $("#QRcanvas").addClass("d-block").removeClass("d-none");
+      startCamera()
       $("#cameraMessage").html("Close Camera")
     }
     camera = !camera
@@ -1203,7 +1196,24 @@ return false;
     return false;
   });
 
+  $(".delete-button").click(function() {
+    // Get the parent row of the clicked button
+    var row = $(this).closest("tr");
+  
+    // Remove the row from the table
+    row.remove();
+  });
 
+  $("#clearTableButton").click((e) => {
+    console.log("row should be removed now...")
+    $("#avgsDataTable tbody").append("")
+    return false;
+  });
+  $(".removeRow").click((e) => {
+    console.log("row should be removed now...")
+    $("#avgsDataTable").html(" ")
+    return false;
+  });
 
   // define a generic Ajax error handler:
   // http://api.jquery.com/ajaxerror/
@@ -1510,18 +1520,19 @@ function tick() {
       }
     } else {
       // outputMessage.hidden = false;
-      // outputData.parentElement.hidden = true;
+      // outputData.parentElement.hidden = true; 
     }
   }
   if (!foundCode) requestAnimationFrame(tick);
 }
-
 
 function resetQR() {
   foundCode = false;
   $("#outputMessage").html("<i>Looking for a QR Code...</i>");
   $("#actionButtons").addClass("invisible");
   requestAnimationFrame(tick);
+  closeQRCamera()
+  startCamera()
 }
 
 function closeQRCamera() {
@@ -1533,18 +1544,77 @@ function closeQRCamera() {
   }
 }
 
-
 $("#ignoreButton").click(e => {
   console.log("ignoring");
   e.preventDefault();
   resetQR();
 });
 
+
+
 $("#insertButton").click(e => {
-  console.log("WE WANT TO KEEP THIS.");
+  // console.log("WE WANT TO KEEP THIS.");
   e.preventDefault();
   resetQR();
-  outputContainer.innerHTML += "<br>" + data[0];
-  resetQR();
+  console.log(data)
+  // outputContainer.innerHTML += makeRow(data[0]);
+  $("#avgsDataTable tbody").append(makeRow(data[0]));
+  $("#actionButtons").removeClass("invisible")
 });
 
+
+function deleteRow(button) {
+  // Get the table row that contains the button
+  var row = button.parentNode.parentNode;
+  // Remove the row from the table
+  row.parentNode.removeChild(row);
+}
+
+function makeRow(data) {
+  let teamNum = data.substring(0,data.indexOf("*"))
+  var newRow = ""
+  newRow += 
+      "<tr style='border-top: 2px solid black'><td>" +
+      data.substring(0,data.indexOf("*")) + "</td><td>"
+      data = data.substring(data.indexOf("*")+1)
+    newRow += 
+      data.substring(0,data.indexOf("*")) + "</td><td>"
+      data = data.substring(data.indexOf("*")+1)
+    newRow += 
+      data.substring(0,data.indexOf("*")) + "</td><td>"
+      data = data.substring(data.indexOf("*")+1)
+    newRow += 
+      data.substring(0,data.indexOf("*")) + "</td><td>"
+      data = data.substring(data.indexOf("*")+1)
+    newRow += 
+      data.substring(0,data.indexOf("*")) + "</td><td>"
+      data = data.substring(data.indexOf("*")+1)
+    newRow += 
+      data.substring(0,data.indexOf("*")) + "</td><td>"
+      data = data.substring(data.indexOf("*")+1)
+    newRow += 
+      data.substring(0,data.indexOf("*")) + "</td><td>"
+      data = data.substring(data.indexOf("*")+1)
+    newRow += 
+      data + "</td><td>"
+      data = data.substring(data.indexOf("*")+1)
+    newRow += "<button id='" + teamNum + "' class='btn btn-outline-danger btn-block mt-3 mb-3 delete-button p-1' onClick='deleteRow(this)'>X</button>"  
+    newRow += "</td></tr>";
+    console.log(newRow)
+    return newRow
+}
+
+function startCamera() {
+          // Get a list of available media input (and output) devices
+    // then get a MediaStream for the currently selected input device
+    // Use facingMode: environment to attemt to get the front camera on phones
+navigator.mediaDevices
+.getUserMedia({ video: { facingMode: "environment" } })
+.then(function(stream) {
+  video.srcObject = stream;
+  video.setAttribute("playsinline", true); // required to tell iOS safari we don't want fullscreen
+  video.play();
+  requestAnimationFrame(tick);
+});
+
+}
