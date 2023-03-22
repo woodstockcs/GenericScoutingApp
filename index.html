@@ -566,10 +566,35 @@
                  >
                    Go Home
                  </button>
-             <div id="QRoutput" hidden>
-               WHAT MESSAGE HERE
+             <div id="QRoutput" >
+               <table
+            id="avgsDataTable"
+            class="table table-striped table-bordered"
+            style="font-size: 0.8rem"
+          >
+            <thead>
+              <tr>
+                <th>Team</th>
+                <th>Cones</th>
+                <th>Cubes</th>
+                <th>Top</th>
+                <th>Mid</th>
+                <th>Bottom</th>
+                <th>Drops</th>
+                <th>Charge</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
                <div id="actionButtons" class="invisible">
-                 
+                <button
+                id="clearTableButton"
+                type="submit"
+                class="btn btn-success btn-block mt-3 mb-3 p-2"
+              >
+                Clear data
+              </button>
            
                </div>
              </div>
