@@ -1,161 +1,165 @@
   // TODO:
   // make/fix high score counter(turn off for now)
-  // put color in database
 
   var teamNames = [
     // { num: 58, name: "The Riot Crew" },
-   // { num: 61, name: "The Intimidators" },
+    // { num: 61, name: "The Intimidators" },
     // { num: 69, name: "HYPER" },
     // { num: 78, name: "AIR STRIKE" },
     // { num: 88, name: "TJ2" },
-    { num: 95, name: "Grasshoppers" },
-    // { num: 97, name: "Bionic Beef" },
-    // { num: 125, name: "NUTRONs" },
- //   { num: 126, name: "Gael Force" },
-     { num: 131, name: "Chaos" },
+    // { num: 95, name: "Grasshoppers" },
+    { num: 97, name: "Bionic Beef" },
+    { num: 125, name: "NUTRONs" },
+    // { num: 126, name: "Gael Force" },
+    // { num: 131, name: "Chaos" },
     // { num: 133, name: "B.E.R.T." },
-     { num: 138, name: "Entropy" },
+    // { num: 138, name: "Entropy" },
      { num: 151, name: "Tough Techs" },
     // { num: 155, name: "The TechnoNuts" },
     // { num: 157, name: "AZTECHS" },
- //   { num: 166, name: "Chop Shop" },
- //   { num: 172, name: "Northern Force" },
+    //  { num: 166, name: "Chop Shop" },
+    //  { num: 172, name: "Northern Force" },
     // { num: 175, name: "Buzz Robotics "},
-//    { num: 176, name: "Aces High" },
+    //  { num: 176, name: "Aces High" },
     // { num: 177, name: "Bobcat Robotics" },
     //  { num: 178, name: "The 2nd Law Enforcers" },
     //  { num: 181, name: "Birds of Prey" },
-    //  { num: 190, name: "Gompei and the H.E.R.D." },
-//    { num: 195, name: "CyberKnights" },
- //   { num: 228, name: "GUS Robotics" },
-    // { num: 230, name: "Gaelhawks" },
+     { num: 190, name: "Gompei and the H.E.R.D." },
+    // { num: 195, name: "CyberKnights" },
+    // { num: 228, name: "GUS Robotics" },
+    { num: 230, name: "Gaelhawks" },
     // { num: 236, name: "Techno-Ticks" },
-//    { num: 237, name: "Black Magic Robotics" },
-    { num: 238, name: "Crusaders" },
+    // { num: 237, name: "Black Magic Robotics" },
+    // { num: 238, name: "Crusaders" },
+    // { num: 246, name: "Lobstah Bots" },
     // { num: 319, name: "Big Bad Bob" },
-    { num: 467, name: "Colonials" },
-     { num: 501, name: "Team 501 - The PowerKnights Robotics Team" },
- //   { num: 509, name: "Red Storm" },
-//    { num: 558, name: "Elm City Robo Squad" },
+    // { num: 467, name: "Colonials" },
+    // { num: 501, name: "Team 501 - The PowerKnights Robotics Team" },
+    // { num: 509, name: "Red Storm" },
+    // { num: 558, name: "Elm City Robo Squad" },
     // { num: 571, name: "Team Paragon" },
-    { num: 663, name: "Robonauts" },
+    // { num: 663, name: "Robonauts" },
     // { num: 716, name: "Who’sCTEKS" },
-     { num: 811, name: "Wild Cards" },
-    //  { num: 839, name: "Rosie Robotics" },
-    //  { num: 971, name: "Spartan Robotics" },
-//    { num: 1027, name: "Mechatronic Maniacs" },
-      { num: 1058, name: "PVC Pirates" },
+    // { num: 811, name: "Wild Cards" },
+    // { num: 839, name: "Rosie Robotics" },
+    // { num: 971, name: "Spartan Robotics" },
+    // { num: 1027, name: "Mechatronic Maniacs" },
+    // { num: 1058, name: "PVC Pirates" },
     // { num: 1071, name: "Team MAX" },
-    { num: 1073, name: "The Force Team" },
-//    { num: 1099, name: "DiscoTechs" },
+    // { num: 1073, name: "The Force Team" },
+    // { num: 1099, name: "DiscoTechs" },
     // { num: 1153, name: "Timberwolves" },
-{ num: 1247, name: "Blood, Sweat, and Gears" },
-{ num: 1277, name: "The Robotomies" },
-    { num: 1307, name: "Robosaints" },
+    // { num: 1247, name: "Blood, Sweat, and Gears" },
+    // { num: 1277, name: "The Robotomies" },
+    // { num: 1307, name: "Robosaints" },
     // { num: 1474, name: "Titans" },
-      { num: 1512, name: "The Big Red" },
+    // { num: 1512, name: "The Big Red" },
     // { num: 1517, name: "AMP'D UP" },
-    //  { num: 1519, name: "Mechanical Mayhem" },
-    //  { num: 1699, name: "Robocats" },
+    // { num: 1519, name: "Mechanical Mayhem" },
+    // { num: 1699, name: "Robocats" },
     // { num: 1729, name: "Inconceivable" },
     // { num: 1740, name: "Cyber Colonels" },
-    // { num: 1757, name: "Wolverines" },
-    // { num: 1761, name: "STEAMpunk Tigers" },
-//    { num: 1768, name: "Nashoba Robotics" },
-     { num: 1831, name: "Screaming Eagles" },
-     { num: 1922, name: "Oz-Ram" },
+    { num: 1757, name: "Wolverines" },
+    { num: 1761, name: "STEAMpunk Tigers" },
+    // { num: 1768, name: "Nashoba Robotics" },
+    // { num: 1831, name: "Screaming Eagles" },
+    { num: 1922, name: "Oz-Ram" },
     // { num: 1965, name: "Firebirds" },
-  //  { num: 1991, name: "Dragons" },
- //   { num: 2067, name: "Apple Pi" },
-    // { num: 2084, name: "Robots by the C" },
+    // { num: 1991, name: "Dragons" },
+    { num: 2067, name: "Apple Pi" },
+    { num: 2084, name: "Robots by the C" },
     // { num: 2168, name: "Aluminum Falcons" },
     // { num: 2262, name: "Robo-Panthers" },
     // { num: 2342, name: "Team Phoenix" },
     // { num: 2370, name: "IBOTS" },
     // { num: 2423, name: "The KwarQs" },
     // { num: 2523, name: "Tech Storm" },
-//    { num: 2648, name: "Infinite Loop" },
+    // { num: 2648, name: "Infinite Loop" },
     // { num: 2712, name: "Power Surge 4-H Robotics" },
-//    { num: 2713, name: "iRaiders" },
-{ num: 2876, name: "Devilbotz" },
-//    { num: 2877, name: "LigerBots" },
-  //  { num: 3146, name: "GRANBY GRUNTS" },
- //   { num: 3182, name: "Athena’s Warriors" },
+    { num: 2713, name: "iRaiders" },
+    { num: 2876, name: "Devilbotz" },
+    { num: 2877, name: "LigerBots" },
+    // { num: 3146, name: "GRANBY GRUNTS" },
+    // { num: 3182, name: "Athena’s Warriors" },
     // { num: 3205, name: "Patriots" },
     // { num: 3323, name: "Potential Energy" },
-{ num: 3451, name: "The ANOMALY" },
-//    { num: 3461, name: "Operating PEACCE Robotics" },
+    // { num: 3451, name: "The ANOMALY" },
+    { num: 3461, name: "Operating PEACCE Robotics" },
     // { num: 3464, name: "Sim-City" },
-     { num: 3467, name: "Windham Windup" },
-     { num: 3566, name: "Gone Fishin’" },
-{ num: 3597, name: "Robo-Rangers" },
+    { num: 3467, name: "Windham Windup" },
+    // { num: 3566, name: "Gone Fishin’" },
+    // { num: 3597, name: "Robo-Rangers" },
     // { num: 3609, name: "Duct Tape Dragons" },
     // { num: 3623, name: "TerrorBots" },
     // { num: 3654, name: "TechTiger" },
-     { num: 4041, name: "Iron Tigers" },
+    { num: 4041, name: "Iron Tigers" },
     // { num: 4048, name: "Redshift" },
     // { num: 4097, name: "Devilbots" },
-    // { num: 4176, name: "Iron Tigers" },
-    // { num: 4311, name: "Swampscott Currents" },
-     { num: 4564, name: "Orange Chaos" },
-     { num: 4761, name: "The Roborockets" },
+    { num: 4169, name: "Warrior Robotics" },
+    { num: 4176, name: "Iron Tigers" },
+    { num: 4311, name: "Swampscott Currents" },
+    // { num: 4564, name: "Orange Chaos" },
+    // { num: 4761, name: "The Roborockets" },
     // { num: 4905, name: "Andromeda One" },
-    // { num: 4909, name: "Bionics" },
-{ num: 4925, name: "The Resistance" },
+    { num: 4909, name: "Bionics" },
+    // { num: 4925, name: "The Resistance" },
     // { num: 4929, name: "Maroon Monsoon" },
-    // { num: 5000, name: "Hammerheads" },
-//    { num: 5112, name: "The Gongoliers" },
-    // { num: 5347, name: "Gryphons" },
+    { num: 5000, name: "Hammerheads" },
+    // { num: 5112, name: "The Gongoliers" },
+    { num: 5347, name: "Gryphons" },
     // { num: 5422, name: "Stormgears FRC" },
-     { num: 5491, name: "Hard Reset" },
-//    { num: 5494, name: "BizarBots Robotics" },
-    // { num: 5563, name: "Phalanx" },
+    { num: 5459, name: "Ipswitch TIGERS" },
+    // { num: 5491, name: "Hard Reset" },
+    { num: 5494, name: "BizarBots Robotics" },
+    { num: 5563, name: "Phalanx" },
     // { num: 5633, name: "Hyde Mecha Wolves" },
     { num: 5687, name: "The Outliers" },
-    // { num: 5735, name: "Control Freaks" },
+    { num: 5735, name: "Control Freaks" },
     // { num: 5752, name: "Bevbotics" },
     // { num: 5813, name: "Morpheus" },
-  //  { num: 5846, name: "SouthCoast Corsairs" },
-     { num: 5902, name: "The Wire Clippers" },
-//    { num: 6153, name: "The Blue Crew" },
-     { num: 6161, name: "Equilibrium" },
-  //  { num: 6201, name: "The Highlanders" },
+    // { num: 5846, name: "SouthCoast Corsairs" },
+    // { num: 5902, name: "The Wire Clippers" },
+    // { num: 6153, name: "The Blue Crew" },
+    // { num: 6161, name: "Equilibrium" },
+    { num: 6201, name: "The Highlanders" },
     // { num: 6328, name: "Mechanical Advantage" },
-//    { num: 6329, name: "The Bucks’ Wrath" },
+    // { num: 6329, name: "The Bucks’ Wrath" },
     // { num: 6367, name: "The ElectroLights" },
     // { num: 6529, name: "Beantown Blitz" },
     // { num: 6620, name: "The Northmengineers" },
-    { num: 6690, name: "MV roboPride" },
+    // { num: 6690, name: "MV roboPride" },
     // { num: 6691, name: "Torque" },
     // { num: 6723, name: "Mechanical Mounties" },
-{ num: 6762, name: "Oscats" },
-     { num: 6763, name: "FUSION" },
+    { num: 6731, name: "Record Robotics" },
+    // { num: 6762, name: "Oscats" },
+    // { num: 6763, name: "FUSION" },
     { num: 6933, name: "Archytas" },
     // { num: 7127, name: "LongMetal" },
     // { num: 7133, name: "Steam Makers" },
-  //  { num: 7153, name: "Aetos Dios (Eagles of Zeus)" },
-{ num: 7314, name: "Tornadoes" },
+    // { num: 7153, name: "Aetos Dios (Eagles of Zeus)" },
+    // { num: 7314, name: "Tornadoes" },
     // { num: 7407, name: "Wired Boars" },
     // { num: 7416, name: "Northern Horizons" },
     // { num: 7674, name: "RaiderBots" },
-    // { num: 7822, name: "General Robotics" },
+    { num: 7795, name: "Norse Code" },
+    { num: 7822, name: "General Robotics" },
     // { num: 7907, name: "Spartan Robotics" },
-     { num: 7913, name: "‘Bear'ly Functioning" },
-    // { num: 8013, name: "Boston Lions" },
+    // { num: 7913, name: "‘Bear'ly Functioning" },
+    { num: 8013, name: "Boston Lions" },
     { num: 8023, name: "LRTC Androscoggin Argonauts" },
-//    { num: 8046, name: "Laker Bots" },
+    // { num: 8046, name: "Laker Bots" },
     // { num: 8085, name: "MOJO" },
     // { num: 8544, name: "Reinforcement" },
+    { num: 8567, name: "Team Ultraviolet" },
     // { num: 8604, name: "Alpha Centauri" },
-    // { num: 8626, name: "Cyber Sailors of Scituate MA" },
-{ num: 8708, name: "Ov3r1y K0mp13x" },
-    // { num: 8709, name: "Pathfinder Techs" },
-     { num: 8724, name: "Mayhem" },
+    { num: 8626, name: "Cyber Sailors" },
+    { num: 8708, name: "Ov3r1y K0mp13x" },
+    { num: 8709, name: "Pathfinder Techs" },
+    // { num: 8724, name: "Mayhem" },
     // { num: 8883, name: "Green Mountain Gears" },
-//    { num: 8889, name: "Project W" },
-{ num: 9056, name: "Kents Hill Huskies 9056" },
-//    { num: 99999, name: "... OTHER ..." },
-
+    // { num: 8889, name: "Project W" },
+    // { num: 9056, name: "Kents Hill Huskies 9056" },
+    { num: 99999, name: "... OTHER ..." },
   ]
 
   let schedule = [
@@ -239,6 +243,8 @@
 {"matchNum":78,"teams":[811,6933,4761,1512,4925,8708]}
   ];
 
+let camera = true
+
 let numOfMatches = 0;
 let highScore = 0;
 let hsTeam = "";
@@ -254,7 +260,7 @@ let chargeVal = 0
 let Alliance = {
   BLUE : true,
   RED : false
-}
+  }
 t = Alliance.BLUE
 
 let teamColor
@@ -969,13 +975,30 @@ return false;
     assignIndex = defineAssignment(assignment);
     assignIndex > 2 ? t = true : t = false
     // console.log(assignment)
-    $("#titleAssign").html("You're assigned " + assignment);
+    if (assignment != "") {
+      $("#titleAssign").html("You're assigned " + assignment);
+    } else {
+      $("#titleAssign").html("You have not been assigned a driver station");
+    }
+    
     return false;
   });
 
   $("#pitLink").click((e) => {
     $("#pitReportPage").addClass("d-block").removeClass("d-none");
     $("#homePage").addClass("d-none").removeClass("d-block");
+    return false;
+  });
+
+  $("#toggleCamera").click((e) => {
+    if (camera) {
+      $("#QRcanvas").addClass("d-none").removeClass("d-block");
+      $("#cameraMessage").html("Open Camera")
+    } else {
+      $("#QRcanvas").addClass("d-block").removeClass("d-none");
+      $("#cameraMessage").html("Close Camera")
+    }
+    camera = !camera
     return false;
   });
 
@@ -1478,44 +1501,12 @@ function tick() {
         foundCode = true;
         // $("#actionButtons").removeClass("invisible");
         var parsed = "";
-        console.log(data[3]);
-        $("#outputMessage").html(data[3]);
+        console.log(data[0]);
+        $("#outputMessage").html(data[0]);
         $('#exampleModal').modal('show');
-        // outputMessage.hidden = false;
-        // outputData.parentElement.hidden = true;
-        // if (data[0] === "pit") {
-        //   // scouting_type, teamNum, weight, trench, ball, shooter,
-        //   // notes, created_time, created_by, drive_train, color_wheel, climb, switch
-        //   parsed += "<b><u>Pit Report</u></b> = ";
-        //   parsed += "<b>Collected:</b> " + decodeUnixTimestamp(data[7]) + " ";
-        //   parsed += "<b>Scout:</b> " + data[8] + " ";
-        //   parsed += "<b>Team:</b> " + data[1] + " ";
-        //   parsed += "<b>Weight:</b> " + data[2] + " ";
-        //   parsed += "<b>Climb:</b> " + decodeEndPosition(data[5]) + " ";
-        //   parsed += "<b>Ball Ability:</b> " + decodeBallAbility(data[3]) + " ";
-        //   parsed += "<b>Shooter Distance:</b> " + decodeShooterDistance(data[4]) + " ";
-        //   parsed += "<b>Drive Train:</b> " + decodeDriveTrain(data[6]) + " ";
-        //   parsed += "<b>Note:</b> " + data[9];
-        //   $("#outputMessage").html(parsed);
-        // } else if (data[0] === "match") {
-        //   parsed += "<b><u>Match Report</u></b> = ";
-        //   parsed += "<b>Collected:</b> " + decodeUnixTimestamp(data[14]) + " ";
-        //   parsed += "<b>Scout:</b> " + data[16] + " ";
-        //   parsed += "<b>Match:</b> " + data[1] + " ";
-        //   parsed += "<b>Team:</b> " + data[2] + " ";
-        //   parsed += "<b>High Auto:</b>" + data[3] + " ";
-        //   parsed += "<b>Low Auto:</b>" + data[5] + " ";
-        //   parsed += "<b>Missed(Auto):</b>" + (parseInt(data[4]) + parseInt(data[6])) + " ";
-        //   parsed += "<b>High Hub:</b>" + data[7] + " ";
-        //   parsed += "<b>Low Hub:</b>" + data[9] + " ";
-        //   parsed += "<b>Shots Missed:</b>" + (parseInt(data[8]) + parseInt(data[10])) + " ";
-        //   parsed += "<b>End Position:</b> " + decodeEndPosition(data[12]) + " ";
-        //   parsed += "<b>Aggression:</b> " + decodeAggression(data[13]) + " ";
-        //   parsed += "<b>Note:</b> " + data[15];
-        //   $("#outputMessage").html(parsed);
-        // } else {
-        //   $("#outputMessage").html(code.data);
-        // }
+
+        $("#outputMessage").html(code.data);
+
       }
     } else {
       // outputMessage.hidden = false;
@@ -1552,80 +1543,8 @@ $("#ignoreButton").click(e => {
 $("#insertButton").click(e => {
   console.log("WE WANT TO KEEP THIS.");
   e.preventDefault();
-  outputContainer.innerHTML += "<br>" + data[3];
+  resetQR();
+  outputContainer.innerHTML += "<br>" + data[0];
   resetQR();
 });
-  // if (data[0] === "pit") {
-  //   $.ajax({
-  //     // all URLs are relative to http://localhost:3000/
-  //     url: "/pit-report/",
-  //     type: "POST", // <-- this is POST, not GET
-  //     data: {
-  //       num: data[1],
-  //       weight: data[2],
-  //       climb: data[5],
-  //       ball_ability: data[3],
-  //       shooter_distance: data[4],
-  //       drive_train: data[6],
-  //       notes: decodeNote(data[9]),
-  //       created_time: data[7],
-  //       scout: data[8]
-  //     },
-  //     success: data => {
-  //       console.log("data added!");
-  //       $("#outputMessage").html(
-  //         "<b>Success!</b> <i>Looking for another QR Code ...</i>"
-  //       );
-  //     }
-  //   });
 
-  //   $.ajax({
-  //     // all URLs are relative to http://localhost:3000/
-  //     url: "/ranks/",
-  //     type: "POST", // <-- this is POST, not GET
-  //     data: {
-  //       event: "2022necmp1",
-  //       teamNum: data[1],
-  //       rank: 99
-  //     },
-  //     success: data => {
-  //       console.log("team added to event db");
-  //       resetScreen();
-  //     }
-  //   });
-    
-  // } else if (data[0] === "match") {
-  //   console.log(data[11])
-  //   $.ajax({
-  //     // all URLs are relative to http://localhost:3000/
-  //     url: "/match-report/",
-  //     type: "POST", // <-- this is POST, not GET
-  //     data: {
-  //       created_time: data[14],
-  //       scout: data[16],
-  //       match_num: data[1],
-  //       team_num: data[2],
-  //       HHA: data[3],
-  //       HMA: data[4],
-  //       LHA: data[5],
-  //       LMA: data[6],
-  //       HHT: data[7],
-  //       HMT: data[8],
-  //       LHT: data[9],
-  //       LMT: data[10],
-  //       coords: data[11],
-  //       end_position: data[12],
-  //       aggression: data[13],
-  //       notes: data[15]
-  //     },
-  //     success: data => {
-  //       resetScreen();
-  //       $("#outputMessage").html(
-  //         "<b>Success!</b> <i>Looking for another QR Code ...</i>"
-  //       );
-  //     }
-  //   });
-  // } else {
-  //   resetScreen();
-  // }
-// });
