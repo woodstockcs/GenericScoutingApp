@@ -365,11 +365,11 @@ function draw() {
   // console.log("please do smth")
   noStroke()
   fill(255);
-  rect(0,0,50,50)
-  fill(0)
-  textSize(14)
-  text(mouseX,25,25);
-  text(mouseY,25,35);
+  // rect(0,0,50,50)
+  // fill(0)
+  // textSize(14)
+  // text(mouseX,25,25);
+  // text(mouseY,25,35);
   
   field();
   push()
@@ -940,6 +940,7 @@ $(document).ready(() =>{
     $("#homePage").addClass("d-none").removeClass("d-block");
     $("#captureTitle").html("Capture data from QR:");
     startCamera()
+    field()
 return false;
   });
 
@@ -1618,3 +1619,300 @@ navigator.mediaDevices
 });
 
 }
+
+// p5 section part 2 (fix this)
+// instance mode
+
+let lines = [];
+let currentLine = [];
+let drawing = true;
+let undoStack = [];
+
+let drawButton, eraseButton, undoButton;
+let drawButtonColor, eraseButtonColor, undoButtonColor;
+let colorPicker;
+
+let b_charge = 0
+let r_charge = 0
+let cnv
+
+
+
+
+const coachMap = (p) => {
+  let lines = [];
+let currentLine = [];
+let drawing = true;
+let undoStack = [];
+
+let drawButton, eraseButton, undoButton;
+let drawButtonColor, eraseButtonColor, undoButtonColor;
+let colorPicker;
+
+let b_charge = 0
+let r_charge = 0
+let cnv
+
+  p.setup = () => {
+    let coachCanvas = p.createCanvas(p.windowWidth, p.windowHeight);
+    coachCanvas.parent("coachCanvas")
+    p.background(255);
+
+    drawButtonColor = p.color(0, 255, 0);
+    eraseButtonColor = p.color(255, 0, 0);
+    undoButtonColor = p.color(0, 0, 255);
+
+    colorPicker = p.createColorPicker(p.color(0, 0, 0));
+    colorPicker.position(10, 130);
+  };
+
+  p.draw = () => {
+    p.background(255);
+    field();
+    p.noStroke()
+
+    for (let line of lines) {
+      p.stroke(line.color);
+      p.strokeWeight(10);
+      p.noFill();
+      p.beginShape();
+      for (let point of line.points) {
+        p.vertex(point.x, point.y);
+      }
+      p.endShape();
+    }
+
+    // Draw buttons
+    p.stroke(255)
+    p.strokeWeight(1)
+    p.fill(drawing ? drawButtonColor : 200);
+    p.rect(235, 10, 80, 30);
+    p.fill(!drawing ? eraseButtonColor : 200);
+    p.rect(335, 10, 80, 30);
+    p.fill(undoButtonColor);
+    p.rect(435, 10, 80, 30);
+  
+    // Draw button labels
+    p.fill(255);
+    p.textSize(16);
+    p.textAlign(CENTER, CENTER);
+    p.text('Draw', 275, 25);
+    p.text('Erase', 375, 25);
+    p.text('Undo', 475, 25);
+  };
+
+  p.touchStarted = () => {
+    if (p.touches.length > 0 && p.touches[0].x > 100 && p.touches[0].y > 100) {
+      if (drawing) {
+        currentLine = {
+          points: [],
+          color: colorPicker.color(),
+        };
+        lines.push(currentLine);
+      } else {
+        eraseLine(p.touches[0].x, p.touches[0].y);
+      }
+    } else {
+      checkButtons();
+    }
+  };
+
+  p.touchMoved = () => {
+    if (p.touches.length > 0 && p.touches[0].x > 100 && p.touches[0].y > 100 && drawing) {
+      if (currentLine) {
+        currentLine.points.push(p.createVector(p.touches[0].x, p.touches[0].y));
+      }
+    }
+  };
+
+  p.touchEnded = () => {
+    currentLine = null;
+  };
+
+  function eraseLine(touchX, touchY) {
+    for (let i = lines.length - 1; i >= 0; i--) {
+      let line = lines[i];
+      for (let point of line.points) {
+        let d = p.dist(touchX, touchY, point.x, point.y);
+        if (d < 10) {
+          undoStack.push(lines.splice(i, 1)[0]);
+          return;
+        }
+      }
+    }
+  }
+
+  function checkButtons() {
+    if (p.touches.length > 0) {
+      let touchX = p.touches[0].x;
+      let touchY = p.touches[0].y;
+
+       if (touchX > 10 && touchX < 90 && touchY > 10 && touchY < 40) {
+      drawing = true;
+    } else if (touchX > 10 && touchX < 90 && touchY > 50 && touchY < 80) {
+      drawing = false;
+    } else if (touchX > 10 && touchX < 90 && touchY > 90 && touchY < 120) {
+        undo();
+      }
+    }
+  }
+
+  function undo() {
+    if (lines.length > 0) {
+      undoStack.push(lines.pop());
+    }
+  }
+
+  function field() {
+    // noStroke();
+    // fill(255);
+    // rect(400, 200, 800, 700);
+    
+    // arena
+    p.stroke(0);
+    p.strokeWeight(4);
+    p.fill(220);
+    p.rectMode(CORNER)
+    p.rect(50,50,652,316)
+  
+    p.strokeWeight(2);
+    p.line(376, 50, 376, 366);
+    
+    // blue community
+    p.stroke(0,0,200)
+    p.line(104,150,104,366)
+    
+    p.line(196,150,196,209)
+    p.line(196,209,256,209)
+    p.line(256,209,256,366)
+    b_charging_cell(b_charge)
+    
+    // scoring zones
+    // blue
+    scoring_zone(52)
+    //red
+    scoring_zone(660)
+    
+    // red community
+    p.strokeWeight(2)
+    p.stroke(200,0,0)
+    p.line(646,150,646,366)
+    
+    p.line(553,150,553,209)
+    p.line(553,209,493,209)
+    p.line(493,209,493,366)
+    r_charging_cell(r_charge)
+    
+    //red loading zones
+    p.strokeWeight(2)
+    p.stroke(200,0,0)
+    p.line(315,50,315,100)
+    p.line(196,100,196,150)
+    p.line(315,100,196,100)
+    
+    //blue loading zone
+    p.strokeWeight(2)
+    p.stroke(0,0,200)
+    p.line(437,50,437,100)
+    p.line(553,100,553,150)
+    p.line(437,100,553,100)
+    
+    
+    // divider walls
+    p.strokeWeight(6)
+    p.stroke(0)
+    p.line(51,150,195,150)
+    p.line(554,150,700,150)
+  
+  }
+  
+  function b_charging_cell(a){
+    p.noStroke()
+    // a == 0 for balanced
+    // a == 1 for tilted toward driver station
+    // a == 2 for tilted away from station
+    
+    p.fill(120)
+    p.rect(184,209,72,96)
+    p.fill(180)
+    p.rect(196,209,48,96)
+    if (a > 0){
+      a == 1 ? p.rect(184,209,12,96) : p.rect(244,209,12,96)
+    }
+  }
+  
+  function r_charging_cell(a){
+    p.noStroke()
+    // a == 0 for balanced
+    // a == 1 for tilted toward driver station
+    // a == 2 for tilted away from station
+    
+    p.fill(120)
+    p.rect(493,209,72,96)
+    p.fill(180)
+    p.rect(505,209,48,96)
+    if (a > 0){
+      a == 1 ? p.rect(553,209,12,96) : p.rect(493,209,12,96)
+    }
+  }
+  
+  function scoring_zone(x) {
+    let color = true
+    x < 60 ? color = true : color = false
+    
+    // color cells
+    let w = 40
+    p.noStroke()
+    color? p.fill(0,0,151) : p.fill(151,0,0)
+    p.rect(x,150,w,33)
+    p.rect(x,201,w,24)
+    p.rect(x,289,w,24)
+    p.rect(x,331,w,33)
+    
+    // cooperatition cell
+    p.fill(40)
+    p.noStroke()
+    p.rect(x,225,w,23)
+    p.rect(x,266,w,23)
+    
+    // boz scoring zones
+    p.fill(130)
+    p.strokeWeight(2)
+    p.stroke(167)
+    p.rect(x,183,20,18)
+    p.rect(x+20,183,20,18)
+    p.rect(x,248,20,18)
+    p.rect(x+20,248,20,18)
+    p.rect(x,313,20,18)
+    p.rect(x+20,313,20,18)
+    
+    // little wall line things
+    strokeWeight(3.6)
+    stroke(0)
+    let pr
+    color ? pr = x + 28 : pr = x - 15
+    let a = pr + 25
+    p.line(pr,155,a,155)
+    p.line(pr,183,a,183)
+    p.line(pr,202,a,202)
+    p.line(pr,225,a,225)
+    p.line(pr,248,a,248)
+    p.line(pr,267,a,267)
+    p.line(pr,290,a,290)
+    p.line(pr,313,a,313)
+    p.line(pr,332,a,332)
+    p.line(pr,362,a,362)
+    
+    // cone pegs
+    noStroke()
+    let s
+    color ? s = x + 8 : s = x + 13
+    for(let i = 170; i < 360; i += 22) {
+      p.ellipse(s,i,6,6)
+      p.ellipse(s + 18,i,6,6)
+      
+    }
+  }
+};
+
+new p5(coachMap, "coachCanvas")
