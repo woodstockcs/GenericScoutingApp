@@ -1654,8 +1654,8 @@ let r_charge = 0
 let cnv
 
   p.setup = () => {
-    let coachCanvas = p.createCanvas(p.windowWidth, p.windowHeight);
-    coachCanvas.parent("coachCanvas")
+    p.createCanvas(p.windowWidth, p.windowHeight);
+    // coachCanvas.parent("coachCanvas")
     p.background(255);
 
     drawButtonColor = p.color(0, 255, 0);
