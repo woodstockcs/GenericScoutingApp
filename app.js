@@ -925,15 +925,6 @@ $(document).ready(() =>{
 
   loadLocalTeams();
 
-  // $("#metaLink").click((e) => {
-  //   $("#metaPage").addClass("d-block").removeClass("d-none");
-  //   $("#homePage").addClass("d-none").removeClass("d-block");
-  //   $("#metaTitle").html("Recap data for " + assignment + ":");
-  //   $("#matchesScoutedDiv").html(numOfMatches);
-  //   $("#highScoreDiv").html("Team: " + hsTeam + " - Score: " + highScore);
-  //   $("#matchesMissedDiv").html(missedMatches);
-  //   return false;
-  // });
 
   $("#captureLink").click((e) => {
     $("#captureQrDataPage").addClass("d-block").removeClass("d-none");
@@ -965,15 +956,17 @@ return false;
     assignment = $("#assignBox").val();
     missedMatches = assignment + ": ";
     assignIndex = defineAssignment(assignment);
-    assignIndex > 2 ? t = true : t = false
+    if (assignIndex == 6) {
+      setUpCoach()
+    } else {
+      assignIndex > 2 ? t = true : t = false
     // console.log(assignment)
     if (assignment != "") {
       $("#titleAssign").html("You're assigned " + assignment);
     } else {
       $("#titleAssign").html("You have not been assigned a driver station");
     }
-    
-    return false;
+    } return false;
   });
 
   $("#pitLink").click((e) => {
@@ -1010,9 +1003,12 @@ return false;
     return false;
   });
 
-  $("#reassignLink").click((e) => {
+  $(".reassignLink").click((e) => {
     $("#assignPage").addClass("d-block").removeClass("d-none");
+    $("#coachAssign").addClass("d-none").removeClass("d-block")
     $("#homePage").addClass("d-none").removeClass("d-block");
+    $("#captureQrDataPage").addClass("d-none").removeClass("d-block");
+    closeQRCamera()
     assignment = "";
     $("#assignBox").val("");
     return false;
@@ -1210,6 +1206,7 @@ return false;
     $("#avgsDataTable tbody").append("")
     return false;
   });
+
   $(".removeRow").click((e) => {
     console.log("row should be removed now...")
     $("#avgsDataTable").html(" ")
@@ -1296,6 +1293,9 @@ function defineAssignment(x) {
       break;
     case "BLUE 3":
       return 5;
+      break;
+    case "COACH":
+      return 6;
       break;
     default:
       return 0;
@@ -1455,18 +1455,6 @@ function drawLine(begin, end, color) {
   QRcanvas.stroke();
 }
 
-// function launchQRVideo() {
-// // Use facingMode: environment to attemt to get the front camera on phones
-// navigator.mediaDevices
-//   .getUserMedia({ video: { facingMode: "environment" } })
-//   .then(function(stream) {
-//     video.srcObject = stream;
-//     video.setAttribute("playsinline", true); // required to tell iOS safari we don't want fullscreen
-//     video.play();
-//     requestAnimationFrame(tick);
-//   });
-// }
-
 function tick() {
   loadingMessage.innerText = "⌛ Loading video...";
   if (video.readyState === video.HAVE_ENOUGH_DATA) {
@@ -1551,8 +1539,6 @@ $("#ignoreButton").click(e => {
   resetQR();
 });
 
-
-
 $("#insertButton").click(e => {
   // console.log("WE WANT TO KEEP THIS.");
   e.preventDefault();
@@ -1620,6 +1606,17 @@ navigator.mediaDevices
 
 }
 
+function setUpCoach() {
+  $("#assignPage").addClass("d-none").removeClass("d-block");
+  $("#coachAssign").addClass("d-block").removeClass("d-none")
+  $("#captureQrDataPage").addClass("d-block").removeClass("d-none");
+    $("#homePage").addClass("d-none").removeClass("d-block");
+    $("#captureTitle").html("Capture data from QR:");
+    startCamera()
+    field()
+return false;
+}
+
 // p5 section part 2 (fix this)
 // instance mode
 
@@ -1656,7 +1653,7 @@ let r_charge = 0
 let canvas;
 
 p.setup = () => {
-  canvas = p.createCanvas(p.windowWidth, p.windowHeight);
+  canvas = p.createCanvas(p.windowWidth, 400);
   // Disable scrolling with Apple Pencil
   canvas.elt.addEventListener("touchstart", handleTouchStart, false);
   canvas.elt.addEventListener("touchmove", handleTouchMove, false);
@@ -1790,118 +1787,6 @@ function handleTouchMove(evt) {
   evt.preventDefault();
 }
 
-
-
-  // p.setup = () => {
-  //   p.createCanvas(p.windowWidth, p.windowHeight);
-  //   // coachCanvas.parent("coachCanvas")
-  //   p.background(255);
-
-  //   drawButtonColor = p.color(0, 255, 0);
-  //   eraseButtonColor = p.color(255, 0, 0);
-  //   undoButtonColor = p.color(0, 0, 255);
-
-  //   colorPicker = p.createColorPicker(p.color(0, 0, 0));
-  //   colorPicker.position(10, 130);
-  // };
-
-  // p.draw = () => {
-  //   p.background(255);
-  //   field();
-  //   p.noStroke()
-
-  //   for (let line of lines) {
-  //     p.stroke(line.color);
-  //     p.strokeWeight(10);
-  //     p.noFill();
-  //     p.beginShape();
-  //     for (let point of line.points) {
-  //       p.vertex(point.x, point.y);
-  //     }
-  //     p.endShape();
-  //   }
-
-  //   // Draw buttons
-  //   p.stroke(255)
-  //   p.strokeWeight(1)
-  //   p.fill(drawing ? drawButtonColor : 200);
-  //   p.rect(235, 10, 80, 30);
-  //   p.fill(!drawing ? eraseButtonColor : 200);
-  //   p.rect(335, 10, 80, 30);
-  //   p.fill(undoButtonColor);
-  //   p.rect(435, 10, 80, 30);
-  
-  //   // Draw button labels
-  //   p.fill(255);
-  //   p.textSize(16);
-  //   p.textAlign(CENTER, CENTER);
-  //   p.text('Draw', 275, 25);
-  //   p.text('Erase', 375, 25);
-  //   p.text('Undo', 475, 25);
-  // };
-
-  // p.touchStarted = () => {
-  //   if (p.touches.length > 0 && p.touches[0].x > 100 && p.touches[0].y > 100) {
-  //     if (drawing) {
-  //       currentLine = {
-  //         points: [],
-  //         color: colorPicker.color(),
-  //       };
-  //       lines.push(currentLine);
-  //     } else {
-  //       eraseLine(p.touches[0].x, p.touches[0].y);
-  //     }
-  //   } else {
-  //     checkButtons();
-  //   }
-  // };
-
-  // p.touchMoved = () => {
-  //   if (p.touches.length > 0 && p.touches[0].x > 100 && p.touches[0].y > 100 && drawing) {
-  //     if (currentLine) {
-  //       currentLine.points.push(p.createVector(p.touches[0].x, p.touches[0].y));
-  //     }
-  //   }
-  // };
-
-  // p.touchEnded = () => {
-  //   currentLine = null;
-  // };
-
-  // function eraseLine(touchX, touchY) {
-  //   for (let i = lines.length - 1; i >= 0; i--) {
-  //     let line = lines[i];
-  //     for (let point of line.points) {
-  //       let d = p.dist(touchX, touchY, point.x, point.y);
-  //       if (d < 10) {
-  //         undoStack.push(lines.splice(i, 1)[0]);
-  //         return;
-  //       }
-  //     }
-  //   }
-  // }
-
-  // function checkButtons() {
-  //   if (p.touches.length > 0) {
-  //     let touchX = p.touches[0].x;
-  //     let touchY = p.touches[0].y;
-
-  //     if (touchX > 235 && touchX < 315 && touchY > 10 && touchY < 40) {
-  //       drawing = true;
-  //     } else if (touchX > 335 && touchX < 415 && touchY > 10 && touchY < 40) {
-  //       drawing = false;
-  //     } else if (touchX > 435 && touchX < 515 && touchY > 10 && touchY < 40) {
-  //       undo();
-  //     }
-  //   }
-  // }
-
-  // function undo() {
-  //   if (lines.length > 0) {
-  //     undoStack.push(lines.pop());
-  //   }
-  // }
-
   function field() {
     // noStroke();
     // fill(255);
@@ -2026,8 +1911,8 @@ function handleTouchMove(evt) {
     p.rect(x+20,313,20,18)
     
     // little wall line things
-    strokeWeight(3.6)
-    stroke(0)
+    p.strokeWeight(3.6)
+    p.stroke(0)
     let pr
     color ? pr = x + 28 : pr = x - 15
     let a = pr + 25
@@ -2043,7 +1928,7 @@ function handleTouchMove(evt) {
     p.line(pr,362,a,362)
     
     // cone pegs
-    noStroke()
+    p.noStroke()
     let s
     color ? s = x + 8 : s = x + 13
     for(let i = 170; i < 360; i += 22) {
