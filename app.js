@@ -1747,12 +1747,12 @@ let cnv
       let touchX = p.touches[0].x;
       let touchY = p.touches[0].y;
 
-       if (touchX > 10 && touchX < 90 && touchY > 10 && touchY < 40) {
+        if (touchX > 235 && touchX < 315 && touchY > 10 && touchY < 40) {
       drawing = true;
-    } else if (touchX > 10 && touchX < 90 && touchY > 50 && touchY < 80) {
+    } else if (touchX > 335 && touchX < 415 && touchY > 10 && touchY < 40) {
       drawing = false;
-    } else if (touchX > 10 && touchX < 90 && touchY > 90 && touchY < 120) {
-        undo();
+    } else if (touchX > 435 && touchX < 515 && touchY > 10 && touchY < 40) {
+      undo();
       }
     }
   }
