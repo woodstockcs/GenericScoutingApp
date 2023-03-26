@@ -1312,9 +1312,9 @@ function clearForm() {
   charge = 0
   autoCharge = 0;
   chargeVal = 0
-  let erase = false
-let parked = false
-let taxied = false
+  erase = false
+  parked = false
+  taxied = false
   tempCharge = 0
   for (let i = 0; i < 3; i ++) {
     for (let k = 0; k < 9; k ++) {
