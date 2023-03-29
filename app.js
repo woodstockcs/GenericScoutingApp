@@ -1800,6 +1800,18 @@ p.setup = () => {
   canvas.elt.addEventListener("touchstart", handleTouchStart, false);
   canvas.elt.addEventListener("touchmove", handleTouchMove, false);
 
+  p.createTouchListeners();
+  
+  // Set up double-tap event listener for the canvas
+  let doubleTap = new Hammer(canvas);
+  doubleTap.get('doubletap').set({ enable: true });
+  doubleTap.on('doubletap', function(event) {
+    if (event.pointerType === 'pen') {
+      drawing = !drawing; // Toggle the drawing variable
+    }
+  });
+
+
   // Rest of your setup code
   p.background(255);
   strokeCap(ROUND)
