@@ -1816,11 +1816,11 @@ p.draw = () => {
     p.stroke(255)
     p.strokeWeight(1)
     p.fill(drawing ? drawButtonColor : 200);
-    p.rect(235, 10, 80, 30);
+    p.rect(235, 10, 80, 30, 3);
     p.fill(!drawing ? eraseButtonColor : 200);
-    p.rect(335, 10, 80, 30);
+    p.rect(335, 10, 80, 30, 3);
     p.fill(undoButtonColor);
-    p.rect(435, 10, 80, 30);
+    p.rect(435, 10, 80, 30, 3);
   
     // Draw button labels
     p.fill(255);
@@ -1916,7 +1916,7 @@ function handleTouchMove(evt) {
   function field() {
     
     p.push()
-    p.translate(30,0)
+    p.translate(50,0)
     // noStroke();
     // fill(255);
     // rect(400, 200, 800, 700);
