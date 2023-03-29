@@ -185,7 +185,7 @@
                 Go Home
               </button>
               <a id="top"></a>
-              <h1 class="display-4">District Competition<br />Revere MA</h1>
+              <h1 class="display-4">District Championship<br />Springfield</h1>
               <h1 class="display-5">Match Scouting</h1>
               <form>
                 <div class="form-group">
@@ -236,7 +236,7 @@
                     </div>
                   </div>
     
-                  <div class="form-group">
+                  <!-- <div class="form-group ">
                     <label class="form-label">Defense(if played):</label><br />
                     <div class="btn-group-toggle" data-toggle="buttons">
                       <label class="btn btn-outline-primary aggression">
@@ -279,6 +279,35 @@
                         />
                         Extreme(flag)
                       </label>
+                    </div>
+                  </div> -->
+
+                  <div class="row">
+                    <div class="col">
+                      <div class="form-group">
+                        <label for="defensePlayed" class="col-form-label">Defense played:</label>
+                        <select class="form-control" id="defensePlayed">
+                          <option value="0">None</option>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="form-group">
+                        <label for="defenseReceived" class="col-form-label">Defense received:</label>
+                        <select class="form-control" id="defenseReceived">
+                          <option value="0">None</option>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                        </select>
+                      </div>
                     </div>
                   </div>
     
@@ -496,7 +525,7 @@
                     class="form-control"
                     id="driveHoursBox"
                     type="text"
-                    placeholder="If any, please enter the INTEGER number of hours of drive practice - other comps DO count"
+                    placeholder="Rough amount of drive practice - other comps can count"
                   />
                 </div>
     
@@ -542,31 +571,74 @@
             </button>
           </div> -->
           <div id="captureQrDataPage" class="d-none">
-          <h1 class="display-4">
-            Read QR Code</h1>
-              <div id="loadingMessage">🎥 Unable to access video stream (please make sure you have a webcam enabled)</div>
-             <canvas id="QRcanvas" hidden></canvas>
-                   <!-- <div onclick="location.reload();" class="btn btn-warning w-100 mt-3 mb-3 p-3">
-                     Reload Page
-                   </div>   -->
-                   <div</dic>
-                   
-                   <button
-                   id="toggleCamera"
-                   type="submit"
-                   class="btn btn-outline-success btn-block mt-3 mb-3 p-2"
-                 >
-                   <p id="cameraMessage">Close Camera</p>
-                 </button>
+          </br>
 
-                   <button
-                   id="homeButton5"
-                   type="submit"
-                   class="btn btn-outline-success btn-block mt-3 mb-3 homeClick p-3"
-                 >
-                   Go Home
-                 </button>
-             <div id="QRoutput" >
+            <div class="row">
+              <div class="col">
+                <button
+                  id="mapButton"
+                  type="submit"
+                  class="btn btn-outline-success btn-block p-3"
+                >
+                  Map
+                </button>
+              </div>
+              <div class="col">
+                <button
+                  id="graphButton"
+                  type="submit"
+                  class="btn btn-outline-success btn-block p-3"
+                >
+                  Graph
+                </button>
+              </div>
+              <div class="col">
+                <button
+                  id="tableButton"
+                  type="submit"
+                  class="btn btn-outline-success btn-block p-3"
+                >
+                  Table
+                </button>
+              </div>
+              <div class="col">
+                <button
+                  id="cameraButton"
+                  type="submit"
+                  class="btn btn-outline-success btn-block p-3"
+                >
+                  Camera
+                </button>
+              </div>
+              <div class="col">
+                  <button
+                  id="homeButton5"
+                  type="submit"
+                  class="btn btn-outline-success btn-block homeClick p-3"
+                >
+                  Home
+                </button>
+              </div>
+            </div>
+          </br>
+          <div id="cameraPage">
+            <h1 class="display-4">
+              Read QR Code</h1>
+                <div id="loadingMessage">🎥 Unable to access video stream (please make sure you have a webcam enabled)</div>
+               <canvas id="QRcanvas" ></canvas>
+                     <!-- <div onclick="location.reload();" class="btn btn-warning w-100 mt-3 mb-3 p-3">
+                       Reload Page
+                     </div>   -->
+                     <!-- <div</dic> -->
+                     <div id="QRoutput" hidden></div>
+
+          </div>
+
+          <div id="graphPage">
+            <p>graphs to come...</p>
+          </div>
+
+             <div id="tablePage" >
                <table
             id="avgsDataTable"
             class="table table-striped table-bordered"
@@ -591,20 +663,12 @@
            
                </div>
              </div>
-
-             <div id="coachCanvas">
-                <!-- <canvas id="coachCanvas"></canvas> -->
+             
+             <div id="mapPage">
+              <div id="coachCanvas">
+             </div>
              </div>
 
-          <div id="coachAssign" class="d-none">
-            <a
-              id="reassignLink2"
-              style="font-size: 25px"
-              class="btn btn-success btn-block p-2 reassignLink text-white"
-            >
-              Back to Home
-            </a>
-          </div>
            <!-- Modal -->
            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
              <div class="modal-dialog" role="document">
