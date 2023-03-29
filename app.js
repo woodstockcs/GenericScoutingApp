@@ -1798,11 +1798,11 @@ p.draw = () => {
     p.stroke(255)
     p.strokeWeight(1)
     p.fill(drawing ? drawButtonColor : 200);
-    p.rect(285, 10, 80, 30, 3);
+    p.rect(285, 10, 80, 30, 4);
     p.fill(!drawing ? eraseButtonColor : 200);
-    p.rect(385, 10, 80, 30, 3);
+    p.rect(385, 10, 80, 30, 4);
     p.fill(undoButtonColor);
-    p.rect(485, 10, 80, 30, 3);
+    p.rect(485, 10, 80, 30, 4);
   
     // Draw button labels
     p.fill(255);
