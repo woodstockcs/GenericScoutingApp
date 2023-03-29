@@ -1931,7 +1931,7 @@ function handleTouchMove(evt) {
 
   function field() {
     p.push()
-    p.translate(50,0)
+    p.translate(50,32)
     // noStroke();
     // fill(255);
     // rect(400, 200, 800, 700);
