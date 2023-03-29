@@ -1778,6 +1778,22 @@ let r_charge = 0
 
 let canvas;
 
+const coachMap = (p) => {
+  let lines = [];
+let currentLine = [];
+let drawing = true;
+let undoStack = [];
+
+let drawButton, eraseButton, undoButton;
+let drawButtonColor, eraseButtonColor, undoButtonColor;
+let colorPicker;
+
+let b_charge = 0
+let r_charge = 0
+
+
+let canvas;
+
 p.setup = () => {
   canvas = p.createCanvas(800, 400);
   // Disable scrolling with Apple Pencil
@@ -1816,19 +1832,19 @@ p.draw = () => {
     p.stroke(255)
     p.strokeWeight(1)
     p.fill(drawing ? drawButtonColor : 200);
-    p.rect(235, 10, 80, 30, 3);
+    p.rect(285, 10, 80, 30, 3);
     p.fill(!drawing ? eraseButtonColor : 200);
-    p.rect(335, 10, 80, 30, 3);
+    p.rect(385, 10, 80, 30, 3);
     p.fill(undoButtonColor);
-    p.rect(435, 10, 80, 30, 3);
+    p.rect(485, 10, 80, 30, 3);
   
     // Draw button labels
     p.fill(255);
     p.textSize(16);
     p.textAlign(CENTER, CENTER);
-    p.text('Draw', 275, 25);
-    p.text('Erase', 375, 25);
-    p.text('Undo', 475, 25);
+    p.text('Draw', 325, 25);
+    p.text('Erase', 425, 25);
+    p.text('Undo', 525, 25);
 };
 
 p.touchStarted = () => {
@@ -1877,11 +1893,11 @@ function checkButtons() {
     let touchX = p.touches[0].x;
     let touchY = p.touches[0].y;
 
-    if (touchX > 235 && touchX < 315 && touchY > 10 && touchY < 40) {
+    if (touchX > 285 && touchX < 365 && touchY > 10 && touchY < 40) {
       drawing = true;
-    } else if (touchX > 335 && touchX < 415 && touchY > 10 && touchY < 40) {
+    } else if (touchX > 385 && touchX < 465 && touchY > 10 && touchY < 40) {
       drawing = false;
-    } else if (touchX > 435 && touchX < 515 && touchY > 10 && touchY < 40) {
+    } else if (touchX > 485 && touchX < 565 && touchY > 10 && touchY < 40) {
       undo();
     }
   }
@@ -1914,7 +1930,6 @@ function handleTouchMove(evt) {
 }
 
   function field() {
-    
     p.push()
     p.translate(50,0)
     // noStroke();
@@ -1976,7 +1991,7 @@ function handleTouchMove(evt) {
     p.stroke(0)
     p.line(51,150,195,150)
     p.line(554,150,700,150)
-    
+
     p.pop()
   
   }
