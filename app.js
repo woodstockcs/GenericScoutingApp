@@ -1743,40 +1743,6 @@ function setUpCoach() {
   return false;
 }
 
-// p5 section part 2 (fix this)
-// instance mode
-
-// let lines = [];
-// let currentLine = [];
-// let drawing = true;
-// let undoStack = [];
-
-// let drawButton, eraseButton, undoButton;
-// let drawButtonColor, eraseButtonColor, undoButtonColor;
-// let colorPicker;
-
-// let b_charge = 0
-// let r_charge = 0
-// let cnv
-
-
-
-
-const coachMap = (p) => {
-  let lines = [];
-let currentLine = [];
-let drawing = true;
-let undoStack = [];
-
-let drawButton, eraseButton, undoButton;
-let drawButtonColor, eraseButtonColor, undoButtonColor;
-let colorPicker;
-
-let b_charge = 0
-let r_charge = 0
-
-
-let canvas;
 
 const coachMap = (p) => {
   let lines = [];
