@@ -1803,7 +1803,7 @@ p.draw = () => {
 
     for (let line of lines) {
       p.stroke(line.color);
-      p.strokeWeight(10);
+      p.strokeWeight(5);
       p.noFill();
       p.beginShape();
       for (let point of line.points) {
