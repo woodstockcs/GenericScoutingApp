@@ -244,7 +244,6 @@
   ];
 
 let camera = true
-let teamsInfo = "<tr style='border-top: 2px solid black'><td>"
 
 let numOfMatches = 0;
 let highScore = 0;
@@ -256,6 +255,10 @@ var missedMatches = "";
 var assignment = "";
 let assignIndex = 0;
 let matchReported = false
+
+let autoPlaces = 0;
+let confirmAuto = false
+let droppedX = 635
 
 let chargeVal = 0
 let Alliance = {
@@ -306,7 +309,9 @@ let charge = 0
 function setup() {
 
   cnv = createCanvas(800, 500);
+  createCanvas(800,500)
   cnv.touchEnded(handleFieldTouch);
+
   background(255);
   textAlign(CENTER);
   rectMode(CENTER);
@@ -382,6 +387,8 @@ function draw() {
   r.alliance = t
   r.draw_robot()
 
+  if (autoPlaces > 2) checkAuto()
+
   let val1
   let val2
     if (t) {
@@ -428,6 +435,7 @@ function handleFieldTouch(){
     // drop button
   if (r.cone || r.cube) {
     if (mouseX > 645 && mouseX < 710 && mouseY > 2 && mouseY < 40) {
+      drawDropped(r.cone)
       r.cube = false
       r.cone = false
       drop ++
@@ -443,6 +451,7 @@ function handleFieldTouch(){
       } else {
         erase ? eraseStuff() : chargeVal = 2
       }
+      park = false
     } if (mouseX > 482 && mouseX < 562) {
       if (mouseX < 507){
         chargeVal == 1 ? chargeVal = 0 : chargeVal = -1
@@ -451,8 +460,9 @@ function handleFieldTouch(){
       } else {
         erase ? eraseStuff() : chargeVal = 2
       }
-    }
-  }
+    } 
+  } 
+
   // change modes
   if (mouseX > 308 && mouseX < 442 && mouseY > 372 && mouseY < 427) {
     rectMode(CENTER)
@@ -461,6 +471,7 @@ function handleFieldTouch(){
       switchMode(mode);
       autoGrid = saveGrid()
       autoCharge = tempCharge
+      confirmAuto = true
       if (autoCharge == 0) {autoCharge = 3}
       chargeVal = 0
     } else {
@@ -470,9 +481,7 @@ function handleFieldTouch(){
 }
     // erase mode
     if (mouseX > 342 && mouseX < 408 && mouseY > 11 && mouseY < 50 && !r.cone && !r.cube) {
-        erase = true
-    } else if (erase && (mouseX > 50 && mouseX < 342) || (mouseX > 409 && mouseX < 645) && (mouseY > 2 && mouseY < 45)) {
-      erase = false
+        erase = !erase
     }
   let tempThing
   // picking up from human player
@@ -507,13 +516,22 @@ function handleFieldTouch(){
   // parking
   if (!mode && ((mouseX > 110 && mouseX < 180 && mouseY > 155 && mouseY < 360)||(mouseX > 565 && mouseX < 635 && mouseY > 155 && mouseY < 360))) {
     parked = !parked
+    chargeVal = 0
+    tempCharge = 0
   }
 
   // taxi
   if (mode) {
     if (mouseX > 258 && mouseX < 490 && mouseY > 55 && mouseY < 360) {
       taxied = !taxied
+      chargeVal = 0
+      tempCharge = 0
     }
+  }
+
+  // verify auto
+  if (mouseX > 185 && mouseX < 295 && mouseY > 375 && mouseY < 425) {
+    confirmAuto = true
   }
   return true
   } return false
@@ -789,6 +807,39 @@ function saveGrid() {
     return str
 }
 
+function checkAuto() {
+  if (confirmAuto) {
+    fill(255)
+    noStroke()
+    rect(180,370,120,60)
+  } else {
+    fill(255,70,70)
+    stroke(255,0,0)
+    rect(185,375, 110,50,5)
+    noStroke()
+    fill(255)
+    textSize(15)
+    text("This seems high", 240,390)
+    text("Should you", 240, 406)
+    text("be in tele?", 240, 418)
+  }
+}
+
+function drawDropped(type) {
+  rectMode(CENTER)
+  if (type) {
+    fill(255,189,35)
+    noStroke()
+    ellipse(droppedX,35,9,9)
+  } else {
+    fill(163,61,255)
+    noStroke()
+    rect(droppedX,35,10,10,2)
+  }
+  droppedX -= 15
+  rectMode(CORNER)
+}
+
 class Robot {
   constructor (team) {
     this.cone = false
@@ -852,10 +903,12 @@ class Receptacle{
                 if (erase) {
                     this.state = 0
                     erase = false
+                    if (mode) autoPlaces --
                 } else {
                 this.kind != 0 ? this.state = this.kind : r.cone ? this.state = 1 : this.state = 2 
                 r.cone = false
                 r.cube = false
+                if (mode) autoPlaces++
         }
         } }
         } if (this.state == 1) {
@@ -927,11 +980,12 @@ $(document).ready(() =>{
 
 
   $("#captureLink").click((e) => {
-    $("#captureQrDataPage").addClass("d-block").removeClass("d-none");
-    $("#homePage").addClass("d-none").removeClass("d-block");
-    $("#captureTitle").html("Capture data from QR:");
-    startCamera()
-    field()
+    setUpCoach()
+    // $("#captureQrDataPage").addClass("d-block").removeClass("d-none");
+    // $("#homePage").addClass("d-none").removeClass("d-block");
+    // $("#captureTitle").html("Capture data from QR:");
+    // startCamera()
+    // field()
 return false;
   });
 
@@ -975,19 +1029,19 @@ return false;
     return false;
   });
 
-  $("#toggleCamera").click((e) => {
-    if (camera) {
-      $("#QRcanvas").addClass("d-none").removeClass("d-block");
-      closeQRCamera()
-      $("#cameraMessage").html("Open Camera")
-    } else {
-      $("#QRcanvas").addClass("d-block").removeClass("d-none");
-      startCamera()
-      $("#cameraMessage").html("Close Camera")
-    }
-    camera = !camera
-    return false;
-  });
+  // $("#toggleCamera").click((e) => {
+  //   if (camera) {
+  //     $("#QRcanvas").addClass("d-none").removeClass("d-block");
+  //     closeQRCamera()
+  //     $("#cameraMessage").html("Open Camera")
+  //   } else {
+  //     $("#QRcanvas").addClass("d-block").removeClass("d-none");
+  //     startCamera()
+  //     $("#cameraMessage").html("Close Camera")
+  //   }
+  //   camera = !camera
+  //   return false;
+  // });
 
   $(".homeClick").click((e) => {
     window.scroll(500,500)
@@ -1013,6 +1067,61 @@ return false;
     $("#assignBox").val("");
     return false;
   });
+
+
+  // coach page button stuff
+  $("#mapButton").click((e) => {
+    $("#mapPage").addClass("d-block").removeClass("d-none");
+    $("#graphPage").addClass("d-none").removeClass("d-block");
+    $("#tablePage").addClass("d-none").removeClass("d-block");
+    $("#cameraPage").addClass("d-none").removeClass("d-block");
+    $("#mapButton").addClass("btn-success").removeClass("btn-outline-success");
+    $("#graphButton").addClass("btn-outline-success").removeClass("btn-success");
+    $("#tableButton").addClass("btn-outline-success").removeClass("btn-success");
+    $("#cameraButton").addClass("btn-outline-success").removeClass("btn-success");
+    closeQRCamera()
+    return false;
+  });
+
+  $("#graphButton").click((e) => {
+    $("#mapPage").addClass("d-none").removeClass("d-block")
+    $("#graphPage").addClass("d-block").removeClass("d-none")
+    $("#tablePage").addClass("d-none").removeClass("d-block")
+    $("#cameraPage").addClass("d-none").removeClass("d-block")
+    $("#mapButton").addClass("btn-outline-success").removeClass("btn-success");
+    $("#graphButton").addClass("btn-success").removeClass("btn-outline-success");
+    $("#tableButton").addClass("btn-outline-success").removeClass("btn-success");
+    $("#cameraButton").addClass("btn-outline-success").removeClass("btn-success");
+    closeQRCamera()
+    return false;
+  });
+
+  $("#tableButton").click((e) => {
+    $("#mapPage").addClass("d-none").removeClass("d-block");
+    $("#graphPage").addClass("d-none").removeClass("d-block");
+    $("#tablePage").addClass("d-block").removeClass("d-none");
+    $("#cameraPage").addClass("d-none").removeClass("d-block");
+    $("#mapButton").addClass("btn-outline-success").removeClass("btn-success");
+    $("#graphButton").addClass("btn-outline-success").removeClass("btn-success");
+    $("#tableButton").addClass("btn-success").removeClass("btn-outline-success");
+    $("#cameraButton").addClass("btn-outline-success").removeClass("btn-success");
+    closeQRCamera()
+    return false;
+  });
+
+  $("#cameraButton").click((e) => {
+    $("#mapPage").addClass("d-none").removeClass("d-block");
+    $("#graphPage").addClass("d-none").removeClass("d-block");
+    $("#tablePage").addClass("d-none").removeClass("d-block");
+    $("#cameraPage").addClass("d-block").removeClass("d-none");
+    $("#mapButton").addClass("btn-outline-success").removeClass("btn-success");
+    $("#graphButton").addClass("btn-outline-success").removeClass("btn-success");
+    $("#tableButton").addClass("btn-outline-success").removeClass("btn-success");
+    $("#cameraButton").addClass("btn-success").removeClass("btn-outline-success");
+    startCamera()
+    return false;
+  });
+
 
   $("#verifyDataButton").click((e) => {
 
@@ -1127,8 +1236,6 @@ return false;
       chargeValue += parseInt(this.value);
     });
 
-    // console.log(shooterDistanceValue);
-    // console.log($("#notesBox").val());
 
     let qrtext =
       "pit," + //0
@@ -1305,6 +1412,8 @@ function defineAssignment(x) {
 
 function clearForm() {
   // field variables
+  taxied = false
+  parked = false
   mode = true;
   autoGrid = ""
   grid = ""
@@ -1312,10 +1421,8 @@ function clearForm() {
   charge = 0
   autoCharge = 0;
   chargeVal = 0
-  erase = false
-  parked = false
-  taxied = false
   tempCharge = 0
+  autoPlaces = 0;
   for (let i = 0; i < 3; i ++) {
     for (let k = 0; k < 9; k ++) {
       lst[i][k].state = 0
@@ -1328,6 +1435,9 @@ assignIndex > 2 ? t = true : t = false
   // draw();
 
   // html variables
+  $("#defensePlayed").val("0");
+  $("#defenseReceived").val("0");
+
   $("#match-notesBox").val("");
   $("#match-qrcode").html("");
 
@@ -1460,6 +1570,10 @@ function drawLine(begin, end, color) {
 
 function tick() {
   loadingMessage.innerText = "⌛ Loading video...";
+  if (outputContainer) {
+    outputContainer.hidden = false;
+  }
+  
   if (video.readyState === video.HAVE_ENOUGH_DATA) {
     loadingMessage.hidden = true;
     canvasElement.hidden = false;
@@ -1595,7 +1709,7 @@ function makeRow(data) {
 }
 
 function startCamera() {
-          // Get a list of available media input (and output) devices
+    // Get a list of available media input (and output) devices
     // then get a MediaStream for the currently selected input device
     // Use facingMode: environment to attemt to get the front camera on phones
 navigator.mediaDevices
@@ -1610,31 +1724,40 @@ navigator.mediaDevices
 }
 
 function setUpCoach() {
+  $("#mapPage").addClass("d-block").removeClass("d-none");
+  $("#graphPage").addClass("d-none").removeClass("d-block");
+  $("#tablePage").addClass("d-none").removeClass("d-block");
+  $("#cameraPage").addClass("d-none").removeClass("d-block");
   $("#assignPage").addClass("d-none").removeClass("d-block");
-  $("#coachAssign").addClass("d-block").removeClass("d-none")
+
   $("#captureQrDataPage").addClass("d-block").removeClass("d-none");
-    $("#homePage").addClass("d-none").removeClass("d-block");
-    $("#captureTitle").html("Capture data from QR:");
-    startCamera()
-    field()
-return false;
+  $("#homePage").addClass("d-none").removeClass("d-block");
+  $("#captureTitle").html("Capture data from QR:");
+  $("#homeButton5").addClass("d-none").removeClass("d-block");
+  $("#mapButton").addClass("btn-success").removeClass("btn-outline-success");
+  $("#graphButton").addClass("btn-outline-success").removeClass("btn-success");
+  $("#tableButton").addClass("btn-outline-success").removeClass("btn-success");
+  $("#cameraButton").addClass("btn-outline-success").removeClass("btn-success");
+  // startCamera()
+  // field()
+  return false;
 }
 
 // p5 section part 2 (fix this)
 // instance mode
 
-let lines = [];
-let currentLine = [];
-let drawing = true;
-let undoStack = [];
+// let lines = [];
+// let currentLine = [];
+// let drawing = true;
+// let undoStack = [];
 
-let drawButton, eraseButton, undoButton;
-let drawButtonColor, eraseButtonColor, undoButtonColor;
-let colorPicker;
+// let drawButton, eraseButton, undoButton;
+// let drawButtonColor, eraseButtonColor, undoButtonColor;
+// let colorPicker;
 
-let b_charge = 0
-let r_charge = 0
-let cnv
+// let b_charge = 0
+// let r_charge = 0
+// let cnv
 
 
 
@@ -1656,7 +1779,7 @@ let r_charge = 0
 let canvas;
 
 p.setup = () => {
-  canvas = p.createCanvas(p.windowWidth, 400);
+  canvas = p.createCanvas(800, 400);
   // Disable scrolling with Apple Pencil
   canvas.elt.addEventListener("touchstart", handleTouchStart, false);
   canvas.elt.addEventListener("touchmove", handleTouchMove, false);
@@ -1670,7 +1793,7 @@ p.setup = () => {
   undoButtonColor = p.color(0, 0, 255);
 
   colorPicker = p.createColorPicker(p.color(0, 0, 0));
-  colorPicker.position(10, 130);
+  colorPicker.position(100, 200);
 };
 
 p.draw = () => {
