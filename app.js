@@ -1914,6 +1914,9 @@ function handleTouchMove(evt) {
 }
 
   function field() {
+    
+    p.push()
+    p.translate(30,0)
     // noStroke();
     // fill(255);
     // rect(400, 200, 800, 700);
@@ -1973,6 +1976,8 @@ function handleTouchMove(evt) {
     p.stroke(0)
     p.line(51,150,195,150)
     p.line(554,150,700,150)
+    
+    p.pop()
   
   }
   
