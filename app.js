@@ -280,7 +280,6 @@ let taxied = false
 let pomegranite
 
 let r
-// let lst = []
 
 let col = 3;
 let row = 9;
@@ -305,6 +304,10 @@ let drop = 0
 // 0 == no charge, 1 == on unbalanced, 2 == on balanced
 let autoCharge = 0
 let charge = 0
+
+// for charts
+let CCGData = []
+let UFGData = []
 
 function setup() {
 
@@ -490,7 +493,7 @@ function handleFieldTouch(){
       if (mouseX > 650 && mouseX < 700) {
         if (mouseY > 99) {
           tempThing = r.cone
-          !r.cube ? r.cone = !tempThing : pomegranite = 0
+          (!r.cube ? r.cone = !tempThing : pomegranite = 0)
         } else {
           tempThing = r.cube
           !r.cone ? r.cube = !tempThing : pomegranite = 0
@@ -1093,6 +1096,11 @@ return false;
     $("#tableButton").addClass("btn-outline-success").removeClass("btn-success");
     $("#cameraButton").addClass("btn-outline-success").removeClass("btn-success");
     closeQRCamera()
+    clearGraphs()
+    makeGraph(CCGData, "Cones", "Cubes", "ConesCubesGraph")
+    makeGraph(UFGData, "Upper", "Floor", "UpperFloorGraph")
+    console.log(CCGData)
+    console.log(UFGData)
     return false;
   });
 
@@ -1169,10 +1177,9 @@ return false;
     // console.log(Date.now());
     // console.log(typeof(Date.now()));
     e.preventDefault();
-    let aggressionValue = 0;
-    $('input[name="aggression_checkbox"]:checked').each(function () {
-      aggressionValue += parseInt(this.value);
-    });
+    let defenseVal = "";
+    defenseVal = $("#defensePlayed").val() + "-" + $("#defenseRecieved").val();;
+
     $("#match-qrcode").html("");
 
     let qrtext =
@@ -1191,7 +1198,7 @@ return false;
       "," +
       drop + //7
       "," +
-      aggressionValue + //8
+      defenseVal + //8
       "," +
       Date.now() + //9
       "," +
@@ -1664,8 +1671,11 @@ $("#insertButton").click(e => {
   // outputContainer.innerHTML += makeRow(data[0]);
   $("#avgsDataTable tbody").append(makeRow(data[0]));
   $("#actionButtons").removeClass("invisible")
-});
+  CCGData.push(convertData((ConesCubesClean(data[0])))[0])
+  UFGData.push(convertData(UpperFloorClean(data[0]))[0])
+  console.log(CCGData)
 
+});
 
 function deleteRow(button) {
   // Get the table row that contains the button
@@ -1702,7 +1712,7 @@ function makeRow(data) {
     newRow += 
       data + "</td><td>"
       data = data.substring(data.indexOf("*")+1)
-    newRow += "<button id='" + teamNum + "' class='btn btn-outline-danger btn-block mt-3 mb-3 delete-button p-1' onClick='deleteRow(this)'>X</button>"  
+    newRow += "<button id='" + teamNum + "' class='btn btn-outline-danger btn-block mt-3 mb-3 delete-button p-1' onClick='deleteRow(this); removeItemByLabel(" + teamNum+ ")'>X</button>"  
     newRow += "</td></tr>";
     console.log(newRow)
     return newRow
@@ -1742,7 +1752,6 @@ function setUpCoach() {
   // field()
   return false;
 }
-
 
 const coachMap = (p) => {
   let lines = [];
@@ -1798,11 +1807,11 @@ p.draw = () => {
     p.stroke(255)
     p.strokeWeight(1)
     p.fill(drawing ? drawButtonColor : 200);
-    p.rect(285, 10, 80, 30, 4);
+    p.rect(285, 10, 80, 30, 3);
     p.fill(!drawing ? eraseButtonColor : 200);
-    p.rect(385, 10, 80, 30, 4);
+    p.rect(385, 10, 80, 30, 3);
     p.fill(undoButtonColor);
-    p.rect(485, 10, 80, 30, 4);
+    p.rect(485, 10, 80, 30, 3);
   
     // Draw button labels
     p.fill(255);
@@ -2052,3 +2061,311 @@ function handleTouchMove(evt) {
 };
 
 new p5(coachMap, "coachCanvas")
+
+function toList(str) {
+  const arr = str.split('*');
+  return [parseFloat(arr[0]), parseFloat(arr[1]), arr[2]];
+}
+
+function ConesCubesClean(str) {
+  const arr = str.split('*');
+  const cones = parseFloat(arr[1]);
+  const cubes = parseFloat(arr[2]);
+  const firstSection = arr[0];
+  return [cones, cubes, firstSection];
+}
+
+function UpperFloorClean(str) {
+  const arr = str.split('*');
+  const sum = parseFloat(arr[3]) + parseFloat(arr[4]);
+  const sixthSubstring = parseFloat(arr[5]);
+  const firstSection = arr[0];
+  return [sum, sixthSubstring, firstSection];
+}
+
+function convertData(data) {
+  const converted = [];
+
+  for (let i = 0; i < data.length; i += 3) {
+    const x = data[i];
+    const y = data[i + 1];
+    const label = data[i + 2];
+
+    converted.push({
+      x,
+      y,
+      label
+    });
+  }
+
+  return converted;
+}
+
+function makeGraph(graphData, xlabel, ylabel, divId) {
+  const margin = {
+    top: 20,
+    right: 20,
+    bottom: 70,
+    left: 70
+  };
+  const width = 1000 - margin.left - margin.right;
+  const height = 600 - margin.top - margin.bottom;
+  // console.log(divId)
+
+  const svg = d3
+    .select("#" + divId)
+    .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", `translate(${margin.left},${margin.top})`);
+
+
+  const data = (graphData)
+  console.log(data)
+
+  const xScale = d3.scaleLinear()
+    .domain([0, d3.max(data, d => d.x)])
+    .range([0, width]);
+
+  const yScale = d3.scaleLinear()
+    .domain([0, d3.max(data, d => d.y)])
+    .range([height, 0]);
+
+  const annotations = data.map((d, i) => ({
+    note: {
+      label: data[i].label,
+      wrap: 200,
+    },
+    x: xScale(d.x),
+    y: yScale(d.y) + 1,
+    r: 12,
+    dx: 0,
+    dy: 15,
+  }));
+
+  var div = d3
+    .select("#" + divId)
+    .append("div")
+    .attr("class", "tooltip")
+    .attr("id", divId + "tooltip")
+    .style("opacity", 0);
+
+
+  const dots = svg
+    .selectAll("circle")
+    .data(data)
+    .join("circle")
+    .attr("cx", (d) => xScale(d.x))
+    .attr("cy", (d) => yScale(d.y))
+    .attr("r", 7)
+    .attr("fill", "lightblue")
+    .attr("stroke", "steelblue")
+    .attr("stroke-width", "0px");
+
+  function repelForce(data) {
+    let nodes;
+    const points = data.map(d => ({
+      x: xScale(d.x),
+      y: yScale(d.y),
+      r: 5
+    }));
+    const padding = 50;
+
+    function force(alpha) {
+      const quadtree = d3.quadtree(nodes, d => d.x, d => d.y);
+      for (const d of nodes) {
+        quadtree.visit((q, x1, y1, x2, y2) => {
+          if (!q.length)
+            do {
+              if (q.data !== d) {
+                let x = d.x - q.data.x,
+                  y = d.y - q.data.y,
+                  l = Math.sqrt(x * x + y * y),
+                  r = d.r + q.data.r;
+
+                if (l < r) {
+                  l = ((l - r) / l) * alpha;
+                  d.x -= x *= l;
+                  d.y -= y *= l;
+                  q.data.x += x;
+                  q.data.y += y;
+                }
+              }
+            } while (q = q.next);
+        });
+
+        for (const p of points) {
+          let x = d.x - p.x,
+            y = d.y - p.y,
+            l = Math.sqrt(x * x + y * y),
+            r = d.r + p.r;
+
+          if (l < r) {
+            l = ((l - r) / l) * alpha;
+            d.x -= x *= l;
+            d.y -= y *= l;
+          }
+        }
+      }
+
+
+      // Apply attraction force between labels and their corresponding datapoints
+      for (const [index, d] of nodes.entries()) {
+        const p = points[index];
+        let x = d.x - p.x,
+          y = d.y - p.y,
+          l = Math.sqrt(x * x + y * y),
+          r = d.r + p.r;
+
+        l = ((l - r) / l) * alpha * 0.1; // Adjust the strength of attraction by changing the multiplier
+        d.x -= x *= l;
+        d.y -= y *= l;
+      }
+
+      // Apply repulsion force from the axes
+      for (const d of nodes) {
+        // Repel from the left and right boundaries
+        if (d.x < padding) {
+          d.x += (padding - d.x) * alpha;
+        } else if (d.x > width - padding) {
+          d.x -= (d.x - (width - padding)) * alpha;
+        }
+
+        // Repel from the top and bottom boundaries
+        if (d.y < padding) {
+          d.y += (padding - d.y) * alpha;
+        } else if (d.y > height - padding) {
+          d.y -= (d.y - (height - padding)) * alpha;
+        }
+      }
+
+    }
+
+    force.initialize = _ => nodes = _;
+
+    return force;
+  }
+
+  const simulation = d3
+    .forceSimulation(annotations)
+    .velocityDecay(0.5)
+    .alphaDecay(0.5)
+    .force("repel", repelForce(data))
+    .on("tick", () => {
+      // Update label positions
+      labels.attr("x", (d) => d.x).attr("y", (d) => d.y);
+    });
+
+  // Draw the labels
+  const labels = svg
+    .selectAll("text.label")
+    .data(annotations)
+    .join("text")
+    .attr("class", "label")
+    .attr("x", (d) => d.x)
+    .attr("y", (d) => d.y)
+    .text((d) => d.note.label)
+    .attr("text-anchor", "middle")
+    .attr("dominant-baseline", "central")
+    .attr("font-size", "12px")
+    .attr("fill", "black")
+    .attr("pointer-events", "none");
+
+  const xAxis = d3.axisBottom(xScale);
+  const yAxis = d3.axisLeft(yScale);
+
+  svg.append("g")
+    .attr("transform", `translate(0, ${height})`)
+    .call(xAxis);
+
+  svg.append("g")
+    .call(yAxis);
+
+  // Add X axis label
+  svg.append("text")
+    .attr("transform",
+      "translate(" + (width / 2) + " ," +
+      (height + 30) + ")")
+    .style("text-anchor", "middle")
+    .text(xlabel);
+
+  // Add Y axis label
+  svg.append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("y", 0 - margin.left)
+    .attr("x", 0 - (height / 2))
+    .attr("dy", "1em")
+    .style("text-anchor", "middle")
+    .text(ylabel);
+
+  // Add X axis scale and labels
+  svg.append("g")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(xScale))
+    .append("text")
+    .attr("fill", "#000")
+    .attr("x", width / 2)
+    .attr("y", 25)
+
+  // Add Y axis scale and labels
+  svg.append("g")
+    .call(d3.axisLeft(yScale))
+    .append("text")
+    .attr("fill", "#000")
+    .attr("transform", "rotate(-90)")
+    .attr("y", -50)
+    .attr("x", -height / 2)
+    .attr("dy", "1em")
+
+  dots
+    .on("mouseover", function (event, d) {
+      console.log(div)
+      const [mx, my] = d3.pointer(event);
+      d3.select(this)
+        .transition()
+        .duration(200)
+        .attr("r", 9)
+        .style("stroke-width", "2px");
+      div.transition().duration(200).style("opacity", 1);
+      // console.log(data[2].label)
+      div
+        .html(
+          "<b>" +
+          d.label +
+          "</b><br>" + xlabel + ": " +
+          parseFloat(d.x).toFixed(2) +
+          "<br>" + ylabel + ": " +
+          parseFloat(d.y).toFixed(2)
+        )
+        .style("left", mx - 10 + "px")
+        .style("top", my + "px");
+    })
+    .on("mouseout", function (d) {
+      d3.select(this)
+        .transition()
+        .duration(200)
+        .attr("r", 7)
+        .style("stroke-width", "0px");
+      div.transition().duration(200).style("opacity", 0);
+    });
+
+}
+
+function clearGraphs() {
+  document.getElementById("UpperFloorGraph").innerHTML = "";
+  document.getElementById("ConesCubesGraph").innerHTML = "";
+  // add more here when you make more graphs
+}
+
+function removeItemByLabel(label) {
+  let team = label.toString()
+  for (let i = 0; i < UFGData.length; i++) {
+    if (UFGData[i].label === team) {
+      UFGData.splice(i, 1);
+      CCGData.splice(i, 1)
+      break;
+    }
+  }
+  console.log(UFGData)
+}
