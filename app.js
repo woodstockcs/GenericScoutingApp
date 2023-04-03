@@ -2108,8 +2108,8 @@ function makeGraph(graphData, xlabel, ylabel, divId) {
     bottom: 70,
     left: 70
   };
-  const width = 800 - margin.left - margin.right;
-  const height = 500 - margin.top - margin.bottom;
+  const width = 200 - margin.left - margin.right;
+  const height = 200 - margin.top - margin.bottom;
   // console.log(divId)
 
   const svg = d3
