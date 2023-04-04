@@ -1,134 +1,110 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <!-- <link rel="manifest" href="manifest.json" /> -->
-    <link rel="apple-touch-icon" href="152.png" />
-    <link rel="apple-touch-icon" href="180.png" />
-    <link rel="apple-touch-icon" href="192.png" />
-    <link rel="apple-touch-icon" href="512.png" />
-    <link rel="apple-touch-icon" href="1024.png" />
-    <meta name="apple-mobile-web-app-status-bar" content="#db4938" />
-    <meta name="theme-color" content="#145E30" />
-    <link rel="manifest" href="manifest.json">
-    <script>
-      if ("serviceWorker" in navigator) {
-        window.addEventListener("load", function() {
-          navigator.serviceWorker
-            .register("serviceWorker.js")
-            .then(res => console.log("service worker registered"))
-            .catch(err => console.log("service worker not registered", err))
-        })
-      }
-    </script>
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
-  </head>
 
-  <body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <!-- <link rel="manifest" href="manifest.json" /> -->
+  <link rel="apple-touch-icon" href="152.png" />
+  <link rel="apple-touch-icon" href="180.png" />
+  <link rel="apple-touch-icon" href="192.png" />
+  <link rel="apple-touch-icon" href="512.png" />
+  <link rel="apple-touch-icon" href="1024.png" />
+  <meta name="apple-mobile-web-app-status-bar" content="#db4938" />
+  <meta name="theme-color" content="#145E30" />
+  <link rel="manifest" href="manifest.json">
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", function () {
+        navigator.serviceWorker
+          .register("serviceWorker.js")
+          .then(res => console.log("service worker registered"))
+          .catch(err => console.log("service worker not registered", err))
+      })
+    }
+  </script>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/datatable.min.css" />
+</head>
 
-    <div class="container">
-      
-      <div id="assignPage" class="d-block">
-        <br />
-        <br />
-        <br />
-        <div class="form-group">
-          <label for="assignK" class="form-label" style="font-size: 30px"
-            >Assign Scout:</label
-          >
-          <textarea
-            name="assignK"
-            class="form-control"
-            id="assignBox"
-            rows="2"
-            placeholder="Enter alliance/driver station"
-          ></textarea>
-        </div>
+<body>
 
-        <a
-          id="homePageLink"
-          style="font-size: 25px"
-          class="btn btn-success btn-block p-3 text-white"
-        >
-          Confirm
-        </a>
+  <div class="container">
+
+    <div id="assignPage" class="d-block">
+      <br />
+      <br />
+      <br />
+      <div class="form-group">
+        <label for="assignK" class="form-label" style="font-size: 30px">Assign Scout:</label>
+        <textarea name="assignK" class="form-control" id="assignBox" rows="2"
+          placeholder="Enter alliance/driver station"></textarea>
       </div>
-          
-          <div id="homePage" class="d-none">
-            <h1 class="display-4 mt-5 mb-5">Welcome Scout</h1>
-            <h3 id="titleAssign" class="display-6 mt-5 mb-5"></h3>
-            <a
-              id="matchLink"
-              style="font-size: 30px"
-              class="btn btn-success btn-block p-4 text-white"
-            >
-              Scout a Match
-            </a>
-            <br />
-            <a
-              id="pitLink"
-              style="font-size: 30px"
-              class="btn btn-success btn-block p-4 text-white"
-            >
-              Create Pit Report
-            </a>
-            <br />
-            <hr />
-            <p>
-              <a
-                class="btn btn-success btn-block p-3 text-white"
-                style="font-size: 25px"
-                data-toggle="collapse"
-                href="#collapseExample"
-                role="button"
-                aria-expanded="false"
-                aria-controls="collapseExample"
-              >
-                How to Scout
-              </a>
-            </p>
-            <div class="collapse" id="collapseExample">
-              <div class="card card-body">
-                <p>
-                  Check that the match number and team are correct (can be changed
-                  if an error is found) <br/>
-      
-                  To begin, input your name and verify that the match number and 
-                  team identity are correct. Once you have confirmed this information,
-                  proceed. <br/>
-                  
-                  For the autonomous section of the match, confirm that the
-                  auto option is selected. Focusing on the robot you are assigned, click 
-                  either the cone or the cube as it picks one up and click on where it places
-                  the cone/cube if it is successful. If it drops the cone/cube, press the drop
-                  button and it will be recorded. When the robot attempts to balance, pressing
-                  the center of the balance will indicate success, and pressing either side will
-                  indicate that it is unbalanced. If at any point you misclick, you can click error
-                  and then click the mistake to fix it. When the autonomous section is over, it
-                  is important to switch from the auto button to the tele-op button. <br/>
 
-                  Record how well the robot played defense, if at all. This could include blocking
-                  another robot from scoring or preventing another robot from picking up a cone/cube. <br/>
+      <a id="homePageLink" style="font-size: 25px" class="btn btn-success btn-block p-3 text-white">
+        Confirm
+      </a>
+    </div>
 
-                  Record any other notes about the performance of the robot in the provided space
-                  below the field diagram. It would be helpful to include information on how quickly
-                  the robot picked up cones/cubes, how long it took for it to score once picking them
-                  up, how well the robot adjusted to balance, etc. It is important to note also
-                  that some robots will be pre-loaded with cones/cubes, and to factor this
-                  in when observing scoring with obstacles you may not have observed being picked up. <br/>
+    <div id="homePage" class="d-none">
+      <h1 class="display-4 mt-5 mb-5">Welcome Scout</h1>
+      <h3 id="titleAssign" class="display-6 mt-5 mb-5"></h3>
+      <a id="matchLink" style="font-size: 30px" class="btn btn-success btn-block p-4 text-white">
+        Scout a Match
+      </a>
+      <br />
+      <a id="pitLink" style="font-size: 30px" class="btn btn-success btn-block p-4 text-white">
+        Create Pit Report
+      </a>
+      <br />
+      <hr />
+      <p>
+        <a class="btn btn-success btn-block p-3 text-white" style="font-size: 25px" data-toggle="collapse"
+          href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+          How to Scout
+        </a>
+      </p>
+      <div class="collapse" id="collapseExample">
+        <div class="card card-body">
+          <p>
+            Check that the match number and team are correct (can be changed
+            if an error is found) <br />
 
-                  When you have completed the above steps, create a QR code to share with the
-                  head scout. <br/>
-                </p>
-              </div>
-            </div>
-            <hr />
-            <br />
-            <br />
-            <!-- <a
+            To begin, input your name and verify that the match number and
+            team identity are correct. Once you have confirmed this information,
+            proceed. <br />
+
+            For the autonomous section of the match, confirm that the
+            auto option is selected. Focusing on the robot you are assigned, click
+            either the cone or the cube as it picks one up and click on where it places
+            the cone/cube if it is successful. If it drops the cone/cube, press the drop
+            button and it will be recorded. When the robot attempts to balance, pressing
+            the center of the balance will indicate success, and pressing either side will
+            indicate that it is unbalanced. If at any point you misclick, you can click error
+            and then click the mistake to fix it. When the autonomous section is over, it
+            is important to switch from the auto button to the tele-op button. <br />
+
+            Record how well the robot played defense, if at all. This could include blocking
+            another robot from scoring or preventing another robot from picking up a cone/cube. <br />
+
+            Record any other notes about the performance of the robot in the provided space
+            below the field diagram. It would be helpful to include information on how quickly
+            the robot picked up cones/cubes, how long it took for it to score once picking them
+            up, how well the robot adjusted to balance, etc. It is important to note also
+            that some robots will be pre-loaded with cones/cubes, and to factor this
+            in when observing scoring with obstacles you may not have observed being picked up. <br />
+
+            When you have completed the above steps, create a QR code to share with the
+            head scout. <br />
+          </p>
+        </div>
+      </div>
+      <hr />
+      <br />
+      <br />
+      <!-- <a
               id="metaLink"
               style="font-size: 25px"
               class="btn btn-success btn-block p-3 text-white"
@@ -136,107 +112,77 @@
               View MetaData
             </a>
             <br /> -->
-            <a
-              id="reassignLink2"
-              style="font-size: 25px"
-              class="btn btn-success btn-block p-3 reassignLink text-white"
-            >
-              Reassign Alliance
-            </a>
-            <br />
-            <a
-            id="captureLink"
-            style="font-size: 25px"
-            class="btn btn-success btn-block p-3 text-white"
-          >
-            View Data
-          </a>
-          <br />
-          </div>
+      <a id="reassignLink2" style="font-size: 25px" class="btn btn-success btn-block p-3 reassignLink text-white">
+        Reassign Alliance
+      </a>
+      <br />
+      <a id="captureLink" style="font-size: 25px" class="btn btn-success btn-block p-3 text-white">
+        View Data
+      </a>
+      <br />
+    </div>
 
-          <div id="metaPage" class="d-none">
+    <div id="metaPage" class="d-none">
+      <br />
+      <h2 id="metaTitle"></h2>
+      <br />
+      <h3>Matches Scouted:</h3>
+      <p id="matchesScoutedDiv"></p>
+      <h3>High Score:</h3>
+      <p id="highScoreDiv"></p>
+      <br />
+      <h3>Matches Missed:</h3>
+      <p id="matchesMissedDiv"></p>
+      <br />
+      <button id="homeButton5" type="submit" class="btn btn-outline-success btn-block mt-3 mb-3 homeClick p-3">
+        Go Home
+      </button>
+    </div>
+
+    <div id="matchReportPage" class="d-none">
+      <div id="match-the-section-with-questions">
+        <button id="homeButton3" type="submit" class="btn btn-outline-success btn-block mt-3 mb-3 homeClick p-3">
+          Go Home
+        </button>
+        <a id="top"></a>
+        <h1 class="display-4">District Championship<br />Springfield</h1>
+        <h1 class="display-5">Match Scouting</h1>
+        <form>
+          <div class="form-group">
+            <label for="match-scoutBox" class="col-form-label">Scout:</label>
+            <input class="form-control" id="match-scoutBox" type="text" placeholder="Enter scout name" />
+          </div>
+          <div class="form-group">
+            <label for="matchBox" class="col-form-label">Match Number:</label>
+            <input class="form-control" id="matchBox" type="text" placeholder="Please enter ONLY an integer" />
+          </div>
+          <div id="teamBoxDiv" class="form-group">
+            <label for="teamBox" class="form-label">Team</label>
+            <span id="teamsWarningSpan" class="invisible text-danger"></span>
+            <select id="teamBox" class="form-control">
+              <option value="0" hidden disabled selected>
+                Choose one ...
+              </option>
+            </select>
+          </div>
+          <div id="verifyStuff" class="d-block">
             <br />
-            <h2 id="metaTitle"></h2>
+            <h4>Please verify the above data before moving on :)</h4>
             <br />
-            <h3>Matches Scouted:</h3>
-            <p id="matchesScoutedDiv"></p>
-            <h3>High Score:</h3>
-            <p id="highScoreDiv"></p>
-            <br />
-            <h3>Matches Missed:</h3>
-            <p id="matchesMissedDiv"></p>
-            <br />
-            <button
-              id="homeButton5"
-              type="submit"
-              class="btn btn-outline-success btn-block mt-3 mb-3 homeClick p-3"
-            >
-              Go Home
+            <button id="verifyDataButton" type="submit" class="btn btn-outline-success btn-block p-3">
+              Continue
             </button>
           </div>
 
-          <div id="matchReportPage" class="d-none">
-            <div id="match-the-section-with-questions">
-              <button
-                id="homeButton3"
-                type="submit"
-                class="btn btn-outline-success btn-block mt-3 mb-3 homeClick p-3"
-              >
-                Go Home
-              </button>
-              <a id="top"></a>
-              <h1 class="display-4">District Championship<br />Springfield</h1>
-              <h1 class="display-5">Match Scouting</h1>
-              <form>
-                <div class="form-group">
-                  <label for="match-scoutBox" class="col-form-label">Scout:</label>
-                  <input
-                    class="form-control"
-                    id="match-scoutBox"
-                    type="text"
-                    placeholder="Enter scout name"
-                  />
-                </div>
-                <div class="form-group">
-                  <label for="matchBox" class="col-form-label">Match Number:</label>
-                  <input
-                    class="form-control"
-                    id="matchBox"
-                    type="text"
-                    placeholder="Please enter ONLY an integer"
-                  />
-                </div>
-                <div id="teamBoxDiv" class="form-group">
-                  <label for="teamBox" class="form-label">Team</label>
-                  <span id="teamsWarningSpan" class="invisible text-danger"></span>
-                  <select id="teamBox" class="form-control">
-                    <option value="0" hidden disabled selected>
-                      Choose one ...
-                    </option>
-                  </select>
-                </div>
-                <div id="verifyStuff" class="d-block">
-                  <br />
-                  <h4>Please verify the above data before moving on :)</h4>
-                  <br />
-                  <button
-                    id="verifyDataButton"
-                    type="submit"
-                    class="btn btn-outline-success btn-block p-3"
-                  >
-                    Continue
-                  </button>
-                </div>
-    
-                <div id="actualReport" class="d-none">
-                  <div class="tab-content pt-2 pl-1" id="pills-tabContent">
-                    <div id="score">
-                      <h1 class="display-5">Scoring Table</h1>
-                      <div id="drawing"></div>
-                    </div>
-                  </div>
-    
-                  <!-- <div class="form-group ">
+          <div id="actualReport" class="d-none">
+            <div class="tab-content pt-2 pl-1" id="pills-tabContent">
+              <div id="score">
+                <h1 class="display-5">Scoring Table</h1>
+                <div id="drawing"></div>
+              </div>
+            </div>
+
+            <!-- <div class="form-group ">
                     <label class="form-label">Defense(if played):</label><br />
                     <div class="btn-group-toggle" data-toggle="buttons">
                       <label class="btn btn-outline-primary aggression">
@@ -282,276 +228,190 @@
                     </div>
                   </div> -->
 
-                  <div class="row">
-                    <div class="col">
-                      <div class="form-group">
-                        <label for="defensePlayed" class="col-form-label">Defense played:</label>
-                        <select class="form-control" id="defensePlayed">
-                          <option value="0">None</option>
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                          <option value="4">4</option>
-                          <option value="5">5</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col">
-                      <div class="form-group">
-                        <label for="defenseReceived" class="col-form-label">Defense received:</label>
-                        <select class="form-control" id="defenseReceived">
-                          <option value="0">None</option>
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                          <option value="4">4</option>
-                          <option value="5">5</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-    
-                  <div class="form-group">
-                    <label for="exampleFormControlTextarea1" class="form-label"
-                      >Extra Notes:</label
-                    >
-                    <textarea
-                      class="form-control"
-                      id="match-notesBox"
-                      rows="2"
-                      placeholder="Mention cycle time, climb involvement, etc"
-                    ></textarea>
-                  </div>
-    
-                  <button
-                    id="match-createQr"
-                    type="submit"
-                    class="btn btn-outline-success btn-block p-3"
-                    href="#top"
-                  >
-                    Create QR Code
-                  </button>
-                  <br/>
-                   <button
-                    id="match-resetFormButton"
-                    type="button"
-                    class="btn btn-outline-success btn-block p-3"
-                  >
-                    Reset Report(will not increment match num)
-                  </button>
-                  <br />
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="defensePlayed" class="col-form-label">Defense played:</label>
+                  <select class="form-control" id="defensePlayed">
+                    <option value="0">None</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select>
                 </div>
-              </form>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="defenseReceived" class="col-form-label">Defense received:</label>
+                  <select class="form-control" id="defenseReceived">
+                    <option value="0">None</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select>
+                </div>
+              </div>
             </div>
-          </div>
 
-          <div id="pitReportPage" class="d-none">
-            <!--       <div class="d-flex flex-row-reverse">
+            <div class="form-group">
+              <label for="exampleFormControlTextarea1" class="form-label">Extra Notes:</label>
+              <textarea class="form-control" id="match-notesBox" rows="2"
+                placeholder="Mention cycle time, climb involvement, etc"></textarea>
+            </div>
+
+            <button id="match-createQr" type="submit" class="btn btn-outline-success btn-block p-3" href="#top">
+              Create QR Code
+            </button>
+            <br />
+            <button id="match-resetFormButton" type="button" class="btn btn-outline-success btn-block p-3">
+              Reset Report(will not increment match num)
+            </button>
+            <br />
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div id="pitReportPage" class="d-none">
+      <!--       <div class="d-flex flex-row-reverse">
             <div class="p-2 font-weight-light font-italic">not logged in</div>
           </div> -->
-            <!--       <div id="home-div">
+      <!--       <div id="home-div">
             <a href="/" class="btn btn-outline-danger btn-block mt-3 mb-3">
               Go Home
             </a>
           </div> -->
-            <div id="pit-the-section-with-questions">
-              <div id="home-div">
-                <button
-                  id="homeButton1"
-                  type="submit"
-                  class="btn btn-outline-success btn-block mt-3 mb-3 homeClick p-3"
-                >
-                  Go Home
-                </button>
-              </div>
-              <h1 class="display-4">Pit Scouting Form</h1>
-              <form>
-                <div class="form-group">
-                  <label for="numBox" class="form-label">Team</label>
-                  <select id="numBox" class="form-control">
-                    <option value="0" selected disabled hidden>
-                      Choose one ...
-                    </option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="pit-scoutBox" class="col-form-label">Scout:</label>
-                  <input
-                    class="form-control"
-                    id="pit-scoutBox"
-                    type="text"
-                    placeholder="Enter scout name"
-                  />
-                </div>
-                <div class="form-group">
-                  <label for="weight" class="col-form-label">Robot Weight</label>
-                  <input
-                    class="form-control"
-                    id="weightBox"
-                    type="text"
-                    placeholder="Please enter ONLY an integer"
-                  />
-                </div>
+      <div id="pit-the-section-with-questions">
+        <div id="home-div">
+          <button id="homeButton1" type="submit" class="btn btn-outline-success btn-block mt-3 mb-3 homeClick p-3">
+            Go Home
+          </button>
+        </div>
+        <h1 class="display-4">Pit Scouting Form</h1>
+        <form>
+          <div class="form-group">
+            <label for="numBox" class="form-label">Team</label>
+            <select id="numBox" class="form-control">
+              <option value="0" selected disabled hidden>
+                Choose one ...
+              </option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="pit-scoutBox" class="col-form-label">Scout:</label>
+            <input class="form-control" id="pit-scoutBox" type="text" placeholder="Enter scout name" />
+          </div>
+          <div class="form-group">
+            <label for="weight" class="col-form-label">Robot Weight</label>
+            <input class="form-control" id="weightBox" type="text" placeholder="Please enter ONLY an integer" />
+          </div>
 
-                <div class="form-group">
-                  <label class="form-label">Piece Handling</label><br />
-                  <div class="btn-group-toggle" data-toggle="buttons">
-                    <label class="btn btn-outline-primary pieces">
-                      <input
-                        type="checkbox"
-                        name="piece_ability_checkbox"
-                        value="1"
-                      />
-                      Cube
-                    </label>
-                    <label class="btn btn-outline-primary pieces">
-                      <input
-                        type="checkbox"
-                        name="piece_ability_checkbox"
-                        value="2"
-                      />
-                      Cone
-                    </label>
-                  </div>
-                </div>
-
-
-                <div class="form-group">
-                  <label class="form-label">Grid Height</label><br />
-                  <div class="btn-group-toggle" data-toggle="buttons">
-                    <label class="btn btn-outline-primary gridHeight">
-                      <input
-                        type="checkbox"
-                        name="grid_height_checkbox"
-                        id="grid1"
-                        value="1"
-                      />
-                      Floor
-                    </label>
-                    <label class="btn btn-outline-primary gridHeight">
-                      <input
-                        type="checkbox"
-                        name="grid_height_checkbox"
-                        id="grid2"
-                        value="2"
-                      />
-                      Middle
-                    </label>
-                    <label class="btn btn-outline-primary gridHeight">
-                      <input
-                        type="checkbox"
-                        name="grid_height_checkbox"
-                        id="grid3"
-                        value="4"
-                      />
-                      Top
-                    </label>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="form-label">Charging Station</label><br />
-                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                    <label class="btn btn-outline-primary charge">
-                      <input type="radio" name="charge_radio" value="1" />
-                      No Balance
-                    </label>
-                    <label class="btn btn-outline-primary charge">
-                      <input type="radio" name="charge_radio" value="2" />
-                      Manual Balance
-                    </label>
-                    <label class="btn btn-outline-primary charge">
-                      <input type="radio" name="charge_radio" value="4" />
-                      Automatic Balance
-                    </label>
-                  </div>
-                </div>
-    
-                <div class="form-group">
-                  <label class="form-label">Drive Train</label><br />
-                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                    <label class="btn btn-outline-primary driveTrain">
-                      <input
-                        type="radio"
-                        name="drive_train_radio"
-                        id="drive1"
-                        value="1"
-                      />
-                      Tank(regular)
-                    </label>
-                    <label class="btn btn-outline-primary driveTrain">
-                      <input
-                        type="radio"
-                        name="drive_train_radio"
-                        id="drive2"
-                        value="2"
-                      />
-                      Mecanum
-                    </label>
-                    <label class="btn btn-outline-primary driveTrain">
-                      <input
-                        type="radio"
-                        name="drive_train_radio"
-                        id="drive3"
-                        value="4"
-                      />
-                      Omni assist
-                    </label>
-                    <label class="btn btn-outline-primary driveTrain">
-                      <input
-                        type="radio"
-                        name="drive_train_radio"
-                        id="drive4"
-                        value="8"
-                      />
-                      Swerve
-                    </label>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label for="autoPath" class="col-form-label">Auto Paths:</label>
-                  <input
-                    class="form-control"
-                    id="autoPathBox"
-                    type="text"
-                    placeholder="Please roughly describe auto paths if applicable"
-                  />
-                </div>
-
-                <div class="form-group">
-                  <label for="driveHours" class="col-form-label">Drive Hours:</label>
-                  <input
-                    class="form-control"
-                    id="driveHoursBox"
-                    type="text"
-                    placeholder="Rough amount of drive practice - other comps can count"
-                  />
-                </div>
-    
-                <div class="form-group">
-                  <label for="exampleFormControlTextarea1" class="form-label"
-                    >Extra Notes:</label
-                  >
-                  <textarea class="form-control" id="notesBox" rows="2" placeholder="Mention difference in piece ability is applicable"></textarea>
-                </div>
-    
-                <button
-                  id="createQr"
-                  type="submit"
-                  class="btn btn-outline-success btn-block p-3"
-                  data-toggle="modal"
-                  data-target="#pitModal"
-                >
-                  Create QR Code
-                </button>
-    
-                <br />
-              </form>
+          <div class="form-group">
+            <label class="form-label">Piece Handling</label><br />
+            <div class="btn-group-toggle" data-toggle="buttons">
+              <label class="btn btn-outline-primary pieces">
+                <input type="checkbox" name="piece_ability_checkbox" value="1" />
+                Cube
+              </label>
+              <label class="btn btn-outline-primary pieces">
+                <input type="checkbox" name="piece_ability_checkbox" value="2" />
+                Cone
+              </label>
             </div>
           </div>
 
-          <!-- <div id="captureQrDataPage" class="d-none">
+
+          <div class="form-group">
+            <label class="form-label">Grid Height</label><br />
+            <div class="btn-group-toggle" data-toggle="buttons">
+              <label class="btn btn-outline-primary gridHeight">
+                <input type="checkbox" name="grid_height_checkbox" id="grid1" value="1" />
+                Floor
+              </label>
+              <label class="btn btn-outline-primary gridHeight">
+                <input type="checkbox" name="grid_height_checkbox" id="grid2" value="2" />
+                Middle
+              </label>
+              <label class="btn btn-outline-primary gridHeight">
+                <input type="checkbox" name="grid_height_checkbox" id="grid3" value="4" />
+                Top
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Charging Station</label><br />
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+              <label class="btn btn-outline-primary charge">
+                <input type="radio" name="charge_radio" value="1" />
+                No Balance
+              </label>
+              <label class="btn btn-outline-primary charge">
+                <input type="radio" name="charge_radio" value="2" />
+                Manual Balance
+              </label>
+              <label class="btn btn-outline-primary charge">
+                <input type="radio" name="charge_radio" value="4" />
+                Automatic Balance
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Drive Train</label><br />
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+              <label class="btn btn-outline-primary driveTrain">
+                <input type="radio" name="drive_train_radio" id="drive1" value="1" />
+                Tank(regular)
+              </label>
+              <label class="btn btn-outline-primary driveTrain">
+                <input type="radio" name="drive_train_radio" id="drive2" value="2" />
+                Mecanum
+              </label>
+              <label class="btn btn-outline-primary driveTrain">
+                <input type="radio" name="drive_train_radio" id="drive3" value="4" />
+                Omni assist
+              </label>
+              <label class="btn btn-outline-primary driveTrain">
+                <input type="radio" name="drive_train_radio" id="drive4" value="8" />
+                Swerve
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="autoPath" class="col-form-label">Auto Paths:</label>
+            <input class="form-control" id="autoPathBox" type="text"
+              placeholder="Please roughly describe auto paths if applicable" />
+          </div>
+
+          <div class="form-group">
+            <label for="driveHours" class="col-form-label">Drive Hours:</label>
+            <input class="form-control" id="driveHoursBox" type="text"
+              placeholder="Rough amount of drive practice - other comps can count" />
+          </div>
+
+          <div class="form-group">
+            <label for="exampleFormControlTextarea1" class="form-label">Extra Notes:</label>
+            <textarea class="form-control" id="notesBox" rows="2"
+              placeholder="Mention difference in piece ability is applicable"></textarea>
+          </div>
+
+          <button id="createQr" type="submit" class="btn btn-outline-success btn-block p-3" data-toggle="modal"
+            data-target="#pitModal">
+            Create QR Code
+          </button>
+
+          <br />
+        </form>
+      </div>
+    </div>
+
+    <!-- <div id="captureQrDataPage" class="d-none">
             <br />
             <h2 id="captureTitle"></h2>
             <div class="select d-none">
@@ -570,245 +430,302 @@
               Go Home
             </button>
           </div> -->
-          <div id="captureQrDataPage" class="d-none">
-          </br>
+    <div id="captureQrDataPage" class="d-none">
+      </br>
 
-            <div class="row">
-              <div class="col">
-                <button
-                  id="mapButton"
-                  type="submit"
-                  class="btn btn-outline-success btn-block p-3"
-                >
-                  Map
-                </button>
-              </div>
-              <div class="col">
-                <button
-                  id="graphButton"
-                  type="submit"
-                  class="btn btn-outline-success btn-block p-3"
-                >
-                  Graph
-                </button>
-              </div>
-              <div class="col">
-                <button
-                  id="tableButton"
-                  type="submit"
-                  class="btn btn-outline-success btn-block p-3"
-                >
-                  Table
-                </button>
-              </div>
-              <div class="col">
-                <button
-                  id="cameraButton"
-                  type="submit"
-                  class="btn btn-outline-success btn-block p-3"
-                >
-                  Camera
-                </button>
-              </div>
-              <div class="col">
-                  <button
-                  id="homeButton5"
-                  type="submit"
-                  class="btn btn-outline-success btn-block homeClick p-3"
-                >
-                  Home
-                </button>
-              </div>
-            </div>
-          </br>
-          <div id="cameraPage">
-            <h1 class="display-4">
-              Read QR Code</h1>
-                <div id="loadingMessage">🎥 Unable to access video stream (please make sure you have a webcam enabled)</div>
-               <canvas id="QRcanvas" ></canvas>
-                     <!-- <div onclick="location.reload();" class="btn btn-warning w-100 mt-3 mb-3 p-3">
+      <div class="row">
+        <div class="col">
+          <button id="autoPathButton" type="submit" class="btn btn-outline-success btn-block p-3">
+            Autos
+          </button>
+        </div>
+        <div class="col">
+          <button id="mapButton" type="submit" class="btn btn-outline-success btn-block p-3">
+            Map
+          </button>
+        </div>
+        <div class="col">
+          <button id="graphButton" type="submit" class="btn btn-outline-success btn-block p-3">
+            Graph
+          </button>
+        </div>
+        <div class="col">
+          <button id="tableButton" type="submit" class="btn btn-outline-success btn-block p-3">
+            Table
+          </button>
+        </div>
+        <div class="col">
+          <button id="cameraButton" type="submit" class="btn btn-outline-success btn-block p-3">
+            Camera
+          </button>
+        </div>
+        <div class="col">
+          <button id="homeButton5" type="submit" class="btn btn-outline-success btn-block homeClick p-3">
+            Home
+          </button>
+        </div>
+      </div>
+      </br>
+      <div id="cameraPage">
+        <h1 class="display-4">
+          Read QR Code</h1>
+        <div id="loadingMessage">🎥 Unable to access video stream (please make sure you have a webcam enabled)</div>
+        <canvas id="QRcanvas"></canvas>
+        <!-- <div onclick="location.reload();" class="btn btn-warning w-100 mt-3 mb-3 p-3">
                        Reload Page
                      </div>   -->
-                     <!-- <div</dic> -->
-                     <div id="QRoutput" hidden></div>
+        <!-- <div</dic> -->
+        <div id="QRoutput" hidden></div>
 
-          </div>
+      </div>
 
-          <div id="graphPage">
-            <div id="ConesCubesGraph" class="card card-body"> Erorr</div>
-          </br>
-            <div id="UpperFloorGraph" class="card card-body"> Error</div>
-            <!-- <p>graphs to come...</p> -->
-          </div>
+      <div id="graphPage">
+        <div id="ConesCubesGraph" class="card card-body"> Erorr</div>
+        </br>
+        <div id="UpperFloorGraph" class="card card-body"> Error</div>
+        <!-- <p>graphs to come...</p> -->
+      </div>
 
-             <div id="tablePage" >
-               <table
-            id="avgsDataTable"
-            class="table table-striped table-bordered"
-            style="font-size: 0.8rem"
-          >
-            <thead>
-              <tr>
-                <th>Team</th>
-                <th>Cones</th>
-                <th>Cubes</th>
-                <th>Top</th>
-                <th>Mid</th>
-                <th>Bottom</th>
-                <th>Drops</th>
-                <th>Charge</th>
-                <th></th>
+      <div id="tablePage">
+        <table id="avgsDataTable" class="table table-striped table-bordered" style="font-size: 0.8rem">
+          <thead>
+            <tr>
+              <th>Team</th>
+              <th>Cones</th>
+              <th>Cubes</th>
+              <th>Top</th>
+              <th>Mid</th>
+              <th>Bottom</th>
+              <th>Drops</th>
+              <th>Charge</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <div id="actionButtons" class="invisible">
+
+        </div>
+      </div>
+
+      <div id="mapPage">
+        <div id="coachCanvas">
+        </div>
+      </div>
+
+      <div id="autoPathPage">
+        <table id="autoPathTable" class="table table-striped table-bordered" style="font-size: 0.8rem">
+          <thead>
+            <tr>
+              <th>Number</th>
+              <th>Points</th>
+              <th>Position</th>
+              <th>Description</th>
+              <th>Confidence</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-top: 2px solid black" >
+              <td>0</td>
+              <td>0</td>
+              <td>X X X</td>
+              <td>Do Nothing</td>
+              <td>100</td>
+              <td>Default</td>
+            </tr>
+            <tr style="border-top: 2px solid black" >
+              <td>1</td>
+              <td>6</td>
+              <td>X X X</td>
+              <td>Score cone</td>
+              <td>100</td>
+              <td>Slam</td>
               </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-               <div id="actionButtons" class="invisible">
-           
-               </div>
-             </div>
-             
-             <div id="mapPage">
-              <div id="coachCanvas">
-             </div>
-             </div>
+            <tr style="border-top: 2px solid black" >
+              <td>2</td>
+              <td>9</td>
+              <td>X - X</td>
+              <td>Score cone, taxi</td>
+              <td>100</td>
+              <td></td>
+            </tr>
+            <tr style="border-top: 2px solid black" >
+              <td>3</td>
+              <td>9</td>
+              <td>X - X</td>
+              <td>Score cone, get cube</td>
+              <td>80</td>
+              <td>Untested on 3</td>
+            </tr>
+            <tr style="border-top: 2px solid black" >
+              <td>4</td>
+              <td>15</td>
+              <td>X - X</td>
+              <td>Score cone, get cube, score cube</td>
+              <td>80</td>
+              <td>Untested on 3</td>
+            </tr>
+            <tr style="border-top: 2px solid black" >
+              <td>5</td>
+              <td>27</td>
+              <td>X - -</td>
+              <td>Score cone, get cube, score cube, balance</td>
+              <td>70</td>
+              <td>Balance may be slow</td>
+            </tr>
+            <tr style="border-top: 2px solid black" >
+              <td>6</td>
+              <td>21</td>
+              <td>- X -</td>
+              <td>Score cone, taxi, balance</td>
+              <td>100</td>
+              <td></td>
+            </tr>
+            <tr style="border-top: 2px solid black" >
+              <td>7</td>
+              <td>21</td>
+              <td>-X -</td>
+              <td>Score cone, get cube, balance</td>
+              <td>90</td>
+              <td></td>
+            </tr>
+            <tr style="border-top: 2px solid black" >
+              <td>8</td>
+              <td>27</td>
+              <td>- X -</td>
+              <td>Score cone, get cube, balance, shoot cube</td>
+              <td>80</td>
+              <td>The cube shoot is not the most reliable, but guaranteed 21pt</td>
+            </tr>
+            <tr style="border-top: 2px solid black" >
+              <td>9</td>
+              <td>6</td>
+              <td>X X X</td>
+              <td>Score cube</td>
+              <td>100</td>
+              <td></td>
+            </tr>
+            <tr style="border-top: 2px solid black" >
+              <td>10</td>
+              <td>21</td>
+              <td>- X -</td>
+              <td>Score cube, taxi, balance</td>
+              <td>100</td>
+              <td></td>
+            </tr>
+            <tr style="border-top: 2px solid black" >
+              <td>11</td>
+              <td>21</td>
+              <td>- X -</td>
+              <td>Score cube, get cube, balance</td>
+              <td>90</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+        
+      </div>
 
-           <!-- Modal -->
-           <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-             <div class="modal-dialog" role="document">
-               <div class="modal-content">
-                 <div class="modal-header">
-                   <h5 class="modal-title" id="exampleModalLabel">QR Data</h5>
-                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                     <span aria-hidden="true">&times;</span>
-                   </button>
-                 </div>
-                 <div class="modal-body">
-                   <div id="outputMessage"><i>Looking for a QR Code...</i></div>
-                 </div>
-                 <div class="modal-footer">
-           <!--         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">QR Data</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div id="outputMessage"><i>Looking for a QR Code...</i></div>
+            </div>
+            <div class="modal-footer">
+              <!--         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                    <button type="button" class="btn btn-primary">Save changes</button> -->
-                   <button id="insertButton" class="btn btn-success btn-block" data-dismiss="modal">Save this report</button>
-                 <button id="ignoreButton" class="btn btn-warning btn-block" data-dismiss="modal">Ignore this report</button>
-                 </div>
-               </div>
-             </div>
-           </div>
-          </div>     
-
-          <div
-          class="modal fade"
-          id="matchModal"
-          tabindex="-1"
-          role="dialog"
-          aria-labelledby="matchModalLabel"
-          aria-hidden="true"
-          data-backdrop="static"
-        >
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="matchModalLabel">QR data for</h5>
-                <button
-                  type="button"
-                  class="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <div id="match-qrcode" class="mx-auto"></div>
-                <br />
-              </div>
-              <div class="modal-footer">
-                <div id="endButtons" class="invisible">
-                  <button
-                    type="button"
-                    class="btn btn-outline-success p-3"
-                    data-dismiss="modal"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    id="match-clearFormButton"
-                    type="button"
-                    class="btn btn-outline-success p-3 upMatch"
-                    data-dismiss="modal"
-                  >
-                    Create Another Match Report
-                  </button>
-                </div>
-              </div>
+              <button id="insertButton" class="btn btn-success btn-block" data-dismiss="modal">Save this report</button>
+              <button id="ignoreButton" class="btn btn-warning btn-block" data-dismiss="modal">Ignore this
+                report</button>
             </div>
           </div>
         </div>
-
-          <div
-          class="modal fade"
-          id="pitModal"
-          tabindex="-1"
-          role="dialog"
-          aria-labelledby="pitModalLabel"
-          aria-hidden="true"
-          data-backdrop="static"
-        >
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="pitModalLabel"></h5>
-                <button
-                  type="button"
-                  class="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <div id="qrcode" class="mx-auto"></div>
-                <br />
-              </div>
-              <div class="modal-footer">
-                <div id="endStuff" class="d-none">
-                  <button
-                    type="button"
-                    class="btn btn-outline-success closePitModal p-3"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    id="clearFormButton"
-                    type="button"
-                    class="btn btn-outline-success p-3 closePitModal"
-                  >
-                    Create Another Pit Report
-                  </button>
-                  <button
-                    id="homeButton6"
-                    type="button"
-                    class="btn btn-outline-success p-3 homeClick closePitModal"
-                  >
-                    Home
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
+      </div>
     </div>
 
-    <script src="js/jquery-3.4.1.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/qrcode.min.js"></script>
-    <script src="js/qr-creator.js"></script>
-    <script src="js/p5.min.js"></script>
-    <script src="js/d3.min.js"></script>
-    <script src="js/jsQR.js"></script>
-    <script src="app.js"></script>
-  </body>
+    <div class="modal fade" id="matchModal" tabindex="-1" role="dialog" aria-labelledby="matchModalLabel"
+      aria-hidden="true" data-backdrop="static">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="matchModalLabel">QR data for</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div id="match-qrcode" class="mx-auto"></div>
+            <br />
+          </div>
+          <div class="modal-footer">
+            <div id="endButtons" class="invisible">
+              <button type="button" class="btn btn-outline-success p-3" data-dismiss="modal">
+                Cancel
+              </button>
+              <button id="match-clearFormButton" type="button" class="btn btn-outline-success p-3 upMatch"
+                data-dismiss="modal">
+                Create Another Match Report
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="pitModal" tabindex="-1" role="dialog" aria-labelledby="pitModalLabel" aria-hidden="true"
+      data-backdrop="static">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="pitModalLabel"></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div id="qrcode" class="mx-auto"></div>
+            <br />
+          </div>
+          <div class="modal-footer">
+            <div id="endStuff" class="d-none">
+              <button type="button" class="btn btn-outline-success closePitModal p-3">
+                Cancel
+              </button>
+              <button id="clearFormButton" type="button" class="btn btn-outline-success p-3 closePitModal">
+                Create Another Pit Report
+              </button>
+              <button id="homeButton6" type="button" class="btn btn-outline-success p-3 homeClick closePitModal">
+                Home
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="js/jquery-3.4.1.min.js"></script>
+  <script src="js/datatables.min.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/qrcode.min.js"></script>
+  <script src="js/qr-creator.js"></script>
+  <script src="js/p5.min.js"></script>
+  <script src="js/d3.min.js"></script>
+  <script src="js/jsQR.js"></script>
+  <script src="app.js"></script>
+</body>
+
 </html>
