@@ -244,6 +244,7 @@
   ];
 
 let camera = true
+let autoTable
 
 let numOfMatches = 0;
 let highScore = 0;
@@ -1078,10 +1079,12 @@ return false;
     $("#graphPage").addClass("d-none").removeClass("d-block");
     $("#tablePage").addClass("d-none").removeClass("d-block");
     $("#cameraPage").addClass("d-none").removeClass("d-block");
+    $("#autoPathPage").addClass("d-none").removeClass("d-block");
     $("#mapButton").addClass("btn-success").removeClass("btn-outline-success");
     $("#graphButton").addClass("btn-outline-success").removeClass("btn-success");
     $("#tableButton").addClass("btn-outline-success").removeClass("btn-success");
     $("#cameraButton").addClass("btn-outline-success").removeClass("btn-success");
+    $("#autoPathButton").addClass("btn-outline-success").removeClass("btn-success");
     closeQRCamera()
     return false;
   });
@@ -1091,10 +1094,12 @@ return false;
     $("#graphPage").addClass("d-block").removeClass("d-none")
     $("#tablePage").addClass("d-none").removeClass("d-block")
     $("#cameraPage").addClass("d-none").removeClass("d-block")
+    $("#autoPathPage").addClass("d-none").removeClass("d-block");
     $("#mapButton").addClass("btn-outline-success").removeClass("btn-success");
     $("#graphButton").addClass("btn-success").removeClass("btn-outline-success");
     $("#tableButton").addClass("btn-outline-success").removeClass("btn-success");
     $("#cameraButton").addClass("btn-outline-success").removeClass("btn-success");
+    $("#autoPathButton").addClass("btn-outline-success").removeClass("btn-success");
     closeQRCamera()
     clearGraphs()
     makeGraph(CCGData, "Cones", "Cubes", "ConesCubesGraph")
@@ -1109,10 +1114,12 @@ return false;
     $("#graphPage").addClass("d-none").removeClass("d-block");
     $("#tablePage").addClass("d-block").removeClass("d-none");
     $("#cameraPage").addClass("d-none").removeClass("d-block");
+    $("#autoPathPage").addClass("d-none").removeClass("d-block");
     $("#mapButton").addClass("btn-outline-success").removeClass("btn-success");
     $("#graphButton").addClass("btn-outline-success").removeClass("btn-success");
     $("#tableButton").addClass("btn-success").removeClass("btn-outline-success");
     $("#cameraButton").addClass("btn-outline-success").removeClass("btn-success");
+    $("#autoPathButton").addClass("btn-outline-success").removeClass("btn-success");
     closeQRCamera()
     return false;
   });
@@ -1122,11 +1129,32 @@ return false;
     $("#graphPage").addClass("d-none").removeClass("d-block");
     $("#tablePage").addClass("d-none").removeClass("d-block");
     $("#cameraPage").addClass("d-block").removeClass("d-none");
+    $("#autoPathPage").addClass("d-none").removeClass("d-block");
     $("#mapButton").addClass("btn-outline-success").removeClass("btn-success");
     $("#graphButton").addClass("btn-outline-success").removeClass("btn-success");
     $("#tableButton").addClass("btn-outline-success").removeClass("btn-success");
     $("#cameraButton").addClass("btn-success").removeClass("btn-outline-success");
+    $("#autoPathButton").addClass("btn-outline-success").removeClass("btn-success");
     startCamera()
+    return false;
+  });
+
+  $("#autoPathButton").click((e) => {
+    $("#mapPage").addClass("d-none").removeClass("d-block");
+    $("#graphPage").addClass("d-none").removeClass("d-block");
+    $("#tablePage").addClass("d-none").removeClass("d-block");
+    $("#cameraPage").addClass("d-none").removeClass("d-block");
+    $("#autoPathPage").addClass("d-block").removeClass("d-none");
+    $("#mapButton").addClass("btn-outline-success").removeClass("btn-success");
+    $("#graphButton").addClass("btn-outline-success").removeClass("btn-success");
+    $("#tableButton").addClass("btn-outline-success").removeClass("btn-success");
+    $("#cameraButton").addClass("btn-outline-success").removeClass("btn-success");
+    $("#autoPathButton").addClass("btn-success").removeClass("btn-outline-success");
+    autoTable = $("#autoPathTable").DataTable({
+      paging: false,
+      order: [[ 0, "asc" ]]
+    });
+    closeQRCamera()
     return false;
   });
 
@@ -1739,6 +1767,8 @@ function setUpCoach() {
   $("#tablePage").addClass("d-none").removeClass("d-block");
   $("#cameraPage").addClass("d-none").removeClass("d-block");
   $("#assignPage").addClass("d-none").removeClass("d-block");
+  $("#autoPathPage").addClass("d-none").removeClass("d-block");
+  
 
   $("#captureQrDataPage").addClass("d-block").removeClass("d-none");
   $("#homePage").addClass("d-none").removeClass("d-block");
@@ -1748,6 +1778,7 @@ function setUpCoach() {
   $("#graphButton").addClass("btn-outline-success").removeClass("btn-success");
   $("#tableButton").addClass("btn-outline-success").removeClass("btn-success");
   $("#cameraButton").addClass("btn-outline-success").removeClass("btn-success");
+  $("#autoPathButton").addClass("btn-outline-success").removeClass("btn-success");
   // startCamera()
   // field()
   return false;
@@ -2108,8 +2139,8 @@ function makeGraph(graphData, xlabel, ylabel, divId) {
     bottom: 70,
     left: 70
   };
-  const width = 600 - margin.left - margin.right;
-  const height = 400 - margin.top - margin.bottom;
+  const width = 700 - margin.left - margin.right;
+  const height = 500 - margin.top - margin.bottom;
   // console.log(divId)
 
   const svg = d3
