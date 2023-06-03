@@ -445,6 +445,11 @@
           </button>
         </div>
         <div class="col">
+          <button id="prematchButton" type="submit" class="btn btn-outline-success btn-block p-3">
+            Pre-Match Check
+          </button>
+        </div>
+        <div class="col">
           <button id="graphButton" type="submit" class="btn btn-outline-success btn-block p-3">
             Graph
           </button>
@@ -466,6 +471,7 @@
         </div>
       </div>
       </br>
+
       <div id="cameraPage">
         <h1 class="display-4">
           Read QR Code</h1>
@@ -484,6 +490,109 @@
         </br>
         <div id="UpperFloorGraph" class="card card-body"> Error</div>
         <!-- <p>graphs to come...</p> -->
+      </div>
+
+      <div id="prematchPage" class="d-none">
+        <div id="pit-the-section-with-questions">
+          <div id="home-div">
+          </div>
+          <h1 class="display-4">Pre-Match Checklist</h1>
+          <form>
+  
+            <div class="form-group">
+              <label class="form-label">Charge Pneumatics </label><br />
+              <div class="btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-outline-success pieces precheck">
+                  <input type="checkbox" name="precheck1" value="1" />
+                  ✓
+                </label>
+              </div>
+            </div>
+            <br/>
+            <div class="form-group">
+              <label class="form-label">New Battery(check on drive station)</label><br />
+              <div class="btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-outline-success pieces precheck">
+                  <input type="checkbox" name="precheck2" value="1" />
+                  ✓
+                </label>
+              </div>
+            </div>
+            <br/>
+            <div class="form-group">
+              <label class="form-label">Check encoders and Limelight</label><br />
+              <div class="btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-outline-success pieces precheck">
+                  <input type="checkbox" name="precheck3" value="1" />
+                  ✓
+                </label>
+              </div>
+            </div>
+            <br/>
+            <div class="form-group">
+              <label class="form-label">Coordinate and select auto path</label><br />
+              <div class="btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-outline-success pieces precheck">
+                  <input type="checkbox" name="precheck4" value="1" />
+                  ✓
+                </label>
+              </div>
+            </div>
+
+            <br/>
+            <div class="form-group">
+              <label class="form-label">Verify joystick connection and position</label><br />
+              <div class="btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-outline-success pieces precheck">
+                  <input type="checkbox" id="precheck5" value="1" />
+                  ✓
+                </label>
+              </div>
+            </div>
+
+            <br/>
+            <div class="form-group">
+              <label class="form-label">Make sure nothing is bent:)</label><br />
+              <div class="btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-outline-success pieces precheck">
+                  <input type="checkbox" name="precheck6" value="1" />
+                  ✓
+                </label>
+              </div>
+            </div>
+
+            <a class="btn btn-success btn-block p-2 text-white" style="font-size: 25px" data-toggle="collapse"
+          href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+          In Depth
+        </a>
+      </p>
+      <div class="collapse" id="collapseExample">
+        <div class="card card-body">
+          <p>
+
+          <h4>Off field:</h4> <br/>
+          Pressurize pneumatics<br/>
+          robot is powered<br/>
+          Valve is closed<br/>
+          Enable and wait until compressor stops and pressure is between 100-120psi<br/>
+          Fresh battery <br/>
+          <h4>On field: </h4> <br/> 
+          Robot powered as soon as it’s on the floor<br/>
+          Double check battery on driver dashboard<br/>
+          Coordinate and select auto path<br/>
+          Double check right before start of match in case of radio reconnection<br/>
+          Joystick connection<br/>
+          Plugged in<br/>
+          Correct adresses<br/>
+          Check driver 5th axis on driver controller<br/>
+          Check encoders and limelight<br/>
+          </p>
+        </div>
+      </div>
+  
+
+          </form>
+        </div>
       </div>
 
       <div id="tablePage">
