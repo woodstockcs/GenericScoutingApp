@@ -1,2 +1,4 @@
-# 2023ScoutingApp
-app for mobile devices to assist in scouting 2023 FRC matches
+# GenericScoutingApp
+fork of Archytas 2023 scouting app,
+but made generic
+
